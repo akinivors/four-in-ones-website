@@ -1,0 +1,11 @@
+<!-- State-of-the-art Operating Room placeholder -->
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f1f5f9"/>
+  <rect x="100" y="100" width="600" height="400" fill="#e2e8f0" rx="8"/>
+  <circle cx="400" cy="200" r="80" fill="#3b82f6"/>
+  <circle cx="400" cy="200" r="60" fill="#1d4ed8"/>
+  <rect x="250" y="350" width="100" height="40" fill="#374151" rx="4"/>
+  <rect x="450" y="350" width="100" height="40" fill="#374151" rx="4"/>
+  <text x="400" y="500" font-family="Arial" font-size="16" fill="#374151" text-anchor="middle">OPERATING THEATER</text>
+  <text x="400" y="530" font-family="Arial" font-size="14" fill="#6b7280" text-anchor="middle">Advanced Surgical Equipment</text>
+</svg>

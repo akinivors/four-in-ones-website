@@ -1,0 +1,11 @@
+<!-- Comfortable Patient Recovery Room placeholder -->
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#fefefe"/>
+  <rect x="50" y="200" width="200" height="100" fill="#e5e7eb" rx="8"/>
+  <rect x="300" y="150" width="150" height="200" fill="#d1d5db" rx="4"/>
+  <rect x="500" y="180" width="80" height="120" fill="#9ca3af" rx="4"/>
+  <rect x="100" y="350" width="600" height="20" fill="#f3f4f6"/>
+  <circle cx="650" cy="120" r="40" fill="#fbbf24"/>
+  <text x="400" y="450" font-family="Arial" font-size="16" fill="#374151" text-anchor="middle">RECOVERY ROOM</text>
+  <text x="400" y="480" font-family="Arial" font-size="14" fill="#6b7280" text-anchor="middle">Comfortable Patient Care</text>
+</svg>

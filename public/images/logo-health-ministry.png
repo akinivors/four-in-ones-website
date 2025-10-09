@@ -1,0 +1,11 @@
+<!-- Turkish Ministry of Health Logo placeholder -->
+<svg width="200" height="80" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="80" fill="white"/>
+  <rect x="10" y="15" width="50" height="50" fill="#dc2626" rx="4"/>
+  <polygon points="35,25 30,35 40,35" fill="white"/>
+  <rect x="32" y="35" width="6" height="15" fill="white"/>
+  <text x="75" y="25" font-family="Arial" font-size="11" fill="#dc2626" font-weight="bold">T.C. SAĞLIK</text>
+  <text x="75" y="37" font-family="Arial" font-size="11" fill="#dc2626" font-weight="bold">BAKANLIĞI</text>
+  <text x="75" y="52" font-family="Arial" font-size="9" fill="#374151">Ministry of Health</text>
+  <text x="75" y="64" font-family="Arial" font-size="9" fill="#374151">Republic of Turkey</text>
+</svg>
