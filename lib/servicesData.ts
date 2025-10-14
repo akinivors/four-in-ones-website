@@ -61,7 +61,7 @@ export const servicesData: Service[] = [
       backgroundImageUrl: "/images/rhinoplasty-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/rhinoplasty-hero.jpg",
+      overviewImageUrl: "/images/rhinoplasty-overview.jpg",
       facts: [
         { label: 'Procedure Time', value: '2-3 Hours', icon: 'Clock' },
         { label: 'Ideal Candidate', value: 'Over 18, Good Health', icon: 'UserCheck' },
@@ -69,6 +69,12 @@ export const servicesData: Service[] = [
         { label: 'Results', value: 'Permanent', icon: 'Smile' },
       ],
     },
+    benefits: [
+      { icon: "Smile", title: "Enhanced Facial Harmony", description: "Improves the proportions of your nose to create a more balanced and harmonious facial appearance." },
+      { icon: "CheckCircle2", title: "Corrected Breathing Issues", description: "Can repair a deviated septum and other structural issues to improve airflow and breathing." },
+      { icon: "Users", title: "Boosted Self-Confidence", description: "Feeling better about your appearance can lead to a significant increase in self-esteem and confidence." }
+    ],
+    ctaImage: "/images/rhinoplasty-hero.jpg",
     details: {
       tabs: {
         "What is Rhinoplasty?": "rhinoplasty-what",
@@ -78,11 +84,6 @@ export const servicesData: Service[] = [
         "Risks & Safety": "rhinoplasty-risks",
       },
     },
-    benefits: [
-      { icon: "Smile", title: "Enhanced Facial Harmony", description: "Improves the proportions of your nose to create a more balanced and harmonious facial appearance." },
-      { icon: "CheckCircle2", title: "Corrected Breathing Issues", description: "Can repair a deviated septum and other structural issues to improve airflow and breathing." },
-      { icon: "Users", title: "Boosted Self-Confidence", description: "Feeling better about your appearance can lead to a significant increase in self-esteem and confidence." }
-    ],
     risks: [
       "Adverse reaction to anesthesia",
       "Infection or bleeding",
@@ -142,9 +143,9 @@ export const servicesData: Service[] = [
     ],
   },
   {
-    slug: "hair-transplant",
+    slug: "scalp-hair-transplant",
     hero: {
-      title: "Hair Transplant",
+      title: "Scalp Hair Transplant (FUE & DHI)",
       subtitle: "Restore your confidence with advanced FUE hair transplantation techniques",
       backgroundImageUrl: "/images/hair-transplant-hero.jpg",
     },
@@ -204,6 +205,7 @@ export const servicesData: Service[] = [
       "Back of head",
       "Top of head (overhead view)",
     ],
+    ctaImage: "/images/hair-transplant-hero.jpg",
     specificQuestions: [
       { id: 'hair_loss_pattern', label: 'How would you describe your hair loss pattern (e.g., receding hairline, thinning crown)?', type: 'text' },
       { id: 'hair_loss_treatments', label: 'Have you used hair loss treatments like Minoxidil or Finasteride?', type: 'radio', options: ['Yes', 'No'] },
@@ -222,7 +224,7 @@ export const servicesData: Service[] = [
       backgroundImageUrl: "/images/sleeve-gastrectomy-hero.webp",
     },
     overview: {
-      overviewImageUrl: "/images/sleeve-gastrectomy-hero.webp",
+      overviewImageUrl: "/images/sleeve-gastrectomy-overview.jpg",
       facts: [
         { label: 'Procedure', value: 'Stomach Reduction (~80%)', icon: 'Scissors' },
         { label: 'Method', value: 'Laparoscopic (Minimally Invasive)', icon: 'Minimize2' },
@@ -277,7 +279,7 @@ export const servicesData: Service[] = [
         answer: "Most patients with desk jobs can return to work within 1-2 weeks. If your job is more physically demanding, you may need 3-4 weeks off."
       }
     ],
-    ctaImage: "/images/sleeve-gastrectomy-2.jpg",
+    ctaImage: "/images/sleeve-gastrectomy-hero.webp",
     photoRequirements: [
       "Front view of body (from knees to neck)",
       "Back view of body (from knees to neck)",
@@ -308,7 +310,7 @@ export const servicesData: Service[] = [
       backgroundImageUrl: "/images/gastric-bypass-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/gastric-bypass-hero.jpg",
+      overviewImageUrl: "/images/gastric-bypass-overview.jpg",
       facts: [
         { label: 'Method', value: 'Restrictive & Malabsorptive', icon: 'Combine' },
         { label: 'Diabetes Resolution', value: 'Extremely High', icon: 'Activity' },
@@ -355,7 +357,7 @@ export const servicesData: Service[] = [
         answer: "A bypass reroutes the intestines, while a sleeve only reduces stomach size. Bypass often leads to slightly more weight loss and is more effective for diabetes, but requires more stringent nutritional monitoring."
       },
     ],
-    ctaImage: "/images/gastric-bypass-2.jpg",
+    ctaImage: "/images/gastric-bypass-hero.jpg",
     photoRequirements: [
       "Front view of body (from knees to neck)",
       "Back view of body (from knees to neck)",
@@ -389,7 +391,7 @@ export const servicesData: Service[] = [
       backgroundImageUrl: "/images/gastric-balloon-hero.png",
     },
     overview: {
-      overviewImageUrl: "/images/gastric-balloon-hero.png",
+      overviewImageUrl: "/images/gastric-balloon-overview.jpg",
       facts: [
         { label: 'Method', value: 'Non-Surgical, Endoscopic', icon: 'Camera' },
         { label: 'Duration', value: 'Temporary (6-12 Months)', icon: 'Calendar' },
@@ -428,7 +430,7 @@ export const servicesData: Service[] = [
         answer: "The period with the balloon is a training period. After removal, your success depends on your ability to maintain the healthy diet and lifestyle habits you've learned."
       },
     ],
-    ctaImage: "/images/gastric-balloon-2.jpg",
+    ctaImage: "/images/gastric-balloon-hero.png",
     photoRequirements: [
       "Front view of body (from knees to neck)",
       "Back view of body (from knees to neck)",
@@ -452,7 +454,7 @@ export const servicesData: Service[] = [
       backgroundImageUrl: "/images/gastric-botox-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/gastric-botox-hero.jpg",
+      overviewImageUrl: "/images/gastric-botox-overview.png",
       facts: [
         { label: 'Method', value: 'Non-Surgical, Injection', icon: 'Injection' },
         { label: 'Duration', value: 'Temporary (~6 Months)', icon: 'Calendar' },
@@ -490,7 +492,7 @@ export const servicesData: Service[] = [
         answer: "Weight loss is more modest than with surgical options. Patients can typically expect to lose 10-15% of their total body weight over 6 months, provided they follow diet and exercise recommendations."
       },
     ],
-    ctaImage: "/images/gastric-botox-2.png",
+    ctaImage: "/images/gastric-botox-hero.jpg",
     photoRequirements: [
       "Front view of body (from knees to neck)",
       "Back view of body (from knees to neck)",
@@ -1445,6 +1447,476 @@ export const servicesData: Service[] = [
     requiredMedicalQuestions: [
       'anesthesia_problems',
       'smoking_status',
+      'drug_allergies',
+    ],
+  },
+  {
+    slug: "cosmetic-dentistry",
+    hero: {
+      title: "Cosmetic Dentistry",
+      subtitle: "Transform your smile with world-class dental aesthetics.",
+      backgroundImageUrl: "/images/cosmetic-dentistry.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/dentistry-overview.jpg",
+      facts: [
+        { label: 'Materials', value: 'E.max® & Zirconium', icon: 'Award' },
+        { label: 'Treatment Time', value: '5-7 Days', icon: 'Clock' },
+        { label: 'Procedures', value: 'Veneers, Crowns, Implants, Whitening', icon: 'Scissors' },
+        { label: 'Warranty', value: 'Lifetime Guarantee on Implants', icon: 'Shield' },
+      ],
+    },
+    benefits: [
+      { icon: "Smile", title: "Hollywood Smile Transformation", description: "Achieve a stunning, natural-looking smile with custom-designed veneers and crowns that perfectly complement your facial features." },
+      { icon: "ShieldCheck", title: "Premium Materials", description: "We use only the highest quality materials including E.max porcelain veneers and monolithic zirconia crowns for superior durability and aesthetics." },
+      { icon: "Clock", title: "Fast Treatment Times", description: "Get your dream smile in just 5-7 days with our efficient treatment protocols and state-of-the-art in-house dental laboratory." },
+      { icon: "Award", title: "Lifetime Implant Warranty", description: "We stand behind our work with a lifetime guarantee on dental implants, giving you peace of mind for years to come." },
+    ],
+    details: {
+      tabs: {
+        "Dental Veneers": "dentistry-veneers",
+        "Dental Crowns": "dentistry-crowns",
+        "Dental Implants": "dentistry-implants",
+        "Teeth Whitening": "dentistry-whitening",
+      },
+    },
+    risks: [
+      "Tooth sensitivity to hot and cold temperatures (usually temporary)",
+      "Potential need for root canal treatment if decay is extensive",
+      "Risk of veneer or crown damage from excessive force (grinding, biting hard objects)",
+      "Possible allergic reaction to dental materials (rare)",
+      "Implant failure or rejection (occurs in less than 5% of cases)",
+      "Infection at the surgical site (for implants)",
+      "Gum irritation or recession around restorations",
+      "Color mismatch if teeth are not whitened before veneer/crown placement",
+    ],
+    faq: [
+      { question: "How long do veneers last?", answer: "With proper care and maintenance, high-quality E.max porcelain veneers can last 10-15 years or even longer. Factors that affect longevity include oral hygiene habits, diet, teeth grinding, and avoiding trauma to the teeth." },
+      { question: "Are dental implants painful?", answer: "The implant placement procedure is performed under local anesthesia, so you will not feel pain during the surgery. Post-operative discomfort is typically mild and can be managed with over-the-counter pain medication. Most patients report that the procedure is much easier than they anticipated." },
+      { question: "Can I get veneers if I have cavities?", answer: "Any existing cavities or dental decay must be treated before veneers can be placed. During your initial consultation, we will perform a comprehensive examination and address any underlying dental health issues first to ensure the best foundation for your cosmetic treatment." },
+      { question: "Will teeth whitening damage my enamel?", answer: "When performed by a qualified dentist using professional-grade products, teeth whitening is safe and does not damage tooth enamel. You may experience temporary sensitivity, but this typically resolves within a few days after treatment." },
+      { question: "How much do cosmetic dentistry procedures cost?", answer: "Costs vary depending on the specific procedures you need and the complexity of your case. We offer competitive pricing that is significantly lower than in the US or Europe, without compromising on quality. A detailed quote will be provided after your initial consultation and examination." },
+    ],
+    photoRequirements: [
+      "A close-up photo of your smile showing your teeth (front view with lips retracted if possible).",
+      "A photo of your smile from a slight angle (side view).",
+      "A photo showing your teeth from the side (to assess bite alignment).",
+      "Any X-rays or dental records you may have from previous treatments.",
+    ],
+    requiredMedicalQuestions: [
+      'drug_allergies',
+      'smoking_status',
+      'chronic_diseases',
+    ],
+    ctaImageUrl: "/images/dentistry-cta.jpg",
+  },
+  {
+    slug: "eye-surgery",
+    hero: {
+      title: "Eye Surgery",
+      subtitle: "Achieve crystal-clear vision and a refreshed, youthful appearance.",
+      backgroundImageUrl: "/images/eye-surgery-hero.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/eye-surgery-overview.jpg",
+      facts: [
+        { label: 'Procedures', value: 'LASIK, Blepharoplasty, Cataract, & More', icon: 'Eye' },
+        { label: 'Anesthesia', value: 'Local or General', icon: 'UserCheck' },
+        { label: 'Primary Goal', value: 'Restore Vision & Appearance', icon: 'Award' },
+        { label: 'Recovery', value: 'Varies by Procedure', icon: 'BedDouble' },
+      ],
+    },
+    benefits: [
+      { icon: "CheckCircle2", title: "Freedom from Glasses & Contacts", description: "Enjoy clear, natural vision for activities like swimming and sports without the hassle of corrective lenses." },
+      { icon: "Eye", title: "Rejuvenated, Youthful Appearance", description: "Eyelid surgery removes drooping skin and under-eye bags, making you look more rested and alert." },
+      { icon: "Smile", title: "Quick & Effective Procedures", description: "Most eye surgeries are fast, minimally invasive outpatient procedures with a rapid recovery time." },
+    ],
+    ctaImage: "/images/eye-surgery-hero.jpg",
+    details: {
+      tabs: {
+        "Vision Correction (LASIK)": "eye-surgery-refractive",
+        "Eyelid Surgery (Blepharoplasty)": "eye-surgery-blepharoplasty",
+        "Cataract Surgery": "eye-surgery-cataract",
+        "Corneal Transplant": "eye-surgery-corneal",
+        "Glaucoma Surgeries": "eye-surgery-glaucoma",
+      },
+    },
+    risks: [
+      "Infection, bleeding, or adverse reaction to anesthesia",
+      "Dry eyes, glare, or halos (especially post-LASIK)",
+      "Under-correction or over-correction of vision",
+      "Asymmetry or unsatisfactory cosmetic result (Blepharoplasty)",
+      "Increased intraocular pressure",
+      "Graft rejection (for Corneal Transplant)",
+      "Damage to other eye structures",
+      "Vision loss (rare)",
+    ],
+    faq: [
+      { question: "Am I a good candidate for LASIK?", answer: "Ideal candidates are over 18 with a stable glasses/contact lens prescription for at least one year. You must have healthy eyes and sufficient corneal thickness. A comprehensive eye exam is required to determine your candidacy." },
+      { question: "Is LASIK painful?", answer: "The procedure itself is painless. Your eyes are numbed with anesthetic drops. You may feel some pressure, but no pain. Some mild discomfort or irritation is common for a few hours after the procedure." },
+      { question: "How long is recovery for eyelid surgery?", answer: "Initial healing involves swelling and bruising, which can last for 1-2 weeks. You can typically return to work within a week, but should avoid strenuous activity for at least two weeks. Final results are visible after a few months." }
+    ],
+    photoRequirements: [
+      "For Eyelid Surgery: A clear, well-lit photo of your full face, looking straight ahead.",
+      "For Eyelid Surgery: Left and right profile views of your face.",
+    ],
+    requiredMedicalQuestions: [
+      'anesthesia_problems',
+      'smoking_status',
+      'drug_allergies',
+      'dry_eyes',
+      'lens_implants',
+    ],
+  },
+  {
+    slug: "transplantation",
+    hero: {
+      title: "Transplantation Procedures",
+      subtitle: "Life-saving organ and tissue transplantation from world-class surgical teams.",
+      backgroundImageUrl: "/images/transplant-hero.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/transplant-overview.jpg",
+      facts: [
+        { label: 'Procedures', value: 'Kidney, Liver, Bone Marrow', icon: 'HeartPulse' },
+        { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
+        { label: 'Primary Goal', value: 'Life-Saving Treatment', icon: 'Award' },
+        { label: 'Care', value: 'Comprehensive & Lifelong', icon: 'Users' },
+      ],
+    },
+    benefits: [
+      { icon: "CheckCircle2", title: "Life-Saving & Life-Extending", description: "Organ transplantation is a definitive treatment for end-stage organ failure, offering a chance at a longer, healthier life." },
+      { icon: "Smile", title: "Dramatically Improved Quality of Life", description: "Frees patients from the limitations of conditions like dialysis and allows a return to normal daily activities." },
+      { icon: "ShieldCheck", title: "Expert Multidisciplinary Teams", description: "Our transplant programs are run by highly experienced surgeons, physicians, and coordinators dedicated to patient care." },
+    ],
+    ctaImage: "/images/transplant-hero.jpg",
+    details: {
+      tabs: {
+        "Kidney Transplant": "transplant-kidney",
+        "Liver Transplant": "transplant-liver",
+        "Bone Marrow Transplant": "transplant-bone-marrow",
+      },
+    },
+    risks: [
+      "Surgical complications such as bleeding, infection, and blood clots",
+      "Adverse reaction to anesthesia",
+      "Organ rejection (acute or chronic), where the body's immune system attacks the new organ",
+      "Side effects of long-term immunosuppressant (anti-rejection) medications, such as increased risk of infection and kidney problems",
+      "Failure of the transplanted organ or graft",
+      "Post-transplant lymphoproliferative disorder (a type of cancer)",
+    ],
+    faq: [
+      { question: "What is organ rejection?", answer: "Rejection is the body's natural immune response to a foreign object. To prevent this, transplant patients must take lifelong immunosuppressant medications that weaken the immune system so it does not attack the new organ." },
+      { question: "What is recovery like?", answer: "Recovery is a long and intensive process. It involves an initial hospital stay of several weeks for close monitoring, followed by months of regular check-ups. A full return to normal life can take six months to a year." }
+    ],
+    requiredMedicalQuestions: [
+      'anesthesia_problems',
+      'smoking_status',
+      'alcohol_status',
+      'blood_clot_calf',
+      'drug_allergies',
+      'hiv',
+      'hepatitis_b',
+      'hepatitis_c',
+    ],
+  },
+  {
+    slug: "eyebrow-transplantation",
+    hero: {
+      title: "Eyebrow Transplantation",
+      subtitle: "Create perfectly shaped, natural-looking eyebrows with precision FUE & DHI techniques.",
+      backgroundImageUrl: "/images/eyebrow-hero.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/eyebrow-overview.jpg",
+      facts: [
+        { label: 'Technique', value: 'FUE / DHI', icon: 'Scissors' },
+        { label: 'Anesthesia', value: 'Local Anesthesia', icon: 'UserCheck' },
+        { label: 'Procedure Time', value: '3-4 Hours', icon: 'Clock' },
+        { label: 'Results', value: 'Permanent', icon: 'Smile' },
+      ],
+    },
+    benefits: [
+      { icon: "Eye", title: "Natural Shape & Fullness", description: "Achieve the eyebrow density and shape you desire with results that look completely natural." },
+      { icon: "CheckCircle2", title: "Permanent Solution", description: "Unlike microblading or makeup, transplanted eyebrow hair is a permanent solution that grows naturally." },
+      { icon: "Smile", title: "Boosted Confidence", description: "Frame your face beautifully and enhance your features, boosting your self-esteem." },
+    ],
+    ctaImage: "/images/eyebrow-hero.jpg",
+    details: {
+      tabs: {
+        "What is it?": "eyebrow-transplant-what",
+        "The Procedure": "eyebrow-transplant-procedure",
+      },
+    },
+    risks: [
+      "Infection or swelling",
+      "Unnatural appearance if hairs are implanted at the wrong angle",
+      "Noticeable scarring in the donor area",
+      "Asymmetry between eyebrows",
+      "Ingrown hairs (folliculitis)",
+    ],
+    faq: [
+      { question: "Will the transplanted eyebrow hair need to be trimmed?", answer: "Yes. Because the hair is taken from your scalp, it will continue to grow as scalp hair does. You will need to trim your new eyebrow hairs regularly to maintain the desired length." },
+      { question: "How long is the recovery?", answer: "Recovery is quick. You will experience some small scabs and redness for about 5-7 days. Most patients can return to normal activities within a day or two, avoiding strenuous exercise for a week." },
+    ],
+    photoRequirements: [
+      "Clear, well-lit photos of your full face and close-ups of your eyebrow area.",
+    ],
+    requiredMedicalQuestions: [
+      'smoking_status',
+      'drug_allergies',
+    ],
+  },
+  {
+    slug: "beard-transplantation",
+    hero: {
+      title: "Beard Transplantation",
+      subtitle: "Achieve a full, dense, and natural-looking beard with advanced hair restoration.",
+      backgroundImageUrl: "/images/beard-hero.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/beard-overview.jpg",
+      facts: [
+        { label: 'Technique', value: 'FUE / DHI', icon: 'Scissors' },
+        { label: 'Anesthesia', value: 'Local Anesthesia', icon: 'UserCheck' },
+        { label: 'Procedure Time', value: '4-8 Hours', icon: 'Clock' },
+        { label: 'Results', value: 'Permanent & Natural', icon: 'Smile' },
+      ],
+    },
+    benefits: [
+      { icon: "CheckCircle2", title: "Full, Dense Beard", description: "Permanently fill in patchy spots or create the full beard you've always wanted." },
+      { icon: "Eye", title: "Masculine Contouring", description: "A well-defined beard can enhance your jawline and provide a more masculine facial structure." },
+      { icon: "Smile", title: "Natural & Permanent", description: "The transplanted hair is your own, and it grows, shaves, and behaves just like a natural beard." },
+    ],
+    ctaImage: "/images/beard-hero.jpg",
+    details: {
+      tabs: {
+        "What is it?": "beard-transplant-what",
+        "The Procedure": "beard-transplant-procedure",
+      },
+    },
+    risks: [
+      "Infection or swelling",
+      "Noticeable scarring in the donor area (minimal with FUE)",
+      "Asymmetry or uneven density",
+      "Ingrown hairs (folliculitis)",
+      "The need for a second session to achieve higher density",
+    ],
+    faq: [
+      { question: "How many grafts will I need for a full beard?", answer: "A full beard can require anywhere from 2,000 to 5,000 grafts, depending on the desired density and the size of the area. Filling in smaller patches requires significantly fewer." },
+      { question: "When will I see the final results?", answer: "You will see the initial shape immediately after. The transplanted hairs will shed after 2-3 weeks, and then permanent growth will start in 3-4 months. Full, dense results are typically seen after about one year." },
+    ],
+    photoRequirements: [
+      "Clear, well-lit photos of your full face and close-ups of your beard and mustache area from the front and sides.",
+    ],
+    requiredMedicalQuestions: [
+      'anesthesia_problems',
+      'smoking_status',
+      'drug_allergies',
+    ],
+  },
+  {
+    slug: "mesotherapy",
+    hero: {
+      title: "Mesotherapy",
+      subtitle: "A minimally invasive treatment for fat reduction, cellulite, and skin rejuvenation.",
+      backgroundImageUrl: "/images/mesotherapy-hero.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/mesotherapy-overview.jpg",
+      facts: [
+        { label: 'Treatment', value: 'Micro-injections', icon: 'Syringe' },
+        { label: 'Primary Goal', value: 'Fat Reduction & Rejuvenation', icon: 'Award' },
+        { label: 'Sessions', value: 'Multiple (Course of 6-10)', icon: 'Repeat' },
+        { label: 'Downtime', value: 'Minimal', icon: 'Smile' },
+      ],
+    },
+    benefits: [
+      { icon: "CheckCircle2", title: "Targets Localized Fat", description: "Effectively reduces stubborn pockets of fat that are resistant to diet and exercise." },
+      { icon: "Eye", title: "Improves Skin Appearance", description: "Reduces the appearance of cellulite and rejuvenates the skin by stimulating collagen for a firmer, more youthful look." },
+      { icon: "ShieldCheck", title: "Non-Surgical Solution", description: "A minimally invasive alternative to procedures like liposuction, with no general anesthesia and minimal downtime." },
+    ],
+    ctaImage: "/images/mesotherapy-hero.jpg",
+    details: {
+      tabs: {
+        "What is it?": "mesotherapy-what",
+        "Applications": "mesotherapy-applications",
+        "The Procedure": "mesotherapy-procedure",
+        "Sessions & Recovery": "mesotherapy-recovery",
+      },
+    },
+    risks: [
+      "Bruising, swelling, or soreness at the injection sites",
+      "Redness or a burning sensation",
+      "Infection (rare)",
+      "Changes in skin pigmentation",
+      "Allergic reaction to the injected solution",
+      "Nausea",
+    ],
+    faq: [
+      { question: "Is mesotherapy painful?", answer: "Patients typically experience minimal discomfort. A topical numbing cream is often applied before the procedure to make the micro-injections more comfortable." },
+      { question: "How many sessions will I need?", answer: "The number of sessions varies depending on the condition being treated. For fat and cellulite reduction, a course of 6 to 10 treatments is common, spaced 1-2 weeks apart. Your specialist will create a personalized treatment plan for you." },
+      { question: "Are the results of mesotherapy permanent?", answer: "The results can be long-lasting, especially when combined with a healthy diet and exercise. For fat reduction, the results are permanent as long as you maintain a stable weight. For skin rejuvenation, maintenance sessions are typically recommended." }
+    ],
+    photoRequirements: [
+      "A clear, well-lit photo of the area you wish to have treated (e.g., abdomen, thighs, face).",
+    ],
+    requiredMedicalQuestions: [
+      'smoking_status',
+      'alcohol_status',
+      'blood_clot_calf',
+      'drug_allergies',
+    ],
+  },
+  {
+    slug: "micro-scalp-pigmentation",
+    hero: {
+      title: "Micro Scalp Pigmentation",
+      subtitle: "A non-surgical solution to create the appearance of fuller, denser hair.",
+      backgroundImageUrl: "/images/smp-hero.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/smp-overview.jpg",
+      facts: [
+        { label: 'Treatment', value: 'Cosmetic Scalp Tattoo', icon: 'Brush' },
+        { label: 'Primary Goal', value: 'Create Illusion of Hair Density', icon: 'Award' },
+        { label: 'Sessions', value: '2-4 Sessions Required', icon: 'Repeat' },
+        { label: 'Downtime', value: 'Minimal to None', icon: 'Smile' },
+      ],
+    },
+    benefits: [
+      { icon: "Eye", title: "Illusion of Fullness", description: "Creates the appearance of a dense, full head of hair or a sharp 'buzz cut' hairline." },
+      { icon: "CheckCircle2", title: "Non-Surgical Solution", description: "An excellent alternative for those who are not candidates for or do not want hair transplant surgery." },
+      { icon: "ShieldCheck", title: "Camouflages Imperfections", description: "Effectively conceals thinning areas, receding hairlines, and scars from previous surgeries or injuries." },
+    ],
+    ctaImage: "/images/smp-hero.jpg",
+    details: {
+      tabs: {
+        "What is SMP?": "smp-what",
+        "The Procedure": "smp-procedure",
+        "Candidates": "smp-candidates",
+        "Recovery": "smp-recovery",
+      },
+    },
+    risks: [
+      "Allergic reaction to the pigment (a patch test is recommended)",
+      "Infection if aftercare instructions are not followed",
+      "Unnatural appearance if performed by an inexperienced practitioner",
+      "The pigment may fade or change color over time, requiring touch-ups",
+      "Dissatisfaction with the hairline design",
+    ],
+    faq: [
+      { question: "Is Scalp Micropigmentation the same as a regular tattoo?", answer: "While both involve depositing pigment into the skin, SMP is a highly specialized technique. It uses different pigments, needles, and a much shallower needle depth to create the appearance of tiny hair follicles, not solid lines or shading." },
+      { question: "Does it look fake?", answer: "When performed by a skilled and experienced artist, the results are incredibly realistic and blend seamlessly with your existing hair to be virtually undetectable." },
+      { question: "How long does SMP last?", answer: "The results are considered semi-permanent. They can last for many years (typically 4-6 years) before a touch-up session may be needed to refresh the color and sharpness." }
+    ],
+    photoRequirements: [
+      "A clear photo of the front of your hairline.",
+      "A clear photo of the top/crown of your head.",
+      "A clear photo of the back of your head (donor area).",
+    ],
+    requiredMedicalQuestions: [
+      'smoking_status',
+      'drug_allergies',
+    ],
+  },
+  {
+    slug: "general-surgery",
+    hero: {
+      title: "General Surgery",
+      subtitle: "Expert, minimally invasive surgical solutions for a range of common health conditions.",
+      backgroundImageUrl: "/images/general-surgery-hero.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/general-surgery-overview.jpg",
+      facts: [
+        { label: 'Primary Method', value: 'Laparoscopic (Minimally Invasive)', icon: 'Minimize2' },
+        { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
+        { label: 'Goal', value: 'Treat Common Ailments', icon: 'Award' },
+        { label: 'Recovery', value: 'Varies by Procedure', icon: 'BedDouble' },
+      ],
+    },
+    benefits: [
+      { icon: "CheckCircle2", title: "Minimally Invasive Techniques", description: "We prioritize laparoscopic (keyhole) surgery, which means smaller incisions, less pain, and a much faster recovery time." },
+      { icon: "ShieldCheck", title: "Effective, Long-Term Solutions", description: "Surgical intervention provides a definitive and lasting solution for conditions like hernias and gallstones." },
+      { icon: "Users", title: "Expert Surgical Care", description: "Our board-certified general surgeons have extensive experience in a wide range of essential procedures." },
+    ],
+    details: {
+      tabs: {
+        "Gallbladder Surgery": "general-surgery-gallbladder",
+        "Hernia Repair": "general-surgery-hernia",
+        "Hemorrhoid Surgery": "general-surgery-hemorrhoid",
+        "Pilonidal Sinus": "general-surgery-pilonidal",
+      },
+    },
+    risks: [
+      "Adverse reaction to anesthesia",
+      "Infection, bleeding, or hematoma",
+      "Blood clots (Deep Vein Thrombosis)",
+      "Damage to surrounding tissues or organs",
+      "Poor wound healing or scarring",
+      "Recurrence of the condition (e.g., hernia)",
+    ],
+    faq: [
+      { question: "What is laparoscopic surgery?", answer: "Laparoscopic, or 'keyhole,' surgery is a minimally invasive technique where a surgeon operates through several small incisions using a tiny camera (laparoscope) and specialized instruments. It results in less pain, shorter hospital stays, and faster recovery." },
+      { question: "How long will I need to stay in the hospital?", answer: "This depends on the procedure. A laparoscopic gallbladder removal is often a day-case or requires a single overnight stay, while more complex hernia repairs might require 1-2 days." }
+    ],
+    requiredMedicalQuestions: [
+      'anesthesia_problems',
+      'smoking_status',
+      'alcohol_status',
+      'blood_clot_calf',
+      'drug_allergies',
+    ],
+  },
+  {
+    slug: "orthopedic-surgery",
+    hero: {
+      title: "Orthopedic Surgery",
+      subtitle: "Advanced surgical solutions to relieve joint pain and restore mobility.",
+      backgroundImageUrl: "/images/ortho-hero.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/ortho-overview.jpg",
+      facts: [
+        { label: 'Procedures', value: 'Joint Replacement, Arthroscopy', icon: 'Bone' },
+        { label: 'Anesthesia', value: 'General or Spinal', icon: 'UserCheck' },
+        { label: 'Primary Goal', value: 'Relieve Pain, Restore Function', icon: 'Award' },
+        { label: 'Recovery', value: 'Varies (Weeks to Months)', icon: 'BedDouble' },
+      ],
+    },
+    benefits: [
+      { icon: "CheckCircle2", title: "Significant Pain Relief", description: "Dramatically reduces or eliminates chronic joint pain caused by arthritis or injury." },
+      { icon: "Users", title: "Restored Mobility & Function", description: "Regain the ability to walk, climb stairs, and participate in daily activities without pain." },
+      { icon: "Smile", title: "Improved Quality of Life", description: "A return to an active, independent lifestyle and a significant boost in overall well-being." },
+    ],
+    details: {
+      tabs: {
+        "Knee Replacement": "orthopedic-knee-replacement",
+        "Hip Replacement": "orthopedic-hip-replacement",
+        "Arthroscopic Surgery": "orthopedic-arthroscopy",
+      },
+    },
+    risks: [
+      "Adverse reaction to anesthesia",
+      "Infection of the surgical site or joint prosthesis",
+      "Blood clots (Deep Vein Thrombosis)",
+      "Nerve or blood vessel injury",
+      "Dislocation or loosening of the artificial joint over time",
+      "Stiffness or limited range of motion in the joint",
+      "Unequal leg length (for hip replacement)",
+      "Possibility of revision surgery in the future",
+    ],
+    faq: [
+      { question: "How long does a new knee or hip joint last?", answer: "Modern artificial joints are very durable. With normal use, you can typically expect a new knee or hip to last for 15-20 years or even longer." },
+      { question: "What is recovery like after a joint replacement?", answer: "Recovery is intensive and requires a commitment to physical therapy. You will be encouraged to walk soon after surgery. Full recovery and a return to all activities can take several months to a year." },
+      { question: "When can I travel after surgery?", answer: "You will typically need to stay in Turkey for 2-3 weeks for initial recovery and physical therapy before being cleared to fly home. This is crucial to reduce the risk of blood clots during travel." }
+    ],
+    requiredMedicalQuestions: [
+      'anesthesia_problems',
+      'smoking_status',
+      'blood_clot_calf',
+      'blood_clot_lungs',
       'drug_allergies',
     ],
   },

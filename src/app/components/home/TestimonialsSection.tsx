@@ -108,7 +108,7 @@ export default function TestimonialsSection() {
                     <p className="font-lora font-semibold text-brand-dark text-lg">
                       {testimonial.author}
                     </p>
-                    <p className="font-inter text-brand-teal text-sm mt-1">
+                    <p className="font-inter text-brand-dark text-sm mt-1">
                       {testimonial.service}
                     </p>
                   </div>

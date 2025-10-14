@@ -12,7 +12,7 @@ export default {
       colors: {
         'brand-background': '#FBF5EB',
         'brand-dark': '#1A4D64',
-        'brand-teal': '#408E7B',
+        'brand-teal': '#407e8eff',
         'brand-orange': '#E88C32',
         'brand-text': '#2C2C2C',
       },

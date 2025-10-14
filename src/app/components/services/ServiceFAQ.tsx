@@ -24,9 +24,9 @@ const ServiceFAQ = ({ faqData }: ServiceFAQProps) => {
             <Disclosure key={item.question}>
               {({ open }) => (
                 <>
-                  <Disclosure.Button className="flex w-full justify-between rounded-lg bg-brand-dark/5 px-4 py-4 text-left text-sm font-medium text-brand-dark hover:bg-brand-dark/10 focus:outline-none focus-visible:ring focus-visible:ring-brand-teal focus-visible:ring-opacity-75">
+                  <Disclosure.Button className="flex w-full justify-between rounded-lg bg-brand-dark/5 px-4 py-4 text-left text-sm font-medium text-brand-dark hover:bg-brand-dark/10 focus:outline-none focus-visible:ring focus-visible:ring-brand-dark focus-visible:ring-opacity-75">
                     <span>{item.question}</span>
-                    <ChevronUp className={`${open ? 'rotate-180 transform' : ''} h-5 w-5 text-brand-teal transition-transform`} />
+                    <ChevronUp className={`${open ? 'rotate-180 transform' : ''} h-5 w-5 text-brand-dark transition-transform`} />
                   </Disclosure.Button>
                   <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-brand-text">
                     {item.answer}

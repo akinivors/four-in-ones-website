@@ -42,7 +42,7 @@ const ServiceOverview = ({ overviewImageUrl, facts }: ServiceOverviewProps) => {
               const IconComponent = iconMap[fact.icon];
               return (
                 <li key={fact.label} className="flex items-start">
-                  {IconComponent && <IconComponent className="h-6 w-6 text-brand-teal mr-4 mt-1 flex-shrink-0" />}
+                  {IconComponent && <IconComponent className="h-6 w-6 text-brand-dark mr-4 mt-1 flex-shrink-0" />}
                   <div>
                     <p className="font-bold text-brand-dark">{fact.label}</p>
                     <p className="text-brand-text">{fact.value}</p>

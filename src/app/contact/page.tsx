@@ -28,15 +28,15 @@ const ContactPage = () => {
             <h2 className="font-lora text-3xl font-bold text-brand-dark mb-6">Direct Contact</h2>
             <div className="space-y-6">
               <a href="mailto:info@fourinones.com" className="flex items-center group">
-                <Mail className="h-6 w-6 text-brand-teal mr-4" />
+                <Mail className="h-6 w-6 text-brand-dark mr-4" />
                 <span className="text-brand-text group-hover:text-brand-dark">info@fourinones.com</span>
               </a>
               <a href="tel:+905551234567" className="flex items-center group">
-                <Phone className="h-6 w-6 text-brand-teal mr-4" />
+                <Phone className="h-6 w-6 text-brand-dark mr-4" />
                 <span className="text-brand-text group-hover:text-brand-dark">+90 555 123 4567</span>
               </a>
               <a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer" className="flex items-center group">
-                <MessageSquare className="h-6 w-6 text-brand-teal mr-4" />
+                <MessageSquare className="h-6 w-6 text-brand-dark mr-4" />
                 <span className="text-brand-text group-hover:text-brand-dark">Chat with us on WhatsApp</span>
               </a>
               <div className="border-t pt-6">

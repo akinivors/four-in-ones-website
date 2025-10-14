@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,15 +34,18 @@ export default function Header() {
         : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/">
-              <h1 className={`text-xl font-lora font-semibold transition-colors duration-300 cursor-pointer ${
-                scrolled ? 'text-brand-dark' : 'text-white'
-              }`}>
-                FOUR IN ONE&apos;S
-              </h1>
+              <Image 
+                src="/images/company-logo.jpeg" 
+                alt="Four in One's Logo" 
+                width={100} 
+                height={50} 
+                className="cursor-pointer object-contain h-12 w-auto"
+                priority
+              />
             </Link>
           </div>
 
@@ -52,7 +56,7 @@ export default function Header() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className={`font-inter hover:text-brand-teal transition-colors duration-200 ${
+                    className={`font-inter hover:text-brand-dark transition-colors duration-200 ${
                       scrolled ? 'text-brand-text' : 'text-gray-200'
                     }`}
                   >
@@ -74,7 +78,7 @@ export default function Header() {
           <div className="lg:hidden">
             <button
               onClick={() => setIsMenuOpen(true)}
-              className={`p-2 rounded-md hover:text-brand-teal transition-colors duration-200 ${
+              className={`p-2 rounded-md hover:text-brand-dark transition-colors duration-200 ${
                 scrolled ? 'text-brand-text' : 'text-gray-200'
               }`}
               aria-label="Open menu"
@@ -93,13 +97,17 @@ export default function Header() {
               {/* Mobile Menu Header */}
               <div className="flex justify-between items-center p-6 border-b border-gray-200">
                 <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                  <h1 className="text-xl font-lora font-semibold text-brand-dark cursor-pointer">
-                    FOUR IN ONE&apos;S
-                  </h1>
+                  <Image 
+                    src="/images/company-logo.jpeg" 
+                    alt="Four in One's Logo" 
+                    width={100} 
+                    height={50} 
+                    className="cursor-pointer object-contain h-10 w-auto"
+                  />
                 </Link>
                 <button
                   onClick={() => setIsMenuOpen(false)}
-                  className="p-2 rounded-md text-brand-text hover:text-brand-teal transition-colors duration-200"
+                  className="p-2 rounded-md text-brand-text hover:text-brand-dark transition-colors duration-200"
                   aria-label="Close menu"
                 >
                   <X size={24} />
@@ -114,7 +122,7 @@ export default function Header() {
                       <Link
                         href={link.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="block text-2xl font-inter font-medium text-brand-text hover:text-brand-teal transition-colors duration-200"
+                        className="block text-2xl font-inter font-medium text-brand-text hover:text-brand-dark transition-colors duration-200"
                       >
                         {link.name}
                       </Link>

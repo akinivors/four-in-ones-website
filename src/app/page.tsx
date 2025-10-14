@@ -4,6 +4,7 @@ import ServicesHighlight from './components/home/ServicesHighlight';
 import TestimonialsSection from './components/home/TestimonialsSection';
 import CTASection from './components/home/CTASection';
 import AnimatedSection from './components/ui/AnimatedSection';
+import WhyTurkeyHome from './components/home/WhyTurkeyHome';
 
 export default function Home() {
   return (
@@ -12,6 +13,10 @@ export default function Home() {
 
       <AnimatedSection>
         <FeaturesSection />
+      </AnimatedSection>
+
+      <AnimatedSection>
+        <WhyTurkeyHome />
       </AnimatedSection>
 
       <AnimatedSection>

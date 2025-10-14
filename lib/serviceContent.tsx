@@ -771,6 +771,222 @@ export const contentMap: Record<string, React.ReactNode> = {
       <p>Recovery involves swelling, bruising, and discomfort for several weeks. Patients must abstain from all sexual activity, including masturbation, for 4 to 6 weeks to allow for proper healing and to ensure the survival of the fat grafts (for girth enhancement). A specific aftercare regimen, including massages, may be prescribed. Most patients can return to work within a week.</p>
     </div>
   ),
+
+  // --- COSMETIC DENTISTRY CONTENT ---
+  "dentistry-veneers": (
+    <div className="space-y-4">
+      <p><strong>Dental Veneers</strong> are ultra-thin, custom-made shells of tooth-colored materials (typically porcelain) designed to cover the front surface of your teeth. They are bonded to the front of the teeth, changing their color, shape, size, or length to create a beautiful, natural-looking smile.</p>
+      <p>Veneers are the ideal cosmetic solution for teeth that are discolored, worn down, chipped, broken, misaligned, uneven, or irregularly shaped. They can also be used to close gaps between teeth.</p>
+      <h3 className="font-bold text-lg mt-6">The Veneer Process</h3>
+      <p>The procedure typically requires two visits. During the first visit, your teeth are prepared by removing a small amount of enamel (about 0.5mm) to make room for the veneer. An impression is then taken and sent to our dental laboratory where master ceramists craft your custom veneers using premium E.max porcelain. Temporary veneers may be placed while your permanent ones are being made. During the second visit, the custom veneers are carefully bonded to your teeth using a special adhesive and curing light.</p>
+      <p>With proper care, porcelain veneers can last 10-15 years or more, giving you a long-lasting, confident smile.</p>
+    </div>
+  ),
+  "dentistry-crowns": (
+    <div className="space-y-4">
+      <p><strong>Dental Crowns</strong>, also known as &ldquo;caps,&rdquo; are tooth-shaped restorations that completely cover a damaged or decayed tooth. Crowns restore the tooth&apos;s shape, size, strength, and improve its appearance. They are cemented into place and fully encase the entire visible portion of the tooth above the gum line.</p>
+      <p>Crowns are necessary when a tooth is severely damaged by decay, fracture, or has undergone root canal treatment. They can also be used for cosmetic purposes to improve the appearance of misshapen or severely discolored teeth.</p>
+      <h3 className="font-bold text-lg mt-6">Types of Crowns We Offer</h3>
+      <ul className="list-disc list-inside space-y-2">
+        <li><strong>Zirconium Crowns:</strong> Made from monolithic zirconia, these crowns are incredibly strong, durable, and biocompatible. They are highly resistant to chipping and fracture, making them ideal for back teeth that endure significant chewing forces. They also offer excellent aesthetics with a natural tooth-like appearance.</li>
+        <li><strong>Porcelain-Fused-to-Metal (PFM) Crowns:</strong> These crowns have a metal substructure for strength with a porcelain outer layer for a natural appearance. While durable, they may show a metal line at the gum line over time.</li>
+        <li><strong>All-Porcelain/All-Ceramic Crowns:</strong> These provide the best natural color match and are ideal for front teeth. They are metal-free and biocompatible, making them a great choice for patients with metal allergies.</li>
+      </ul>
+      <p className="mt-4">The crown procedure typically requires two visits, similar to veneers. The tooth is prepared, an impression is taken, a temporary crown is placed, and then the permanent crown is cemented during the second visit.</p>
+    </div>
+  ),
+  "dentistry-implants": (
+    <div className="space-y-4">
+      <p><strong>Dental Implants</strong> are the gold standard for replacing missing teeth. An implant is a small titanium post that is surgically placed into the jawbone where a tooth is missing. The titanium integrates with the bone through a process called osseointegration, creating a stable foundation. Once healed, a custom crown is attached to the implant, providing a permanent replacement that looks, feels, and functions just like a natural tooth.</p>
+      <p>Dental implants offer numerous advantages over traditional bridges and dentures, including superior stability, preservation of jawbone density, no damage to adjacent healthy teeth, and a natural appearance.</p>
+      <h3 className="font-bold text-lg mt-6">The Implant Process</h3>
+      <p>The dental implant process is completed in several stages over a few months:</p>
+      <ul className="list-disc list-inside space-y-2">
+        <li><strong>Stage 1 - Consultation & Planning:</strong> A thorough examination, including 3D imaging (CBCT scan), is performed to assess bone quality and plan the precise placement of the implant.</li>
+        <li><strong>Stage 2 - Implant Placement Surgery:</strong> The titanium implant post is surgically placed into the jawbone under local anesthesia. A protective cover is placed over the implant.</li>
+        <li><strong>Stage 3 - Osseointegration (Healing Period):</strong> Over the next 3-6 months, the implant fuses with the surrounding bone. During this time, a temporary restoration may be worn.</li>
+        <li><strong>Stage 4 - Abutment Placement:</strong> Once healing is complete, a small connector piece called an abutment is attached to the implant post.</li>
+        <li><strong>Stage 5 - Crown Placement:</strong> Finally, a custom-made crown is securely attached to the abutment, completing your new tooth.</li>
+      </ul>
+      <p className="mt-4">With proper care and oral hygiene, dental implants can last a lifetime, making them a worthwhile long-term investment in your oral health and confidence.</p>
+    </div>
+  ),
+  "dentistry-whitening": (
+    <div className="space-y-4">
+      <p><strong>Teeth Whitening</strong>, also known as teeth bleaching, is a popular cosmetic dental procedure designed to lighten the color of your teeth and remove stains and discoloration. It is one of the quickest and most affordable ways to dramatically improve the appearance of your smile.</p>
+      <p>Over time, teeth can become stained or discolored due to various factors including consumption of coffee, tea, red wine, tobacco use, aging, and certain medications. Professional teeth whitening can reverse much of this discoloration.</p>
+      <h3 className="font-bold text-lg mt-6">Professional Whitening Methods</h3>
+      <p>We offer advanced, safe, and effective whitening treatments:</p>
+      <ul className="list-disc list-inside space-y-2">
+        <li><strong>In-Office Whitening (Power Bleaching):</strong> This is the fastest method. A high-concentration bleaching gel is applied to your teeth and activated with a special light or laser. Results are visible immediately, often achieving teeth that are several shades whiter in just one 60-90 minute session.</li>
+        <li><strong>Take-Home Whitening Kits:</strong> We provide custom-fitted whitening trays and professional-grade bleaching gel for use at home. You wear the trays for a specified period each day (usually 1-2 hours or overnight) for about 1-2 weeks. This method offers gradual, controlled whitening.</li>
+      </ul>
+      <p className="mt-4"><strong>Important Note:</strong> Teeth whitening works best on natural teeth and does not whiten crowns, veneers, or fillings. If you have existing dental restorations on your front teeth, they may need to be replaced after whitening to match your new, brighter smile.</p>
+      <p>Results can last from several months to a few years, depending on your lifestyle and oral care habits. Avoiding stain-causing foods and beverages and maintaining good oral hygiene will help prolong your results.</p>
+    </div>
+  ),
+
+  // --- Eye Surgery Content ---
+  "eye-surgery-refractive": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">LASIK & Refractive Surgery</h3>
+      <p>Laser vision correction, commonly known as LASIK, is a revolutionary procedure that corrects vision problems like nearsightedness, farsightedness, and astigmatism. By precisely reshaping the cornea with an excimer laser, it allows light to focus correctly on the retina, resulting in clear vision without the need for glasses or contact lenses. We offer a range of techniques, including LASIK, PRK, and LASEK, to suit your specific eye anatomy.</p>
+    </div>
+  ),
+  "eye-surgery-blepharoplasty": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Blepharoplasty (Eyelid Surgery)</h3>
+      <p>Blepharoplasty is a cosmetic surgical procedure to improve the appearance of the eyelids. It can be performed on the upper lids, lower lids, or both. For the upper lids, it corrects drooping skin that can sometimes impair vision. For the lower lids, it removes excess skin and fat to reduce undereye bags and create a smoother, more youthful, and rested appearance.</p>
+    </div>
+  ),
+  "eye-surgery-cataract": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Cataract Surgery</h3>
+      <p>A cataract is a clouding of the natural lens inside your eye, which can make vision blurry and colors seem faded. Cataract surgery is a highly effective procedure to restore clear vision. Our surgeons use a state-of-the-art technique called phacoemulsification to break up and remove the cloudy lens. It is then replaced with a permanent, artificial intraocular lens (IOL), tailored to your vision needs.</p>
+    </div>
+  ),
+  "eye-surgery-corneal": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Corneal Transplant</h3>
+      <p>A corneal transplant (keratoplasty) is a surgical procedure to replace part of your cornea with corneal tissue from a donor. This procedure can restore vision, reduce pain, and improve the appearance of a damaged or diseased cornea. Depending on the condition, our surgeons can perform a full thickness transplant (penetrating keratoplasty) or a partial thickness transplant (lamellar keratoplasty).</p>
+    </div>
+  ),
+  "eye-surgery-glaucoma": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Glaucoma Surgeries</h3>
+      <p>Glaucoma is a condition that damages the optic nerve, often caused by high pressure inside the eye. When medication is not enough, surgery can create a new drainage channel for the eye fluid to lower the pressure. Common procedures include Trabeculectomy, which creates a new drainage flap, or the insertion of micro-implants or shunts to help fluid drain.</p>
+    </div>
+  ),
+  "transplant-kidney": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Kidney Transplant</h3>
+      <p>A kidney transplant is a life-saving procedure for patients with end-stage renal disease (kidney failure). It involves surgically placing a healthy kidney from a living or deceased donor into a recipient whose own kidneys no longer function properly. A successful transplant allows a patient to live a healthier, more active life, free from the constraints of dialysis.</p>
+    </div>
+  ),
+  "transplant-liver": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Liver Transplant</h3>
+      <p>A liver transplant is a surgical procedure to replace a diseased liver with a healthy liver from a donor. This is a vital treatment for people with acute or chronic liver failure caused by conditions like cirrhosis or hepatitis. Because the liver has the unique ability to regenerate, a transplant can sometimes be performed using just a portion of a healthy liver from a living donor.</p>
+    </div>
+  ),
+  "transplant-bone-marrow": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Bone Marrow Transplant</h3>
+      <p>A bone marrow transplant (or stem cell transplant) is a medical procedure used to treat certain types of cancer, such as leukemia and lymphoma, as well as other blood and immune system diseases. The procedure involves replacing a patient&apos;s unhealthy bone marrow with healthy, blood-forming stem cells from a donor, allowing the body to produce healthy blood cells again.</p>
+    </div>
+  ),
+  "eyebrow-transplant-what": (
+    <div className="space-y-4">
+      <p><strong>Eyebrow Transplantation</strong> is a highly artistic procedure to restore or create full, natural-looking eyebrows. It&apos;s an ideal solution for those with thinning brows due to over-plucking, genetics, scarring, or medical conditions.</p>
+    </div>
+  ),
+  "eyebrow-transplant-procedure": (
+    <div className="space-y-4">
+      <p>Using the precise FUE or DHI method, single hair follicles are harvested from a donor area on the scalp (usually from behind the ears where hair is finer). Each follicle is then meticulously implanted into the brow area one by one, following the natural angle and direction of eyebrow growth to ensure a seamless and aesthetically pleasing result.</p>
+    </div>
+  ),
+  "beard-transplant-what": (
+    <div className="space-y-4">
+      <p><strong>Beard Transplantation</strong> is a procedure to increase the density and fullness of facial hair. It&apos;s perfect for filling in patchy areas, creating a more defined beard line, covering scars, or constructing a full beard for those with sparse facial hair genetics.</p>
+    </div>
+  ),
+  "beard-transplant-procedure": (
+    <div className="space-y-4">
+      <p>Using the FUE or DHI technique, healthy hair follicles are extracted from the back or sides of the scalp. These follicles are then carefully implanted into the beard region, meticulously matching the angle and direction of natural beard growth. The result is a completely natural-looking beard that can be grown, shaved, and styled as you wish.</p>
+    </div>
+  ),
+  "mesotherapy-what": (
+    <div className="space-y-4">
+      <p><strong>Mesotherapy</strong> is a versatile, minimally invasive technique that uses micro-injections of vitamins, enzymes, hormones, and plant extracts to rejuvenate and tighten skin, as well as remove excess fat. This customized cocktail is delivered directly into the mesoderm (the middle layer of skin), allowing it to target specific problem areas.</p>
+    </div>
+  ),
+  "mesotherapy-applications": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Common Applications</h3>
+      <ul className="list-disc list-inside space-y-2">
+        <li><strong>Fat & Cellulite Reduction:</strong> Injected into fat-prone areas like the abdomen, thighs, and buttocks, the solution works to break down fat cells (lipolysis), which are then naturally flushed out by the body.</li>
+        <li><strong>Skin Rejuvenation (Meso-Lift):</strong> When applied to the face, neck, and hands, the nutrient-rich formula stimulates collagen and elastin production, improving skin texture, reducing fine lines, and restoring a youthful glow.</li>
+        <li><strong>Hair Loss (Meso-Hair):</strong> Injections into the scalp can improve blood circulation and provide essential nutrients to the hair follicles, helping to slow hair loss and stimulate new growth.</li>
+      </ul>
+    </div>
+  ),
+  "mesotherapy-procedure": (
+    <div className="space-y-4">
+      <p>During the procedure, a series of very fine needles are used to deliver the specialized solution into the target area. The depth of the injections can vary depending on the condition being treated. The procedure is relatively quick, typically lasting 30-60 minutes per session. A topical anesthetic cream may be applied beforehand to minimize discomfort.</p>
+    </div>
+  ),
+  "mesotherapy-recovery": (
+    <div className="space-y-4">
+      <p>Downtime is minimal. You may experience some temporary bruising, swelling, and soreness in the treated area for a few days. Optimal results require a series of treatments, typically spaced 1-2 weeks apart. The total number of sessions will depend on your specific condition and goals, but a course of 6-10 treatments is common.</p>
+    </div>
+  ),
+  "smp-what": (
+    <div className="space-y-4">
+      <p><strong>Micro Scalp Pigmentation (SMP)</strong> is an advanced, non-surgical cosmetic procedure that creates the illusion of fuller, denser hair. It is essentially a highly specialized form of scalp tattoo where tiny, layered dots of pigment are applied to the scalp to replicate the look of natural hair follicles.</p>
+      <p>SMP is an excellent solution for concealing thinning hair, camouflaging scalp scars, or creating a natural-looking &quot;buzz cut&quot; for men with advanced hair loss.</p>
+    </div>
+  ),
+  "smp-procedure": (
+    <div className="space-y-4">
+      <p>The procedure is meticulous and artistic. A skilled practitioner uses a microneedle device to deposit tiny dots of pigment into the upper dermis of the scalp. The color of the pigment is carefully matched to your natural hair color and skin tone. The process is typically completed over 2-4 sessions, each lasting a few hours, to gradually build up density and create a layered, three-dimensional appearance that is indistinguishable from real hair follicles.</p>
+    </div>
+  ),
+  "smp-candidates": (
+    <div className="space-y-4">
+      <p>Ideal candidates for SMP include men and women experiencing various forms of hair loss, those with thinning hair who want to create a look of more density, individuals who want to camouflage scars from surgery or injury, and men with advanced baldness who desire a clean, &quot;shaved head&quot; look.</p>
+    </div>
+  ),
+  "smp-recovery": (
+    <div className="space-y-4">
+      <p>Recovery is minimal with no downtime. You may experience some mild redness on the scalp for 24-48 hours after each session. You will be advised to avoid washing your scalp, intense exercise, and direct sun exposure for a few days after each treatment to allow the pigment to settle. The results are immediate, but the final, settled color will appear after a week or two.</p>
+    </div>
+  ),
+
+  // --- GENERAL SURGERY CONTENT ---
+  "general-surgery-gallbladder": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Gallbladder Surgery (Laparoscopic Cholecystectomy)</h3>
+      <p>This is a minimally invasive surgery to remove the gallbladder, a small organ that stores bile. It is most commonly performed to treat gallstones and the complications they cause. Using a laparoscope, the surgeon makes several small incisions in the abdomen to remove the gallbladder, resulting in less pain and a faster recovery compared to open surgery.</p>
+    </div>
+  ),
+  "general-surgery-hernia": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Hernia Repair Surgery</h3>
+      <p>A hernia occurs when an organ pushes through a weak spot in the surrounding muscle or connective tissue. Our surgeons are experienced in repairing all types of hernias, including inguinal, umbilical, and incisional. The procedure involves pushing the herniated tissue back into place and reinforcing the weakened area, often with a surgical mesh, to prevent recurrence.</p>
+    </div>
+  ),
+  "general-surgery-hemorrhoid": (
+     <div className="space-y-4">
+      <h3 className="font-bold text-lg">Hemorrhoid Surgery (Hemorrhoidectomy)</h3>
+      <p>For severe or persistent hemorrhoids that do not respond to other treatments, a hemorrhoidectomy may be recommended. This surgical procedure involves the removal of the enlarged hemorrhoidal tissue. It is the most effective long-term solution for providing relief from the pain, bleeding, and discomfort of severe hemorrhoids.</p>
+    </div>
+  ),
+  "general-surgery-pilonidal": (
+     <div className="space-y-4">
+      <h3 className="font-bold text-lg">Pilonidal Sinus Surgery</h3>
+      <p>A pilonidal sinus is a small hole or tunnel in the skin, typically at the top of the buttocks. If it becomes infected, it can form a painful abscess. Surgical treatment involves draining the abscess and excising the sinus tract to prevent future infections and promote proper healing.</p>
+    </div>
+  ),
+
+  // --- ORTHOPEDIC SURGERY CONTENT ---
+  "orthopedic-knee-replacement": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Total Knee Replacement</h3>
+      <p>This is a highly successful surgical procedure to resurface a knee damaged by arthritis or injury. The surgeon replaces the damaged cartilage and bone with a high-quality artificial joint (prosthesis). The goal is to relieve pain and restore function, allowing you to return to normal daily activities.</p>
+    </div>
+  ),
+  "orthopedic-hip-replacement": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Total Hip Replacement</h3>
+      <p>A surgical procedure where the diseased or damaged parts of the hip joint are removed and replaced with an artificial implant. This is a common and effective treatment for severe arthritis or hip fractures, designed to alleviate pain, restore mobility, and significantly improve quality of life.</p>
+    </div>
+  ),
+  "orthopedic-arthroscopy": (
+     <div className="space-y-4">
+      <h3 className="font-bold text-lg">Arthroscopic Surgery</h3>
+      <p>Arthroscopy is a minimally invasive surgical (MIS) procedure used to visualize, diagnose, and treat problems inside a joint. The surgeon inserts a tiny camera (arthroscope) into the joint through a small incision. It is commonly used for procedures like repairing meniscus tears in the knee or treating rotator cuff issues in the shoulder, resulting in a much faster recovery time.</p>
+    </div>
+  ),
 };
 
 

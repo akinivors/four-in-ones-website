@@ -1,11 +1,21 @@
-// Patient Journey page
+// In app/journey/page.tsx
 import React from 'react';
+import ServiceHero from '@/app/components/services/ServiceHero';
+import PatientJourney from '@/app/components/services/PatientJourney'; // The timeline component
+import PackageInclusions from '@/app/components/journey/PackageInclusions'; // The new component
+import ServiceCTA from '@/app/components/services/ServiceCTA';
 
 const PatientJourneyPage = () => {
   return (
-    <div className="container mx-auto px-4 py-24 text-center">
-      <h1 className="font-lora text-4xl font-bold">Patient Journey</h1>
-      <p className="mt-4">This page is under construction.</p>
+    <div>
+      <ServiceHero
+        title="Your All-Inclusive Journey"
+        subtitle="From your doorstep to our clinic and back, we manage every detail with precision and care."
+        backgroundImageUrl="/images/doctor-patient-consultation.jpg"
+      />
+      <PatientJourney />
+      <PackageInclusions />
+      <ServiceCTA />
     </div>
   );
 };

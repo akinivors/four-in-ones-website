@@ -1,6 +1,7 @@
 // In app/services/[slug]/page.tsx
 import ServiceHero from '@/app/components/services/ServiceHero';
 import ServiceOverview from '@/app/components/services/ServiceOverview';
+import PackageBanner from '@/app/components/common/PackageBanner';
 import ServiceDetails from '@/app/components/services/ServiceDetails';
 import BenefitsSection from '@/app/components/services/BenefitsSection';
 import RisksSection from '@/app/components/services/RisksSection';
@@ -31,6 +32,7 @@ const ServiceDetailPage = ({ params }: { params: { slug: string } }) => {
         overviewImageUrl={service.overview.overviewImageUrl}
         facts={service.overview.facts}
       />
+      <PackageBanner />
       {service.benefits && <BenefitsSection benefits={service.benefits} />}
       <ServiceDetails
         tabs={service.details.tabs}

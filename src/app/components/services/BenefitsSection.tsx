@@ -3,22 +3,23 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Smile, Eye, Users, ShieldCheck, HeartHandshake, Sparkles } from 'lucide-react';
+import { CheckCircle2, Smile, Eye, Users, ShieldCheck, HeartHandshake, Sparkles, Clock, Award } from 'lucide-react';
 import { Benefit } from '../../../../lib/servicesData';
 
 const iconMap: { [key: string]: React.ElementType } = {
-  CheckCircle2, Smile, Eye, Users, ShieldCheck, HeartHandshake
+  CheckCircle2, Smile, Eye, Users, ShieldCheck, HeartHandshake, Clock, Award
 };
 
 // Gradient color schemes for variety
 const gradients = [
   'from-brand-teal/20 via-brand-teal/10 to-transparent',
   'from-brand-orange/20 via-brand-orange/10 to-transparent',
-  'from-purple-500/20 via-purple-500/10 to-transparent',
+  'from-brand-dark/20 via-brand-dark/10 to-transparent',
 ];
 
 interface BenefitsSectionProps {
   benefits: Benefit[];
+  gridCols?: 2 | 3;
 }
 
 const containerVariants = {
@@ -54,12 +55,12 @@ const iconVariants = {
   }
 };
 
-const BenefitsSection = ({ benefits }: BenefitsSectionProps) => {
+const BenefitsSection = ({ benefits, gridCols = 3 }: BenefitsSectionProps) => {
   return (
-    <section className="relative bg-gradient-to-br from-white via-brand-background/30 to-brand-teal/5 py-20 lg:py-32 overflow-hidden">
+    <section className="relative bg-gradient-to-br from-white via-brand-background/30 to-brand-dark/5 py-20 lg:py-32 overflow-hidden">
       {/* Animated Background Elements */}
       <motion.div 
-        className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-brand-teal/20 to-transparent rounded-full filter blur-3xl"
+        className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-brand-dark/20 to-transparent rounded-full filter blur-3xl"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
@@ -97,7 +98,7 @@ const BenefitsSection = ({ benefits }: BenefitsSectionProps) => {
           ease: "easeInOut"
         }}
       >
-        <Sparkles className="w-6 h-6 text-brand-teal/40" />
+        <Sparkles className="w-6 h-6 text-brand-dark/40" />
       </motion.div>
       <motion.div
         className="absolute bottom-1/3 left-1/4"
@@ -136,7 +137,7 @@ const BenefitsSection = ({ benefits }: BenefitsSectionProps) => {
         </motion.div>
 
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
+          className={`grid grid-cols-1 md:grid-cols-2 ${gridCols === 2 ? 'lg:grid-cols-2' : 'lg:grid-cols-3'} gap-8 max-w-7xl mx-auto`}
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -166,7 +167,7 @@ const BenefitsSection = ({ benefits }: BenefitsSectionProps) => {
                       whileHover="hover"
                     >
                       <div className="absolute inset-0 bg-brand-teal/20 rounded-2xl blur-xl group-hover:bg-brand-teal/30 transition-colors" />
-                      <div className="relative bg-gradient-to-br from-brand-teal to-brand-teal/80 rounded-2xl p-4">
+                      <div className="relative bg-gradient-to-br from-brand-teal to-brand-dark rounded-2xl p-4">
                         <Icon className="h-8 w-8 text-white" />
                       </div>
                       {/* Animated ring */}
@@ -184,7 +185,7 @@ const BenefitsSection = ({ benefits }: BenefitsSectionProps) => {
                     </motion.div>
                   )}
                   
-                  <h3 className="font-lora text-xl lg:text-2xl font-bold text-brand-dark mb-3 group-hover:text-brand-teal transition-colors text-center">
+                  <h3 className="font-lora text-xl lg:text-2xl font-bold text-brand-dark mb-3 group-hover:text-brand-dark transition-colors text-center">
                     {benefit.title}
                   </h3>
                   <p className="text-brand-text leading-relaxed text-center">

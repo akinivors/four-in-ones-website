@@ -1,42 +1,40 @@
-// In app/services/obesity-surgery/page.tsx
-'use client';
+// In app/services/hair-transplant/page.tsx
+"use client";
+
 import React, { useState } from 'react';
-import ServiceHero from '@/app/components/services/ServiceHero';
-import WhyTurkeyBariatric from '@/app/components/services/WhyTurkeyBariatric';
-import ServiceCTA from '@/app/components/services/ServiceCTA';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import ServiceHero from '@/app/components/services/ServiceHero';
+import ServiceCTA from '@/app/components/services/ServiceCTA';
 
+// --- Page Specific Data ---
 const procedures = [
-  {
-    title: "Sleeve Gastrectomy",
-    href: "/services/sleeve-gastrectomy",
-    description: "Remove 80% of the stomach for lasting weight loss",
-    image: "/images/sleeve-gastrectomy-hero.webp",
+  { 
+    slug: 'scalp-hair-transplant', 
+    title: 'Scalp Hair Transplant', 
+    description: 'Restore your hairline and density with FUE & DHI methods.', 
+    category: 'Scalp', 
+    image: '/images/hair-transplant-hero.jpg' 
   },
-  {
-    title: "Gastric Bypass",
-    href: "/services/gastric-bypass",
-    description: "Reroute digestion for maximum results",
-    image: "/images/gastric-bypass-hero.jpg",
+  { 
+    slug: 'eyebrow-transplantation', 
+    title: 'Eyebrow Transplantation', 
+    description: 'Create full, natural-looking eyebrows with precise follicle placement.', 
+    category: 'Facial', 
+    image: '/images/placeholder-procedure.jpg' 
   },
-  {
-    title: "Gastric Balloon",
-    href: "/services/gastric-balloon",
-    description: "Non-surgical temporary weight loss solution",
-    image: "/images/gastric-balloon-hero.png",
+  { 
+    slug: 'beard-transplantation', 
+    title: 'Beard Transplantation', 
+    description: 'Achieve a fuller, more defined beard and mustache.', 
+    category: 'Facial', 
+    image: '/images/placeholder-procedure.jpg' 
   },
-  {
-    title: "Gastric Botox",
-    href: "/services/gastric-botox",
-    description: "Minimally invasive appetite control",
-    image: "/images/gastric-botox-hero.jpg",
-  }
 ];
 
-const ObesitySurgeryCategoryPage = () => {
+const HairTransplantCategoryPage = () => {
   const [hoveredImage, setHoveredImage] = useState<string | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -47,17 +45,18 @@ const ObesitySurgeryCategoryPage = () => {
   return (
     <div>
       <ServiceHero
-        title="Obesity Surgery (Bariatric)"
-        subtitle="Life-changing solutions for long-term weight management and improved health."
-        backgroundImageUrl="/images/obesity-surgery-2.jpg"
+        title="Hair Transplant & Restoration"
+        subtitle="Comprehensive solutions for restoring hair on the scalp, face, and brows."
+        backgroundImageUrl="/images/hair-transplant-category.jpg"
       />
 
       <section className="bg-brand-background py-16 lg:py-24" onMouseMove={handleMouseMove}>
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-lora text-3xl font-bold text-brand-dark">Comprehensive Bariatric Care</h2>
+            <h2 className="font-lora text-3xl font-bold text-brand-dark">Complete Hair Restoration Guide</h2>
             <p className="mt-4 text-brand-text">
-              Bariatric surgery is a powerful tool for individuals who have struggled with severe obesity. These procedures are designed to help you achieve significant, long-term weight loss by altering your digestive system, which helps limit food intake and promotes a feeling of fullness. Our team is dedicated to guiding you toward the solution that best fits your health profile and goals.
+              Explore our advanced hair restoration procedures using the latest FUE and DHI techniques. 
+              Our expert surgeons deliver natural-looking, permanent results tailored to your unique needs.
             </p>
           </div>
 
@@ -97,31 +96,34 @@ const ObesitySurgeryCategoryPage = () => {
             )}
           </AnimatePresence>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {procedures.map((proc) => (
               <Link
-                key={proc.title}
-                href={proc.href}
+                key={proc.slug}
+                href={`/services/${proc.slug}`}
                 onMouseEnter={() => setHoveredImage(proc.image)}
                 onMouseLeave={() => setHoveredImage(null)}
-                className="group flex items-center justify-between p-6 bg-white rounded-xl border border-gray-200 hover:border-brand-teal hover:shadow-lg transition-all"
+                className="group flex flex-col p-6 bg-white rounded-xl border border-gray-200 hover:border-brand-teal hover:shadow-lg transition-all"
               >
-                <div>
-                  <h4 className="font-lora text-xl font-semibold text-brand-dark group-hover:text-brand-teal transition-colors">{proc.title}</h4>
-                  <p className="text-sm text-brand-text/70 mt-1">{proc.description}</p>
+                <div className="flex-1">
+                  <h3 className="font-lora text-xl font-semibold text-brand-dark group-hover:text-brand-teal transition-colors">
+                    {proc.title}
+                  </h3>
+                  <p className="mt-2 text-brand-text/70 text-sm">{proc.description}</p>
                 </div>
-                <ChevronRight className="w-5 h-5 text-brand-teal group-hover:translate-x-1 transition-transform flex-shrink-0 ml-4" />
+                <div className="mt-4 flex items-center text-brand-teal font-semibold group-hover:translate-x-1 transition-transform">
+                  Learn More
+                  <ChevronRight className="w-4 h-4 ml-1" />
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <WhyTurkeyBariatric />
-
-      <ServiceCTA imageUrl="/images/obesity-surgery-2.jpg" />
+      <ServiceCTA imageUrl="/images/hair-transplant-category.jpg" />
     </div>
   );
 };
 
-export default ObesitySurgeryCategoryPage;
+export default HairTransplantCategoryPage;

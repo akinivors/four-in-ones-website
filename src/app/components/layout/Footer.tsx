@@ -55,7 +55,7 @@ export default function Footer() {
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="font-inter text-sm hover:text-brand-teal transition-colors duration-200"
+                    className="font-inter text-sm hover:text-brand-dark transition-colors duration-200"
                   >
                     {link.name}
                   </Link>
@@ -74,7 +74,7 @@ export default function Footer() {
                 <li key={service.name}>
                   <Link
                     href={service.href}
-                    className="font-inter text-sm hover:text-brand-teal transition-colors duration-200"
+                    className="font-inter text-sm hover:text-brand-dark transition-colors duration-200"
                   >
                     {service.name}
                   </Link>
@@ -90,18 +90,18 @@ export default function Footer() {
             </h4>
             <div className="space-y-3">
               <div className="flex items-start space-x-3">
-                <MapPin size={16} className="text-brand-teal mt-1 flex-shrink-0" />
+                <MapPin size={16} className="text-brand-dark mt-1 flex-shrink-0" />
                 <p className="font-inter text-sm">
                   123 Healthcare Plaza<br />
                   Istanbul, Turkey 34000
                 </p>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone size={16} className="text-brand-teal flex-shrink-0" />
+                <Phone size={16} className="text-brand-dark flex-shrink-0" />
                 <p className="font-inter text-sm">+90 212 123 4567</p>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail size={16} className="text-brand-teal flex-shrink-0" />
+                <Mail size={16} className="text-brand-dark flex-shrink-0" />
                 <p className="font-inter text-sm">info@fourinones.com</p>
               </div>
               
@@ -114,7 +114,7 @@ export default function Footer() {
                       <a
                         key={social.name}
                         href={social.href}
-                        className="p-2 rounded-full bg-gray-700 hover:bg-brand-teal transition-colors duration-200"
+                        className="p-2 rounded-full bg-gray-700 hover:bg-brand-dark transition-colors duration-200"
                         aria-label={social.name}
                       >
                         <IconComponent size={18} />
@@ -138,13 +138,13 @@ export default function Footer() {
             <div className="flex space-x-6">
               <Link
                 href="/privacy-policy"
-                className="font-inter text-sm hover:text-brand-teal transition-colors duration-200"
+                className="font-inter text-sm hover:text-brand-dark transition-colors duration-200"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="/terms-of-service"
-                className="font-inter text-sm hover:text-brand-teal transition-colors duration-200"
+                className="font-inter text-sm hover:text-brand-dark transition-colors duration-200"
               >
                 Terms of Service
               </Link>

@@ -38,7 +38,7 @@ export default function FeaturesSection() {
               <div key={index} className="text-center">
                 {/* Icon */}
                 <div className="flex justify-center mb-6">
-                  <IconComponent className="h-12 w-12 text-brand-teal" />
+                  <IconComponent className="h-12 w-12 text-brand-dark" />
                 </div>
                 
                 {/* Title */}
