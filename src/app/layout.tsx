@@ -3,6 +3,7 @@ import { Lora, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import ChatbotProvider from "./components/chatbot/ModernChatbotProvider";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -37,6 +38,7 @@ export default function RootLayout({
           {children}
         </div>
         <Footer />
+        <ChatbotProvider />
       </body>
     </html>
   );

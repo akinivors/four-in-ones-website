@@ -17,7 +17,8 @@ import {
   Syringe,
   Brush,
   ChevronRight,
-  Star
+  Star,
+  Heart
 } from 'lucide-react';const featuredCategories = [
   {
     title: "Plastic & Aesthetic Surgery",
@@ -50,6 +51,14 @@ import {
     href: "/services/cosmetic-dentistry",
     icon: Smile,
     procedures: "Veneers, Implants, Whitening & More"
+  },
+  {
+    title: "IVF & Fertility Treatment",
+    description: "Advanced reproductive technology to help you build your family",
+    imageUrl: "/images/ivf-baby.jpg",
+    href: "/services/ivf-treatment",
+    icon: Heart,
+    procedures: "IVF, ICSI, Egg Retrieval & Transfer"
   },
 ];
 
@@ -111,11 +120,11 @@ const ServicesPage = () => {
             </div>
             <h2 className="font-lora text-3xl md:text-4xl font-bold text-brand-dark">Our Featured Specialties</h2>
             <p className="mt-4 max-w-2xl mx-auto text-brand-text">
-              Explore our most sought-after medical tourism services, trusted by thousands of international patients.
+              From life-changing fertility treatments to transformative cosmetic procedures, explore our most sought-after medical services trusted by thousands of international patients.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {featuredCategories.map((category, index) => {
               const IconComponent = category.icon;
               // Extract slug from href (e.g., "/services/plastic-surgery" -> "plastic-surgery")

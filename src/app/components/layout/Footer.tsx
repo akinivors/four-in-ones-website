@@ -1,5 +1,6 @@
 import { Instagram, Facebook, Twitter, Linkedin, MapPin, Phone, Mail } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   const quickLinks = [
@@ -32,12 +33,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Column 1: Brand Identity */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-lora font-bold text-white">
-              FOUR IN ONE&apos;S
-            </h3>
-            <p className="text-sm font-inter font-medium text-brand-background">
-              HEALTH & REAL ESTATE BEYOND BORDERS
-            </p>
+            <Link href="/" className="relative block h-24 w-64 mb-4" aria-label="Link to Homepage">
+              <Image
+                src="/logo-white.png"
+                alt="FOUR IN ONE'S Logo"
+                fill
+                style={{ objectFit: 'contain', objectPosition: 'left' }}
+                priority
+              />
+            </Link>
             <p className="text-sm font-inter leading-relaxed">
               Connecting you to world-class healthcare and premium real estate opportunities 
               across borders. Your trusted partner for medical tourism and international 

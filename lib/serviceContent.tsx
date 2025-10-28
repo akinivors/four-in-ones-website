@@ -987,6 +987,56 @@ export const contentMap: Record<string, React.ReactNode> = {
       <p>Arthroscopy is a minimally invasive surgical (MIS) procedure used to visualize, diagnose, and treat problems inside a joint. The surgeon inserts a tiny camera (arthroscope) into the joint through a small incision. It is commonly used for procedures like repairing meniscus tears in the knee or treating rotator cuff issues in the shoulder, resulting in a much faster recovery time.</p>
     </div>
   ),
+
+  // --- IVF TREATMENT CONTENT ---
+  "ivf-what": (
+    <div className="space-y-4">
+      <p><strong>In Vitro Fertilization (IVF)</strong> is an advanced reproductive technology that helps individuals and couples achieve pregnancy. The process involves fertilizing an egg with sperm in a specialized laboratory environment, outside of the body. The resulting embryo is then transferred into the uterus to hopefully implant and grow.</p>
+      <p>IVF is a powerful and effective solution for a wide range of infertility issues, offering hope to many who have struggled to conceive naturally.</p>
+    </div>
+  ),
+  "ivf-stages": (
+    <div className="space-y-6">
+      <div>
+        <h4 className="font-bold">1. Ovarian Stimulation</h4>
+        <p>The journey begins with hormone medications to stimulate the ovaries to produce multiple mature eggs, rather than the single egg that typically develops each month.</p>
+      </div>
+      <div>
+        <h4 className="font-bold">2. Egg Retrieval (OPU)</h4>
+        <p>This is a minor surgical procedure performed under light sedation. Using ultrasound guidance, a thin needle is used to collect the mature eggs from the ovaries.</p>
+      </div>
+      <div>
+        <h4 className="font-bold">3. Fertilization & ICSI</h4>
+        <p>In the lab, the retrieved eggs are fertilized with sperm. We often use a technique called ICSI (Intracytoplasmic Sperm Injection), where a single, healthy sperm is injected directly into each egg to maximize the chance of fertilization.</p>
+      </div>
+      <div>
+        <h4 className="font-bold">4. Embryo Culture</h4>
+        <p>The fertilized eggs, now embryos, are cultured in a controlled laboratory environment for 3 to 5 days, allowing them to develop and grow.</p>
+      </div>
+      <div>
+        <h4 className="font-bold">5. Embryo Transfer</h4>
+        <p>The healthiest embryo (or embryos) is selected and transferred into the uterus using a thin, flexible catheter. This is a simple, painless procedure that does not require anesthesia.</p>
+      </div>
+      <div>
+        <h4 className="font-bold">6. Pregnancy Test</h4>
+        <p>Approximately 10-12 days after the embryo transfer, a blood test is performed to determine if the procedure has resulted in a successful pregnancy.</p>
+      </div>
+    </div>
+  ),
+  "ivf-candidates": (
+     <div className="space-y-4">
+      <p>IVF may be recommended for a variety of reasons, including:</p>
+      <ul className="list-disc list-inside space-y-2">
+          <li>Blocked or damaged fallopian tubes</li>
+          <li>Male-factor infertility, such as low sperm count or motility</li>
+          <li>Ovulation disorders or Polycystic Ovary Syndrome (PCOS)</li>
+          <li>Endometriosis</li>
+          <li>Uterine fibroids</li>
+          <li>Reduced ovarian reserve or advanced maternal age</li>
+          <li>Unexplained infertility</li>
+      </ul>
+    </div>
+  ),
 };
 
 

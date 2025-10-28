@@ -1920,6 +1920,59 @@ export const servicesData: Service[] = [
       'drug_allergies',
     ],
   },
+  {
+    slug: "ivf-treatment",
+    hero: {
+      title: "IVF Treatment",
+      subtitle: "Advanced and compassionate fertility solutions to help you build your family.",
+      backgroundImageUrl: "/images/ivf-baby.jpg",
+    },
+    overview: {
+      overviewImageUrl: "/images/ivf-process.jpg",
+      facts: [
+        { label: 'Procedure', value: 'Assisted Reproductive Technology', icon: 'FlaskConical' },
+        { label: 'Cycle Duration', value: 'Approx. 3-4 Weeks', icon: 'Calendar' },
+        { label: 'Primary Goal', value: 'Achieve a Successful Pregnancy', icon: 'Award' },
+        { label: 'Key Technique', value: 'IVF with ICSI', icon: 'Microscope' },
+      ],
+    },
+    benefits: [
+      { icon: "CheckCircle2", title: "Overcomes Infertility Barriers", description: "Provides a powerful solution for a wide range of infertility causes, from blocked tubes to male factor issues." },
+      { icon: "ShieldCheck", title: "High Success Rates", description: "Utilizes advanced lab techniques like ICSI and state-of-the-art technology to maximize the chances of a successful pregnancy." },
+      { icon: "Users", title: "Personalized & Compassionate Care", description: "Our dedicated fertility specialists provide tailored treatment protocols and emotional support throughout your entire journey." },
+    ],
+    details: {
+      tabs: {
+        "What is IVF?": "ivf-what",
+        "The 6 Stages of IVF": "ivf-stages",
+        "Who is a Candidate?": "ivf-candidates",
+      },
+    },
+    risks: [
+      "Ovarian Hyperstimulation Syndrome (OHSS), a reaction to fertility medication",
+      "Multiple pregnancies (twins, triplets), which carry higher health risks",
+      "Complications from the egg retrieval procedure, such as bleeding or infection",
+      "Increased risk of ectopic pregnancy (embryo implanting outside the uterus)",
+      "The emotional, physical, and psychological stress of the treatment process",
+      "The possibility of the treatment cycle being unsuccessful",
+    ],
+    faq: [
+      { question: "Is the IVF process painful?", answer: "Most parts of the IVF process involve minimal discomfort. The hormone injections use very fine needles. The egg retrieval is a short procedure performed under light sedation, so you will not feel pain during the process. The embryo transfer is similar to a Pap smear and is generally painless." },
+      { question: "What are the success rates for IVF?", answer: "Success rates depend on many factors, especially the woman's age and the cause of infertility. Our specialists will provide you with a realistic assessment of your personal chances of success during your consultation." },
+      { question: "What is ICSI and why is it used?", answer: "ICSI stands for Intracytoplasmic Sperm Injection. It's an advanced laboratory technique where a single, healthy sperm is selected and injected directly into an egg. We use it in most cases to dramatically increase the rate of fertilization, especially in cases of male-factor infertility." }
+    ],
+    ctaImage: "/images/ivf-baby.jpg",
+    // NOTE: photoRequirements is intentionally omitted for this sensitive procedure.
+    requiredMedicalQuestions: [
+      'smoking_status',
+      'alcohol_status',
+      'previous_ivf',
+      'previous_ivf_details',
+      'gynecological_history',
+      'previous_pregnancies',
+      'drug_allergies',
+    ],
+  },
 ];
 
 // Helper function to get service data by slug

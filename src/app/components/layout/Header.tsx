@@ -37,15 +37,24 @@ export default function Header() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/">
-              <Image 
-                src="/images/company-logo.jpeg" 
-                alt="Four in One's Logo" 
-                width={100} 
-                height={50} 
-                className="cursor-pointer object-contain h-12 w-auto"
-                priority
-              />
+            <Link href="/" className="relative block h-16 w-56" aria-label="Link to Homepage">
+              {scrolled ? (
+                <Image
+                  src="/logo-transparent.png"
+                  alt="FOUR IN ONE'S Logo"
+                  fill
+                  style={{ objectFit: 'contain', objectPosition: 'left' }}
+                  priority
+                />
+              ) : (
+                <Image
+                  src="/logo-white.png"
+                  alt="FOUR IN ONE'S Logo"
+                  fill
+                  style={{ objectFit: 'contain', objectPosition: 'left' }}
+                  priority
+                />
+              )}
             </Link>
           </div>
 
@@ -96,13 +105,13 @@ export default function Header() {
             <div className="flex flex-col h-full">
               {/* Mobile Menu Header */}
               <div className="flex justify-between items-center p-6 border-b border-gray-200">
-                <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                  <Image 
-                    src="/images/company-logo.jpeg" 
-                    alt="Four in One's Logo" 
-                    width={100} 
-                    height={50} 
-                    className="cursor-pointer object-contain h-10 w-auto"
+                <Link href="/" onClick={() => setIsMenuOpen(false)} className="relative block h-16 w-56" aria-label="Link to Homepage">
+                  <Image
+                    src="/logo-transparent.png"
+                    alt="FOUR IN ONE'S Logo"
+                    fill
+                    style={{ objectFit: 'contain', objectPosition: 'left' }}
+                    priority
                   />
                 </Link>
                 <button

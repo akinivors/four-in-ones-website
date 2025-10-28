@@ -42,4 +42,8 @@ export const allMedicalQuestions: MedicalQuestion[] = [
   { id: 'bmi', label: 'What is your current height and weight (or BMI, if you know it)?', type: 'text' },
   { id: 'tried_weight_loss', label: 'What other weight loss programs or diets have you tried in the past?', type: 'textarea' },
   { id: 'has_gerd', label: 'Do you suffer from GERD or significant acid reflux?', type: 'radio', options: ['Yes', 'No'] },
+  { id: 'previous_ivf', label: 'Have you had previous IVF or fertility treatments?', type: 'radio', options: ['Yes', 'No'] },
+  { id: 'previous_ivf_details', label: 'If yes, please provide details (number of cycles, outcome)', type: 'textarea' },
+  { id: 'gynecological_history', label: 'Do you have a history of conditions like PCOS, endometriosis, or fibroids?', type: 'text' },
+  { id: 'previous_pregnancies', label: 'Have you had any previous pregnancies? If so, please provide details of the outcome.', type: 'textarea' },
 ];
