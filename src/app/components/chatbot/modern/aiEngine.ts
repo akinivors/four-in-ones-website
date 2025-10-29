@@ -2,6 +2,7 @@
 import { ChatbotResponse, ChatContext, KnowledgeSource } from './types'
 import { PRIORITY_INTENTS, SUGGESTIONS, CTA_BUTTONS } from './config'
 import { servicesData, Service } from '../../../../../lib/servicesData'
+import { contentMap } from '../../../../../lib/serviceContent'
 
 export class ModernAIEngine {
   private knowledgeSources: KnowledgeSource[] = []
@@ -175,6 +176,10 @@ export class ModernAIEngine {
         return this.generateProcessResponse(procedure)
       case 'candidates':
         return this.generateCandidatesResponse(procedure)
+      case 'benefits':
+        return this.generateBenefitsResponse(procedure)
+      case 'risks':
+        return this.generateRisksResponse(procedure)
       case 'recovery':
         return this.generateRecoveryResponse(procedure)
       case 'intro':
@@ -293,42 +298,91 @@ export class ModernAIEngine {
     return hasTechnologyWord && (hasQuestionWord || hasProcedureContext)
   }
 
-  private findProcedure(query: string) {
-    const procedures = servicesData
-    
-    // Direct title match
+  private findProcedure(query: string): Service | null {
+    const lowerQuery = query.toLowerCase();
+    const procedures = servicesData;
+
+    // 1. Check for exact or near-exact title matches first
     for (const proc of procedures) {
-      if (query.includes(proc.hero.title.toLowerCase())) {
-        return proc
+      if (lowerQuery.includes(proc.hero.title.toLowerCase())) {
+        return proc;
+      }
+      // Optional: Add check for slug itself
+      if (lowerQuery.includes(proc.slug)) {
+        return proc;
       }
     }
 
-    // Keyword matching
-    const procedureKeywords = {
-      'ivf': ['ivf', 'fertility', 'infertility'],
-      'hair': ['hair', 'transplant', 'fue', 'dhi', 'balding'],
-      'rhinoplasty': ['nose', 'rhinoplasty', 'nasal'],
-      'breast': ['breast', 'augmentation', 'implants'],
-      'gastric': ['gastric', 'weight', 'bariatric', 'sleeve', 'bypass'],
-      'tummy': ['tummy', 'abdomen', 'abdominoplasty']
-    }
+    // 2. Check keywords mapped to specific slugs
+    const procedureKeywords: { [slug: string]: string[] } = {
+      'rhinoplasty': ['nose', 'rhinoplasty', 'nasal job'],
+      'scalp-hair-transplant': ['scalp hair transplant', 'hair loss', 'balding', 'fue', 'dhi'],
+      'eyebrow-transplantation': ['eyebrow transplant', 'eyebrow hair'], // Specific mapping
+      'beard-transplantation': ['beard transplant', 'beard hair'], // Specific mapping
+      'sleeve-gastrectomy': ['sleeve', 'gastric sleeve', 'vsg'],
+      'gastric-bypass': ['gastric bypass', 'bypass surgery'],
+      'gastric-balloon': ['gastric balloon', 'stomach balloon'],
+      'gastric-botox': ['gastric botox', 'stomach botox'],
+      'breast-augmentation': ['breast implants', 'boob job', 'augmentation'],
+      'breast-lift': ['breast lift', 'mastopexy'],
+      'tummy-tuck': ['tummy tuck', 'abdominoplasty'],
+      'bbl': ['bbl', 'brazilian butt lift', 'butt lift'], // Specific mapping for BBL
+      'vaser-liposuction': ['vaser', 'lipo', 'liposuction'],
+      'mummy-makeover': ['mummy makeover', 'mommy makeover'],
+      'facelift': ['facelift', 'rhytidectomy'],
+      'gynecomastia': ['gynecomastia', 'male breast reduction'],
+      'otoplasty': ['otoplasty', 'ear surgery', 'ear pinning'],
+      'arm-lift': ['arm lift', 'brachioplasty'],
+      'thigh-lift': ['thigh lift'],
+      'genital-rejuvenation': ['labiaplasty', 'vaginal rejuvenation'],
+      'scar-removal': ['scar removal', 'scar revision'],
+      'mole-removal': ['mole removal'],
+      'penis-enlargement': ['penis enlargement', 'phalloplasty'],
+      'cosmetic-dentistry': ['dentist', 'dental', 'veneers', 'crowns', 'implants', 'teeth whitening', 'smile makeover'],
+      'eye-surgery': ['eye surgery', 'lasik', 'blepharoplasty', 'cataract'],
+      'transplantation': ['transplant', 'kidney', 'liver', 'bone marrow'],
+      'mesotherapy': ['mesotherapy', 'meso'],
+      'micro-scalp-pigmentation': ['smp', 'scalp tattoo', 'scalp pigmentation'],
+      'general-surgery': ['general surgery', 'gallbladder', 'hernia', 'hemorrhoid'],
+      'orthopedic-surgery': ['orthopedic', 'knee replacement', 'hip replacement'],
+      'ivf-treatment': ['ivf', 'fertility', 'infertility', 'icsi'],
+    };
 
-    for (const [type, keywords] of Object.entries(procedureKeywords)) {
-      if (keywords.some(keyword => query.includes(keyword))) {
-        return procedures.find(p => p.slug.includes(type) || p.hero.title.toLowerCase().includes(type))
+    for (const slug in procedureKeywords) {
+      const keywords = procedureKeywords[slug];
+      if (keywords.some(keyword => lowerQuery.includes(keyword))) {
+        const matchedProcedure = procedures.find(p => p.slug === slug);
+        if (matchedProcedure) {
+          return matchedProcedure; // Return the specific procedure found via keyword
+        }
       }
     }
 
-    return null
+    return null; // No procedure identified
   }
 
   private detectQuestionType(query: string): string {
-    if (query.includes('cost') || query.includes('price')) return 'cost'
-    if (query.includes('process') || query.includes('treatment') || query.includes('procedure')) return 'process'
-    if (query.includes('candidate') || query.includes('eligible')) return 'candidates'
-    if (query.includes('recovery') || query.includes('healing')) return 'recovery'
-    if (query.includes('what is') || query.includes('tell me about')) return 'intro'
-    return 'intro'
+    const lowerQuery = query.toLowerCase(); // Work with lowercase
+
+    if (lowerQuery.includes('cost') || lowerQuery.includes('price')) return 'cost';
+
+    // Check for candidacy keywords FIRST
+    const candidateKeywords = ['candidate', 'eligible', 'suitable', 'good for', 'right for me', 'qualify', 'eligibility', 'requirements'];
+    if (candidateKeywords.some(keyword => lowerQuery.includes(keyword))) return 'candidates';
+
+    // Check for benefits keywords
+    const benefitKeywords = ['benefit', 'benefits', 'advantage', 'advantages', 'pros', 'why choose'];
+    if (benefitKeywords.some(keyword => lowerQuery.includes(keyword))) return 'benefits';
+
+    // Check for risks keywords
+    const riskKeywords = ['risk', 'risks', 'danger', 'dangers', 'side effect', 'side effects', 'complication', 'complications', 'cons'];
+    if (riskKeywords.some(keyword => lowerQuery.includes(keyword))) return 'risks';
+
+    if (lowerQuery.includes('process') || lowerQuery.includes('treatment') || lowerQuery.includes('procedure') || lowerQuery.includes('steps')) return 'process';
+    if (lowerQuery.includes('recovery') || lowerQuery.includes('healing') || lowerQuery.includes('aftercare')) return 'recovery';
+    if (lowerQuery.includes('what is') || lowerQuery.includes('tell me about') || lowerQuery.includes('explain')) return 'intro';
+
+    return 'intro'; // Default remains 'intro'
   }
 
   private getSuggestionsForIntent(intentName: string): string[] {
@@ -375,8 +429,8 @@ export class ModernAIEngine {
   // Procedure response generators
   private generateCostResponse(procedure: Service): ChatbotResponse {
     return {
-      content: `**${procedure.hero.title} Cost:** Our all-inclusive packages provide excellent value with transparent pricing. You'll save 60-80% compared to US/Europe while receiving world-class care. The package includes surgery, luxury accommodation, transfers, flight tickets, and comprehensive aftercare.`,
-      suggestions: ["Get detailed quote", "Package inclusions", "Payment options", "Schedule consultation"],
+      content: `For **${procedure.hero.title}**, pricing is tailored to your specific needs. Our all-inclusive packages offer excellent value. To get a personalized, detailed quote with no obligation, please schedule a free consultation with our medical advisors.`,
+      suggestions: ["Schedule free consultation", "What's in the package?", "How does consultation work?", "Contact options"],
       ctaButton: CTA_BUTTONS.consultation,
       confidence: 0.9,
       source: 'knowledge',
@@ -385,36 +439,121 @@ export class ModernAIEngine {
   }
 
   private generateProcessResponse(procedure: Service): ChatbotResponse {
+    // Handle cases like 'ivf-treatment' slug mapping to 'ivf-stages' key
+    const slugBase = procedure.slug.replace('-treatment', '');
+    const procedureKey = `${slugBase}-procedure`;
+    const stagesKey = `${slugBase}-stages`;
+    const hasSpecificContent = contentMap.hasOwnProperty(procedureKey) || contentMap.hasOwnProperty(stagesKey);
+    
+    const responseContent = hasSpecificContent 
+      ? `**${procedure.hero.title} Process:** Our website has detailed information about the procedure steps. Key aspects generally involve preparation and the surgery itself. Would you like me to guide you to the specific section on our site, or would you prefer to schedule a consultation for a detailed explanation?`
+      : `**${procedure.hero.title} Process:** The journey typically involves an initial consultation, personalized planning, travel arrangements (if needed), the procedure performed by expert surgeons, and comprehensive recovery support. We ensure a smooth process from start to finish.`;
+
     return {
-      content: `**${procedure.hero.title} Process:** Our comprehensive treatment follows a structured approach: consultation and assessment, pre-procedure preparation, the procedure itself, and dedicated recovery support. Our medical team guides you through each step with personalized care.`,
-      suggestions: ["Treatment timeline", "Preparation requirements", "Recovery support", "Schedule consultation"],
+      content: responseContent,
+      suggestions: [
+        "What happens before surgery?",
+        "Tell me about the surgery day", 
+        "Aftercare details",
+        "Schedule consultation"
+      ],
       ctaButton: CTA_BUTTONS.consultation,
       confidence: 0.9,
       source: 'knowledge',
-      intent: 'procedure_process'
-    }
+      intent: 'process_inquiry'
+    };
   }
 
   private generateCandidatesResponse(procedure: Service): ChatbotResponse {
+    // Handle potential key mismatches like 'ivf-treatment' slug -> 'ivf-candidates' key
+    const slugBase = procedure.slug.replace('-treatment', '');
+    const candidatesKey = `${slugBase}-candidates`;
+    const hasSpecificContent = contentMap.hasOwnProperty(candidatesKey);
+
+    const responseContent = hasSpecificContent
+      ? `**${procedure.hero.title} Candidates:** Generally, good candidates are in good health with realistic expectations. Our website provides more specific criteria for this procedure. The best way to know if you're suitable is through a free consultation where our specialists can perform a thorough evaluation.`
+      : `**${procedure.hero.title} Candidates:** Suitability depends on various factors including your health, specific goals, and medical history. Ideal candidates generally have realistic expectations. A personalized evaluation during a free consultation is the best way to determine if this procedure is right for you.`;
+
     return {
-      content: `**${procedure.hero.title} Candidates:** Ideal candidates are individuals in good health with realistic expectations who meet specific criteria for this procedure. Our specialists conduct thorough evaluations to determine suitability and create personalized treatment plans.`,
-      suggestions: ["Am I suitable?", "Consultation process", "Medical requirements", "Schedule evaluation"],
+      content: responseContent,
+      suggestions: ["What are the health requirements?", "Tell me about realistic expectations", "How does the evaluation work?", "Schedule consultation"],
       ctaButton: CTA_BUTTONS.consultation,
       confidence: 0.9,
       source: 'knowledge',
       intent: 'procedure_candidates'
-    }
+    };
   }
 
   private generateRecoveryResponse(procedure: Service): ChatbotResponse {
+    // Handle potential key mismatches
+    const slugBase = procedure.slug.replace('-treatment', '');
+    const recoveryKey = `${slugBase}-recovery`;
+    const hasSpecificContent = contentMap.hasOwnProperty(recoveryKey);
+
+    const responseContent = hasSpecificContent
+      ? `**${procedure.hero.title} Recovery:** Recovery involves specific aftercare instructions, which are detailed on our website. Key aspects often include managing swelling, activity restrictions, and follow-up care. For personalized recovery details based on your health, please schedule a free consultation.`
+      : `**${procedure.hero.title} Recovery:** After your procedure, our team provides comprehensive aftercare instructions and support. Recovery times vary, but typically involve a period of rest, managing discomfort, and gradual return to activities. A consultation will provide a more specific timeline for you.`;
+
     return {
-      content: `**${procedure.hero.title} Recovery:** We provide comprehensive aftercare support, detailed recovery instructions, and 24/7 medical assistance throughout your healing process. Recovery times vary, but our team ensures optimal healing with ongoing support.`,
-      suggestions: ["Recovery timeline", "Aftercare support", "When can I travel?", "Post-op guidance"],
+      content: responseContent,
+      suggestions: ["What are typical recovery times?", "Activity restrictions?", "Follow-up schedule", "Ask about aftercare"],
       ctaButton: CTA_BUTTONS.consultation,
       confidence: 0.9,
       source: 'knowledge',
       intent: 'procedure_recovery'
+    };
+  }
+
+  private generateBenefitsResponse(procedure: Service): ChatbotResponse {
+    let responseContent = '';
+    let responseSuggestions: string[] = [];
+
+    if (procedure.benefits && procedure.benefits.length > 0) {
+      // Format the benefits into a string (e.g., using map and join)
+      const benefitsList = procedure.benefits
+        .map(b => `* **${b.title}:** ${b.description}`)
+        .join('\n');
+      responseContent = `**Benefits of ${procedure.hero.title}:**\n${benefitsList}`;
+      responseSuggestions = ["Tell me about risks", "What's the process?", "Am I a candidate?", "Schedule consultation"];
+    } else {
+      responseContent = `**${procedure.hero.title}** offers significant advantages tailored to patient goals. For specific benefits relevant to your situation, please schedule a consultation with our specialists.`;
+      responseSuggestions = ["What are the risks?", "Procedure details", "Recovery info", "Schedule consultation"];
     }
+
+    return {
+      content: responseContent,
+      suggestions: responseSuggestions,
+      ctaButton: CTA_BUTTONS.consultation,
+      confidence: 0.9,
+      source: 'knowledge',
+      intent: 'procedure_benefits'
+    };
+  }
+
+  private generateRisksResponse(procedure: Service): ChatbotResponse {
+    let responseContent = '';
+    let responseSuggestions: string[] = [];
+
+    if (procedure.risks && procedure.risks.length > 0) {
+      // Format the risks into a string
+      const risksList = procedure.risks
+        .map(risk => `* ${risk}`)
+        .join('\n');
+      responseContent = `**Potential Risks of ${procedure.hero.title}:**\nLike any surgical procedure, there are potential risks. Common ones include:\n${risksList}\n\nPlease note this is not a complete list. It's crucial to discuss all potential risks thoroughly with your surgeon during a consultation.`;
+      responseSuggestions = ["Tell me about benefits", "What's the process?", "How is safety ensured?", "Schedule consultation"];
+    } else {
+      responseContent = `Every medical procedure carries some level of risk. For detailed information specific to **${procedure.hero.title}** and your health profile, please schedule a consultation with our medical team.`;
+      responseSuggestions = ["What are the benefits?", "Procedure details", "Recovery info", "Schedule consultation"];
+    }
+
+    return {
+      content: responseContent,
+      suggestions: responseSuggestions,
+      ctaButton: CTA_BUTTONS.consultation,
+      confidence: 0.9,
+      source: 'knowledge',
+      intent: 'procedure_risks'
+    };
   }
 
   private generateProcedureIntro(procedure: Service): ChatbotResponse {
