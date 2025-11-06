@@ -58,6 +58,13 @@ export interface Intent {
   priority: number
 }
 
+export interface ConversationHistoryItem {
+  query: string
+  intent: string
+  timestamp: Date
+  procedureSlug?: string
+}
+
 export interface ChatContext {
   sessionId: string
   userId?: string
@@ -65,6 +72,14 @@ export interface ChatContext {
   currentTopic?: string
   userPreferences?: Record<string, string | number | boolean>
   metadata: Record<string, string | number | boolean>
+  // Enhanced context tracking
+  lastProcedure?: {
+    slug: string
+    title: string
+    timestamp: Date
+  }
+  conversationHistory: ConversationHistoryItem[]
+  queryCount: number
 }
 
 export interface KnowledgeSource {

@@ -15,7 +15,7 @@ const testimonials = [
     procedure: "Mummy Makeover Patient"
   },
   {
-    quote: "I was nervous about traveling for surgery, but the FOUR IN ONE'S team made it feel like a luxury vacation. From the VIP airport transfer to the constant support, every detail was taken care of. 10/10 experience.",
+    quote: "I was nervous about traveling for surgery, but the Get Beauty and Health team made it feel like a luxury vacation. From the VIP airport transfer to the constant support, every detail was taken care of. 10/10 experience.",
     name: "David R.",
     procedure: "Hair Transplant Patient"
   },

@@ -37,24 +37,14 @@ export default function Header() {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="relative block h-16 w-56" aria-label="Link to Homepage">
-              {scrolled ? (
-                <Image
-                  src="/logo-transparent.png"
-                  alt="FOUR IN ONE'S Logo"
-                  fill
-                  style={{ objectFit: 'contain', objectPosition: 'left' }}
-                  priority
-                />
-              ) : (
-                <Image
-                  src="/logo-white.png"
-                  alt="FOUR IN ONE'S Logo"
-                  fill
-                  style={{ objectFit: 'contain', objectPosition: 'left' }}
-                  priority
-                />
-              )}
+            <Link href="/" className="relative block h-20 w-64" aria-label="Link to Homepage">
+              <Image
+                src="/logo-main.png"
+                alt="Get Beauty and Health - Medical Tourism Logo"
+                fill
+                style={{ objectFit: 'contain', objectPosition: 'left' }}
+                priority
+              />
             </Link>
           </div>
 
@@ -107,8 +97,8 @@ export default function Header() {
               <div className="flex justify-between items-center p-6 border-b border-gray-200">
                 <Link href="/" onClick={() => setIsMenuOpen(false)} className="relative block h-16 w-56" aria-label="Link to Homepage">
                   <Image
-                    src="/logo-transparent.png"
-                    alt="FOUR IN ONE'S Logo"
+                    src="/logo-main.png"
+                    alt="Get Beauty and Health - Medical Tourism Logo"
                     fill
                     style={{ objectFit: 'contain', objectPosition: 'left' }}
                     priority

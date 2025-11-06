@@ -50,10 +50,16 @@ export const PRIORITY_INTENTS: Intent[] = [
   {
     name: 'package_inclusions',
     patterns: [
-      'what includes',
-      'package include',
+      'what does the package include',
+      "what's in the package",
+      "what's included in",
+      'what is included in',
+      'tell me about the package',
+      'tell me about packages',
+      'about the package',
+      'about packages',
+      'package details',
       'all-inclusive',
-      'what covers',
       'comprehensive package'
     ],
     response: "Our all-inclusive packages include: Complete medical care, luxury hotel accommodation, VIP transfers, round-trip flight tickets, 24/7 personal support, and comprehensive aftercare. Everything is covered with transparent pricing.",
@@ -66,9 +72,6 @@ export const PRIORITY_INTENTS: Intent[] = [
       'choose hotel',
       'hotel options',
       'which hotel',
-      'hotel stay',
-      'accommodation',
-      'where stay',
       'pre-assigned',
       'hotel selection',
       'pick hotel',
@@ -77,8 +80,6 @@ export const PRIORITY_INTENTS: Intent[] = [
       'what kind of hotels',
       'kind of hotels',
       'type of hotels',
-      'choice in where i stay',
-      'choice in where',
       'get any choice',
       'about hotels',
       'know about hotels',
@@ -94,6 +95,8 @@ export const PRIORITY_INTENTS: Intent[] = [
     name: 'cost_savings',
     patterns: [
       'how much save',
+      'save money',
+      'can i save',
       'cost comparison',
       'cheaper than',
       'savings',
@@ -104,19 +107,31 @@ export const PRIORITY_INTENTS: Intent[] = [
     priority: 4
   },
   {
+    name: 'view_procedures',
+    patterns: [
+      'view all procedures',
+      'show all procedures',
+      'list all procedures',
+      'show me procedures',
+      'view procedures',
+      'list procedures',
+      'see all procedures',
+      'browse procedures',
+      'available procedures'
+    ],
+    response: "We offer a comprehensive range of procedures across multiple specialties:\n\n**Bariatric Surgery:** Gastric Sleeve, Gastric Bypass, Gastric Balloon, Gastric Botox\n\n**Hair Transplant:** FUE, DHI, Eyebrow & Beard Transplantation\n\n**Plastic Surgery:** Rhinoplasty, BBL, Liposuction, Breast Augmentation, Tummy Tuck, Facelift, and more\n\n**Fertility:** IVF Treatment\n\n**Dental:** Veneers, Implants, Crowns, Smile Makeover\n\n**Eye Surgery:** LASIK, Blepharoplasty, Cataract\n\n**Plus:** Transplantation, Orthopedic, Neurosurgery, and da Vinci Robotic Surgery",
+    confidence: 0.95,
+    priority: 4.5
+  },
+  {
     name: 'safety_quality',
     patterns: [
       'safe surgery',
       'quality care',
-      'jci accredited',
       'qualified surgeons',
       'hospital standards',
       'quality of hospitals',
       'hospital quality',
-      'accreditations',
-      'certifications',
-      'accredited',
-      'certified',
       'nervous about quality',
       'worried about quality',
       'hospital certifications',
@@ -170,27 +185,70 @@ export const PRIORITY_INTENTS: Intent[] = [
 export const SUGGESTIONS = {
   initial: [
     "What procedures do you offer?",
-    "Are flights included in packages?", 
+    "Tell me about packages",
     "How much can I save?",
-    "Is it safe?"
+    "Is it safe in Turkey?"
   ],
   procedure_interest: [
-    "Treatment process details",
+    "How does the procedure work?",
     "Am I a good candidate?",
-    "Recovery timeline",
+    "Recovery time",
     "Get cost estimate"
   ],
   cost_inquiry: [
-    "What's included in packages?",
-    "Payment options",
-    "Schedule consultation",
-    "Compare with home country"
+    "What's included?",
+    "Payment plans available?",
+    "Schedule free consultation",
+    "How much do I save?"
   ],
   booking_ready: [
-    "Book free consultation",
-    "Speak to medical expert",
+    "Schedule free consultation",
+    "Speak to coordinator",
     "Get personalized quote",
-    "Start my journey"
+    "What happens next?"
+  ],
+  // New contextual suggestions
+  afterIntro: [
+    "How does it work?",
+    "What are the benefits?",
+    "Am I suitable?",
+    "Recovery timeline"
+  ],
+  afterCost: [
+    "What's included?",
+    "Payment options?",
+    "Book consultation",
+    "See success stories"
+  ],
+  afterProcess: [
+    "Recovery details",
+    "What are the risks?",
+    "How long in Turkey?",
+    "Book consultation"
+  ],
+  afterCandidates: [
+    "What's the process?",
+    "Success rates",
+    "Recovery time",
+    "Get evaluated"
+  ],
+  afterBenefits: [
+    "What are the risks?",
+    "See before & after",
+    "Recovery time",
+    "Book consultation"
+  ],
+  afterRisks: [
+    "Safety measures",
+    "Success rates",
+    "What are the benefits?",
+    "Speak to a surgeon"
+  ],
+  afterRecovery: [
+    "Travel arrangements",
+    "Package details",
+    "Aftercare support",
+    "Get started"
   ]
 }
 

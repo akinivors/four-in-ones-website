@@ -1,0 +1,28 @@
+{
+  "name": "Get Beauty and Health - Medical Tourism",
+  "short_name": "Get Beauty Health",
+  "description": "Premium medical tourism services in Turkey with JCI-accredited hospitals",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#5EEAD4",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-main.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["health", "medical", "lifestyle"],
+  "screenshots": []
+}
+
+

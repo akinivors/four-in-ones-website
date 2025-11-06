@@ -22,15 +22,15 @@ const StorySection = () => {
 
           {/* Right Column: Content */}
           <div>
-            <h2 className="font-lora text-3xl font-bold text-brand-dark">Our Story: Health, Home, and Harmony</h2>
+            <h2 className="font-lora text-3xl font-bold text-brand-dark">Our Story: Your Journey to Beauty and Health</h2>
             <p className="mt-4 font-semibold text-brand-text text-lg">
-              FOUR IN ONE&apos;S was founded on a simple yet powerful belief: world-class healthcare and life-changing opportunities should be accessible to everyone, without compromise.
+              Get Beauty and Health was founded on a simple yet powerful belief: world-class healthcare should be accessible to everyone, without compromise.
             </p>
             <p className="mt-4 text-brand-text">
-              We saw firsthand the challenges patients faced when seeking medical care abroad—navigating complex systems, language barriers, and uncertain quality. We also saw the immense potential of Turkey as a global hub for both medical excellence and strategic real estate investment.
+              We saw firsthand the challenges patients faced when seeking medical care abroad—navigating complex systems, language barriers, and uncertain quality. We also saw the immense potential of Turkey as a global hub for medical excellence, combining cutting-edge technology with compassionate care.
             </p>
             <p className="mt-4 text-brand-text">
-              We created FOUR IN ONE&apos;S to bridge that gap. Our mission is to provide a seamless, stress-free journey where every detail, from your surgical procedure to your accommodation, is managed with precision, empathy, and an unwavering commitment to your well-being.
+              We created Get Beauty and Health to bridge that gap. Our mission is to provide a seamless, stress-free medical tourism journey where every detail—from your initial consultation to your full recovery—is managed with precision, empathy, and an unwavering commitment to your well-being.
             </p>
           </div>
         </div>

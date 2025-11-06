@@ -33,19 +33,21 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Column 1: Brand Identity */}
           <div className="space-y-4">
-            <Link href="/" className="relative block h-24 w-64 mb-4" aria-label="Link to Homepage">
-              <Image
-                src="/logo-white.png"
-                alt="FOUR IN ONE'S Logo"
-                fill
-                style={{ objectFit: 'contain', objectPosition: 'left' }}
-                priority
-              />
-            </Link>
-            <p className="text-sm font-inter leading-relaxed">
-              Connecting you to world-class healthcare and premium real estate opportunities 
-              across borders. Your trusted partner for medical tourism and international 
-              property investments.
+            <div className="bg-white rounded-xl p-6 mb-4 shadow-lg">
+              <Link href="/" className="relative block h-24 w-full" aria-label="Link to Homepage">
+                <Image
+                  src="/logo-main.png"
+                  alt="Get Beauty and Health - Medical Tourism Logo"
+                  fill
+                  style={{ objectFit: 'contain', objectPosition: 'center' }}
+                  priority
+                />
+              </Link>
+            </div>
+            <p className="text-sm font-inter leading-relaxed text-gray-300">
+              Your trusted partner for world-class medical tourism in Turkey. 
+              Connecting you to JCI-accredited hospitals, board-certified surgeons, 
+              and comprehensive care packages at 60-80% savings.
             </p>
           </div>
 
@@ -137,7 +139,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
             <p className="font-inter text-sm">
-              &copy; 2025 FOUR IN ONE&apos;S. All rights reserved.
+              &copy; 2025 Get Beauty and Health. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <Link

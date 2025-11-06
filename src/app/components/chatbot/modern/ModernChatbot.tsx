@@ -3,6 +3,7 @@
 // Modern Chatbot Component - Clean, Responsive, Accessible
 import React, { useState, useEffect, useRef } from 'react'
 import { MessageCircle, X, Send, Bot, User } from 'lucide-react'
+import Image from 'next/image'
 import { ChatMessage, ChatContext } from './types'
 import { ModernAIEngine } from './aiEngine'
 import { CHATBOT_CONFIG, SUGGESTIONS } from './config'
@@ -26,7 +27,9 @@ export default function ModernChatbot({
   const [context, setContext] = useState<ChatContext>({
     sessionId: `session_${Date.now()}`,
     previousMessages: [],
-    metadata: {}
+    metadata: {},
+    conversationHistory: [],
+    queryCount: 0
   })
 
   // Refs
@@ -85,9 +88,8 @@ export default function ModernChatbot({
         ...context,
         previousMessages: [...context.previousMessages, userMessage]
       }
-      setContext(updatedContext)
 
-      // Generate AI response
+      // Generate AI response (this will modify updatedContext with conversationHistory, lastProcedure, etc.)
       const response = await aiEngine.current.generateResponse(message, updatedContext)
 
       // Simulate typing delay
@@ -102,18 +104,19 @@ export default function ModernChatbot({
           metadata: {
             confidence: response.confidence,
             source: response.source,
-            intent: response.intent
+            intent: response.intent,
+            procedure: updatedContext.lastProcedure?.slug // Include procedure in metadata
           }
         }
 
         setMessages(prev => [...prev, botMessage])
         setIsTyping(false)
 
-        // Update context with bot response
-        setContext(prev => ({
-          ...prev,
-          previousMessages: [...prev.previousMessages, botMessage]
-        }))
+        // Update context with bot response AND preserve context updates from generateResponse
+        setContext({
+          ...updatedContext, // Includes conversationHistory, queryCount, lastProcedure from generateResponse
+          previousMessages: [...updatedContext.previousMessages, botMessage]
+        })
       }, CHATBOT_CONFIG.behavior.typingDelay)
 
     } catch (error) {
@@ -173,15 +176,26 @@ export default function ModernChatbot({
       <button
         onClick={() => setIsOpen(!isOpen)}
         className={`fixed ${position === 'bottom-right' ? 'bottom-6 right-6' : 'bottom-6 left-6'} 
-                   z-50 p-4 rounded-full shadow-2xl transition-all duration-300 
+                   z-50 rounded-full shadow-2xl transition-all duration-300 
                    ${isOpen 
-                     ? 'bg-red-500 hover:bg-red-600' 
-                     : 'bg-blue-600 hover:bg-blue-700 animate-pulse'
-                   } text-white border-4 border-white`}
+                     ? 'bg-red-500 hover:bg-red-600 p-4' 
+                     : 'bg-white hover:bg-gray-50 p-2 animate-pulse border-4 border-teal-400'
+                   }`}
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
-        style={{ width: '60px', height: '60px' }}
+        style={{ width: '64px', height: '64px' }}
       >
-        {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
+        {isOpen ? (
+          <X size={24} className="text-white" />
+        ) : (
+          <div className="relative w-full h-full">
+            <Image
+              src="/logo-icon.png"
+              alt="Chat"
+              fill
+              style={{ objectFit: 'contain' }}
+            />
+          </div>
+        )}
       </button>
 
       {/* Chat Window */}
@@ -191,15 +205,23 @@ export default function ModernChatbot({
                         animate-in slide-in-from-bottom-2 duration-300`}>
           
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-4 rounded-t-2xl">
-            <div className="flex items-center space-x-3">
-              <div className="bg-white/20 p-2 rounded-full">
-                <Bot size={20} />
+          <div className="bg-white border-b border-gray-200 p-4 rounded-t-2xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <div className="relative w-10 h-10 flex-shrink-0">
+                  <Image
+                    src="/logo-icon.png"
+                    alt="Logo"
+                    fill
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-800">Medical Assistant</h3>
+                  <p className="text-xs text-gray-500">AI-powered support</p>
+                </div>
               </div>
-              <div>
-                <h3 className="font-semibold">Medical Assistant</h3>
-                <p className="text-xs opacity-90">AI-powered support</p>
-              </div>
+              <div className="bg-green-500 w-2 h-2 rounded-full"></div>
             </div>
           </div>
 

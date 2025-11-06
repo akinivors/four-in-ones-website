@@ -17,7 +17,7 @@ export default function TestimonialsSection() {
     },
     {
       id: 2,
-      quote: "I was nervous about medical tourism, but FOUR IN ONE'S made everything seamless. The facilities were world-class and the results speak for themselves.",
+      quote: "I was nervous about medical tourism, but Get Beauty and Health made everything seamless. The facilities were world-class and the results speak for themselves.",
       author: "Michael R.",
       service: "Hair Transplant Patient",
       rating: 5,

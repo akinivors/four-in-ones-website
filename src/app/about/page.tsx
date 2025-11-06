@@ -13,8 +13,8 @@ const AboutUsPage = () => {
   return (
     <div>
       <ServiceHero
-        title="About FOUR IN ONE'S"
-        subtitle="Your Trusted Partner in Health and Real Estate Beyond Borders"
+        title="About Get Beauty and Health"
+        subtitle="Your Trusted Partner in World-Class Medical Tourism"
         backgroundImageUrl="/images/about-us-hero.jpg" // AI: Find a professional image of a modern, clean clinic interior
       />
       <StorySection />
