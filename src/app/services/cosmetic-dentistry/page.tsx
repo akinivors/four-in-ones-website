@@ -1,5 +1,7 @@
 // In app/services/cosmetic-dentistry/page.tsx
-import { getServiceBySlug } from '../../../../lib/servicesData';
+// --- FIX: Updated import path ---
+import { getServiceBySlug } from '@/lib/servicesData';
+
 import { notFound } from 'next/navigation';
 import ServiceHero from '@/app/components/services/ServiceHero';
 import ServiceOverview from '@/app/components/services/ServiceOverview';
@@ -7,10 +9,10 @@ import BenefitsSection from '@/app/components/services/BenefitsSection';
 import SmileGallery from '@/app/components/services/SmileGallery';
 import InteractiveDentalGrid from '@/app/components/services/InteractiveDentalGrid';
 import MaterialsShowcase from '@/app/components/services/MaterialsShowcase';
-import RisksSection from '@/app/components/services/RisksSection';
 import PatientJourney from '@/app/components/services/PatientJourney';
 import ServiceFAQ from '@/app/components/services/ServiceFAQ';
 import ServiceCTA from '@/app/components/services/ServiceCTA';
+import ServiceDetails from '@/app/components/services/ServiceDetails';
 
 const CosmeticDentistryPage = () => {
   const service = getServiceBySlug('cosmetic-dentistry');
@@ -45,7 +47,12 @@ const CosmeticDentistryPage = () => {
       
       <MaterialsShowcase />
       
-      {service.risks && <RisksSection risks={service.risks} />}
+      {service.details && (
+        <ServiceDetails
+          tabs={service.details.tabs}
+          risks={service.risks}
+        />
+      )}
       
       <PatientJourney />
       

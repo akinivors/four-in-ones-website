@@ -23,6 +23,7 @@ export default function Header() {
     { name: 'Services', href: '/services' },
     { name: 'The Patient Journey', href: '/journey' },
     { name: 'About Us', href: '/about' },
+    { name: 'Insurance', href: '/insurance' },
     { name: 'FAQ', href: '/faq' },
     { name: 'Contact', href: '/contact' },
   ];

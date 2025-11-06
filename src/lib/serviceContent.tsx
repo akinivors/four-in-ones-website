@@ -292,6 +292,93 @@ export const contentMap: Record<string, React.ReactNode> = {
     </div>
   ),
 
+  // --- Breast Reduction Content ---
+  "br_what_is": (
+    <div className="space-y-4">
+      <p>
+        Breast reduction surgery, or reduction mammaplasty, is a procedure to remove excess 
+        breast fat, glandular tissue, and skin to achieve a breast size more in proportion 
+        with your body.
+      </p>
+      <p>
+        For many women, this procedure is about more than just aesthetics; it's a life-changing 
+        solution to alleviate the physical and emotional discomfort associated with overly 
+        large breasts (macromastia). This can include chronic back, neck, and shoulder pain, 
+        skin irritation, and difficulty living an active lifestyle.
+      </p>
+    </div>
+  ),
+  "br_candidates": (
+    <div className="space-y-4">
+      <p>
+        Ideal candidates for breast reduction are individuals who are in good general health, 
+        do not smoke, and have realistic expectations. You may be a good candidate if you:
+      </p>
+      <ul className="list-disc list-outside space-y-2 pl-5">
+        <li>Experience chronic pain in your back, neck, or shoulders.</li>
+        <li>Have grooves in your shoulders from bra straps.</li>
+        <li>Suffer from skin irritation or rashes beneath your breasts.</li>
+        <li>Find that your breast size limits your physical activity.</li>
+        <li>Feel self-conscious about your large breasts.</li>
+        <li>Are finished with child-bearing (as pregnancy can alter results).</li>
+      </ul>
+    </div>
+  ),
+  "br_procedure_recovery": (
+    <div className="space-y-4">
+      <h4 className="font-bold text-brand-dark">The Procedure</h4>
+      <p>
+        Performed under general anesthesia (2-4 hours), your surgeon will make incisions 
+        (typically in an "anchor" or "lollipop" shape) to remove excess tissue, fat, 
+        and skin. The nipple and areola are then repositioned to a higher, more 
+        youthful position, and the incisions are closed to reshape the new, smaller breast.
+      </p>
+      
+      <h4 className="font-bold text-brand-dark mt-6">Recovery</h4>
+      <p>
+        Your recovery is closely monitored by our team.
+      </p>
+      <ul className="list-disc list-outside space-y-2 pl-5">
+        <li>
+          <strong>Hospital Stay:</strong> You will typically stay 1 night in the hospital 
+          for observation.
+        </li>
+        <li>
+          <strong>First Week:</strong> You will wear a special surgical support bra 24/7. 
+          Swelling and discomfort are normal. Avoid any lifting.
+        </li>
+        <li>
+          <strong>Weeks 2-6:</strong> You can usually return to a non-strenuous desk job 
+          within 1-2 weeks. You must avoid heavy lifting and high-impact exercise 
+          for at least 6 weeks.
+        </li>
+        <li>
+          <strong>Long-Term:</strong> Scars will mature and fade over 6-12 months. 
+          Final results will be visible as swelling fully resolves.
+        </li>
+      </ul>
+    </div>
+  ),
+  "br_comparison": (
+    <div className="space-y-4">
+      <p>
+        It's common to confuse these two procedures, but they serve very different purposes.
+      </p>
+      <h4 className="font-bold text-brand-dark">Breast Reduction</h4>
+      <p>
+        The primary goal is to <strong>reduce size and weight</strong>. This procedure 
+        removes fat, tissue, and skin. While it does provide a lift, its main 
+        purpose is to make the breasts smaller and alleviate physical symptoms.
+      </p>
+      <h4 className="font-bold text-brand-dark">Breast Lift (Mastopexy)</h4>
+      <p>
+        The primary goal is to <strong>correct sagging (ptosis)</strong>. This 
+        procedure removes excess skin and tightens surrounding tissue to lift and 
+        reshape the breast. It does *not* significantly reduce the size of the breasts.
+      </p>
+    </div>
+  ),
+
   // --- Tummy Tuck Content ---
   "tummy-tuck-what": (
     <div className="space-y-4">

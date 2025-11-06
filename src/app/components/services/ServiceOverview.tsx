@@ -4,7 +4,9 @@
 import React from 'react';
 import Image from 'next/image';
 import { Clock, UserCheck, Hospital, Smile, Scissors, Minimize2, Cookie, BedDouble, Combine, Activity, RotateCcw, Pill, Camera, Calendar, TrendingDown, Target, Syringe } from 'lucide-react';
-import { ServiceFact } from '../../../../lib/servicesData';
+
+// --- FIX: Updated import path ---
+import { ServiceFact } from '@/lib/servicesData';
 
 // Icon mapping
 const iconMap: { [key: string]: React.ElementType } = {
@@ -38,7 +40,8 @@ const ServiceOverview = ({ overviewImageUrl, facts }: ServiceOverviewProps) => {
         <div className="bg-brand-background p-8 rounded-lg">
           <h2 className="font-lora text-3xl font-bold text-brand-dark mb-6">Quick Facts</h2>
           <ul className="space-y-4">
-            {facts.map((fact) => {
+            {/* --- FIX: Added 'ServiceFact' type to map parameter --- */}
+            {facts.map((fact: ServiceFact) => {
               const IconComponent = iconMap[fact.icon];
               return (
                 <li key={fact.label} className="flex items-start">

@@ -81,7 +81,6 @@ export const servicesData: Service[] = [
         "The Procedure": "rhinoplasty-procedure",
         "Preparation & Candidates": "rhinoplasty-preparation",
         "Recovery & Aftercare": "rhinoplasty-recovery",
-        "Risks & Safety": "rhinoplasty-risks",
       },
     },
     risks: [
@@ -164,7 +163,6 @@ export const servicesData: Service[] = [
         "The Techniques": "hair-transplant-procedure",
         "Grafts & Planning": "hair-transplant-preparation",
         "Aftercare & Recovery": "hair-transplant-recovery",
-        "Risks & Safety": "risks-general-surgery",
       },
     },
     benefits: [
@@ -238,7 +236,6 @@ export const servicesData: Service[] = [
         "Candidates": "sleeve-gastrectomy-candidates",
         "Preparation": "sleeve-gastrectomy-preparation",
         "Recovery & Nutrition": "sleeve-gastrectomy-recovery",
-        "Risks & Safety": "bariatric-surgery-risks",
       },
     },
     benefits: [
@@ -324,7 +321,6 @@ export const servicesData: Service[] = [
         "The Procedure": "gastric-bypass-procedure",
         "Candidates": "gastric-bypass-preparation",
         "Recovery": "gastric-bypass-recovery",
-        "Risks & Safety": "bariatric-surgery-risks",
       },
     },
     benefits: [
@@ -545,7 +541,6 @@ export const servicesData: Service[] = [
         "The Procedure": "breast-augmentation-procedure",
         "Candidates": "breast-augmentation-candidates",
         "Recovery": "breast-augmentation-recovery",
-        "Risks & Safety": "breast-surgery-risks",
       },
     },
     faq: [
@@ -615,7 +610,6 @@ export const servicesData: Service[] = [
         "The Procedure": "breast-lift-procedure",
         "Candidates": "breast-lift-candidates",
         "Recovery": "breast-lift-recovery",
-        "Risks & Safety": "breast-surgery-risks",
       },
     },
     faq: [
@@ -645,6 +639,118 @@ export const servicesData: Service[] = [
       'alcohol_status',
       'drug_allergies',
     ],
+  },
+  {
+    slug: 'breast-reduction',
+    hero: {
+      title: 'Breast Reduction',
+      subtitle: 'Relieve discomfort and achieve balanced proportions',
+      backgroundImageUrl: '/images/breast-lift-hero.jpg', 
+    },
+    ctaImage: '/images/breast-lift-hero.jpg',
+    overview: {
+      overviewImageUrl: '/images/placeholder-procedure.jpg',
+      facts: [
+        { 
+          icon: 'Scissors', 
+          label: 'Procedure Type', 
+          value: 'Surgical removal of excess breast tissue, fat, and skin' 
+        },
+        { 
+          icon: 'Clock', 
+          label: 'Anesthesia & Duration', 
+          value: 'Approx. 2-4 hours under General Anesthesia' 
+        },
+        { 
+          icon: 'BedDouble', 
+          label: 'Hospital Stay & Recovery', 
+          value: '1 night stay; 1-2 weeks to return to work' 
+        },
+        { 
+          icon: 'Target', 
+          label: 'Final Results', 
+          value: 'Permanent, though subject to weight changes or pregnancy' 
+        }
+      ]
+    },
+    benefits: [
+      { 
+        icon: 'HeartHandshake', 
+        title: 'Relief from Physical Discomfort', 
+        description: 'Alleviates chronic back, neck, and shoulder pain caused by heavy breasts.' 
+      },
+      { 
+        icon: 'Activity', 
+        title: 'Improved Active Lifestyle', 
+        description: 'Makes it easier and more comfortable to exercise, run, and participate in activities.' 
+      },
+      { 
+        icon: 'Smile', 
+        title: 'Enhanced Confidence & Comfort', 
+        description: 'Achieve a profile that is in proportion with your body, improving self-esteem and finding clothes that fit.' 
+      }
+    ],
+    details: {
+      tabs: {
+        "What is Breast Reduction?": "br_what_is",
+        "Who is a Good Candidate?": "br_candidates",
+        "The Procedure & Recovery": "br_procedure_recovery",
+        "Breast Reduction vs. Breast Lift": "br_comparison"
+      }
+    },
+    risks: [
+      "Scarring (permanent, but will fade over time)",
+      "Loss of or changes in nipple/breast sensation",
+      "Potential inability to breastfeed",
+      "Asymmetry in breast size or shape",
+      "Infection or bleeding",
+      "Risks associated with general anesthesia",
+      "Need for revision surgery"
+    ],
+    faq: [
+      { 
+        question: "Will I have significant scarring?", 
+        answer: "Yes, scarring is an unavoidable part of breast reduction. However, our surgeons are experts in placing incisions where they are least conspicuous, often in an anchor or 'lollipop' shape. Scars fade significantly over time." 
+      },
+      { 
+        question: "Can I breastfeed after breast reduction?", 
+        answer: "It's possible, but not guaranteed. The procedure often involves removing or repositioning milk ducts and glands. If you plan to have children and breastfeed, you must discuss this with your surgeon during your consultation." 
+      },
+      { 
+        question: "What cup size will I be?", 
+        answer: "This is a detailed discussion you will have with your surgeon. The goal is to create a breast size that is proportionate to your body and relieves your physical symptoms, rather than achieving a specific cup size." 
+      },
+      { 
+        question: "How long until I see the final results?", 
+        answer: "You will see a major difference immediately. However, it can take 6 months to a year for all residual swelling to subside and for your new breast shape to fully 'settle' and soften." 
+      }
+    ],
+    requiredMedicalQuestions: [
+      'q_med_conditions', 
+      'q_past_surgeries', 
+      'q_medications', 
+      'q_allergies', 
+      'q_smoker',
+      'q_pregnancy'
+    ],
+    specificQuestions: [
+      { 
+        id: 'br_goal', 
+        label: 'What is your main goal? (e.g., relieve pain, achieve a specific look)', 
+        type: 'textarea' 
+      },
+      { 
+        id: 'br_cup_size', 
+        label: 'What is your current cup size, and what size are you hoping to achieve?', 
+        type: 'text' 
+      }
+    ],
+    photoRequirements: [
+      "Front view of your chest (arms down)",
+      "Left side view of your chest (arm raised)",
+      "Right side view of your chest (arm raised)",
+      "Back view (for posture assessment)"
+    ]
   },
   {
     slug: "tummy-tuck",
@@ -688,7 +794,6 @@ export const servicesData: Service[] = [
         "The Procedure": "tummy-tuck-procedure",
         "Candidates": "tummy-tuck-candidates",
         "Recovery": "tummy-tuck-recovery",
-        "Risks & Safety": "tummy-tuck-risks",
       },
     },
     faq: [
@@ -962,7 +1067,6 @@ export const servicesData: Service[] = [
         "The Procedure": "facelift-procedure",
         "Candidates": "facelift-candidates",
         "Recovery": "facelift-recovery",
-        "Risks & Safety": "facelift-risks",
       },
     },
     faq: [
@@ -1031,7 +1135,6 @@ export const servicesData: Service[] = [
         "The Procedure": "gynecomastia-procedure",
         "Candidates": "gynecomastia-candidates",
         "Recovery": "gynecomastia-recovery",
-        "Risks & Safety": "gynecomastia-risks",
       },
     },
     faq: [

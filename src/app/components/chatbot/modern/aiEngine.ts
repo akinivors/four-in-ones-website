@@ -1,10 +1,12 @@
 // Modern AI Engine - Clean, Intelligent Response System
 import { ChatbotResponse, ChatContext, KnowledgeSource } from './types'
 import { PRIORITY_INTENTS, SUGGESTIONS, CTA_BUTTONS } from './config'
-import { servicesData, Service } from '../../../../../lib/servicesData'
-import { contentMap } from '../../../../../lib/serviceContent'
-import { knowledgeMap } from '../../../../../lib/chatbotKnowledgeMap'
-import { faqData, FAQItem } from '../../../../../lib/faqData'
+
+// --- FIX 1: Updated all import paths to use the '@/' alias ---
+import { servicesData, Service, Benefit } from '@/lib/servicesData'
+import { contentMap } from '@/lib/serviceContent'
+import { knowledgeMap } from '@/lib/chatbotKnowledgeMap'
+import { faqData, FAQItem } from '@/lib/faqData'
 
 export class ModernAIEngine {
   private knowledgeSources: KnowledgeSource[] = []
@@ -105,8 +107,8 @@ export class ModernAIEngine {
       const hasFollowUpPattern = this.isFollowUpQuestion(normalizedQuery)
       
       if (hasFollowUpPattern) {
-        // Use the procedure from context
-        procedure = servicesData.find(p => p.slug === context.lastProcedure!.slug) || null
+        // --- FIX 2: Added 'Service' type to the find() parameter ---
+        procedure = servicesData.find((p: Service) => p.slug === context.lastProcedure!.slug) || null
         
         if (process.env.NODE_ENV === 'development') {
           console.log('🔗 Using context procedure:', context.lastProcedure.title)
@@ -414,7 +416,8 @@ export class ModernAIEngine {
     const matchesFollowUp = followUpPatterns.some(pattern => query.includes(pattern))
     
     // Also check if query does NOT contain any procedure names
-    const hasProcedureName = servicesData.some(proc => 
+    // --- FIX 3: Added 'Service' type to the some() parameter ---
+    const hasProcedureName = servicesData.some((proc: Service) => 
       query.includes(proc.hero.title.toLowerCase()) || 
       query.includes(proc.slug)
     )
@@ -491,7 +494,8 @@ export class ModernAIEngine {
 
     let bestMatch: { faq: FAQItem, score: number } | null = null
   
-    for (const faq of faqData) {
+    // --- FIX 4: Added 'FAQItem' type to the loop parameter ---
+    for (const faq of faqData as FAQItem[]) {
       const questionLower = faq.question.toLowerCase()
       const answerLower = faq.answer.toLowerCase() // Search answers
       let score = 0
@@ -835,9 +839,10 @@ export class ModernAIEngine {
   // CORRECTED: Uses full keyword map
   private findProcedure(query: string): Service | null {
     const lowerQuery = query.toLowerCase()
-    const procedures = servicesData
+    const procedures = servicesData as Service[] // Cast to array of Service
 
     // 1. Check for exact or near-exact title matches first
+    // --- FIX 5: Added 'Service' type to loop parameter ---
     for (const proc of procedures) {
       if (lowerQuery.includes(proc.hero.title.toLowerCase())) {
         return proc
@@ -887,7 +892,8 @@ export class ModernAIEngine {
     for (const slug in procedureKeywords) {
       const keywords = procedureKeywords[slug]
       if (keywords.some(keyword => lowerQuery.includes(keyword))) {
-        const matchedProcedure = procedures.find(p => p.slug === slug)
+        // --- FIX 6: Added 'Service' type to find() parameter ---
+        const matchedProcedure = procedures.find((p: Service) => p.slug === slug)
         if (matchedProcedure) {
           return matchedProcedure
         }
@@ -1098,8 +1104,9 @@ export class ModernAIEngine {
       responseContent = `Our procedures offer significant advantages tailored to patient goals. For specific benefits relevant to your situation, please schedule a consultation with our specialists.`
       responseSuggestions = ["What are the risks?", "View procedures", "See before & after", "Get consultation"]
     } else if (procedure.benefits && procedure.benefits.length > 0) {
+      // --- FIX 7: Added 'Benefit' type to map parameter ---
       const benefitsList = procedure.benefits
-        .map(b => `* **${b.title}:** ${b.description}`)
+        .map((b: Benefit) => `* **${b.title}:** ${b.description}`)
         .join('\n')
       responseContent = `**Benefits of ${procedure.hero.title}:**\n${benefitsList}`
       responseSuggestions = [
@@ -1133,7 +1140,7 @@ export class ModernAIEngine {
       responseSuggestions = ["What are the benefits?", "Safety measures", "Success rates", "Talk to surgeon"]
     } else if (procedure.risks && procedure.risks.length > 0) {
       const risksList = procedure.risks
-        .map(risk => `* ${risk}`)
+        .map(risk => `* ${risk}`) // risk is implicitly string, which is fine
         .join('\n')
       responseContent = `**Potential Risks of ${procedure.hero.title}:**\nLike any surgical procedure, there are potential risks. Common ones include:\n${risksList}\n\nPlease note this is not a complete list. It's crucial to discuss all potential risks thoroughly with your surgeon during a consultation.`
       responseSuggestions = [

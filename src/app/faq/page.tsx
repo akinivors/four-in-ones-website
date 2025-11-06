@@ -5,7 +5,9 @@ import React, { useState, useMemo } from 'react';
 import { Disclosure } from '@headlessui/react';
 import { ChevronUp, Search } from 'lucide-react';
 import FAQ_CTA from '@/app/components/faq/FAQ_CTA';
-import { faqData, FAQItem } from '../../../lib/faqData';
+
+// --- FIX: Updated import path ---
+import { faqData, FAQItem } from '@/lib/faqData';
 
 const categories = ["All", "General", "Process", "Payments", "Aftercare", "Procedures"];
 
@@ -14,7 +16,8 @@ export default function FaqPage() {
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredFaqs = useMemo(() => {
-    return faqData.filter((faq: FAQItem) => {
+    // --- FIX: Cast faqData to FAQItem[] to prevent 'any' type error ---
+    return (faqData as FAQItem[]).filter((faq: FAQItem) => {
       const inCategory = selectedCategory === "All" || faq.category === selectedCategory;
       const inSearch = searchTerm === "" || 
                        faq.question.toLowerCase().includes(searchTerm.toLowerCase()) || 

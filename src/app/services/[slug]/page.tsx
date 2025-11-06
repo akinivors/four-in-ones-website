@@ -4,11 +4,13 @@ import ServiceOverview from '@/app/components/services/ServiceOverview';
 import PackageBanner from '@/app/components/common/PackageBanner';
 import ServiceDetails from '@/app/components/services/ServiceDetails';
 import BenefitsSection from '@/app/components/services/BenefitsSection';
-import RisksSection from '@/app/components/services/RisksSection';
 import PatientJourney from '@/app/components/services/PatientJourney';
 import ServiceFAQ from '@/app/components/services/ServiceFAQ';
 import ServiceCTA from '@/app/components/services/ServiceCTA';
-import { getServiceBySlug } from '../../../../lib/servicesData';
+
+// --- FIX: Updated import path ---
+import { getServiceBySlug } from '@/lib/servicesData';
+
 import { notFound } from 'next/navigation';
 import React from 'react';
 
@@ -34,11 +36,14 @@ const ServiceDetailPage = ({ params }: { params: { slug: string } }) => {
       />
       <PackageBanner />
       {service.benefits && <BenefitsSection benefits={service.benefits} />}
+      
       <ServiceDetails
         tabs={service.details.tabs}
+        risks={service.risks} 
       />
+
       <PatientJourney />
-      {service.risks && <RisksSection risks={service.risks} />}
+      
       <ServiceFAQ
         faqData={service.faq}
       />

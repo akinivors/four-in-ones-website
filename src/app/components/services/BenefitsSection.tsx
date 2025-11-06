@@ -4,7 +4,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Smile, Eye, Users, ShieldCheck, HeartHandshake, Sparkles, Clock, Award } from 'lucide-react';
-import { Benefit } from '../../../../lib/servicesData';
+
+// --- FIX: Updated import path ---
+import { Benefit } from '@/lib/servicesData';
 
 const iconMap: { [key: string]: React.ElementType } = {
   CheckCircle2, Smile, Eye, Users, ShieldCheck, HeartHandshake, Clock, Award
@@ -58,7 +60,7 @@ const iconVariants = {
 const BenefitsSection = ({ benefits, gridCols = 3 }: BenefitsSectionProps) => {
   return (
     <section className="relative bg-gradient-to-br from-white via-brand-background/30 to-brand-dark/5 py-20 lg:py-32 overflow-hidden">
-      {/* Animated Background Elements */}
+      {/* ... (Animated Background Elements) ... */}
       <motion.div 
         className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-brand-dark/20 to-transparent rounded-full filter blur-3xl"
         animate={{
@@ -85,7 +87,6 @@ const BenefitsSection = ({ benefits, gridCols = 3 }: BenefitsSectionProps) => {
         }}
       />
       
-      {/* Floating Sparkles */}
       <motion.div
         className="absolute top-1/4 right-1/4"
         animate={{
@@ -143,7 +144,8 @@ const BenefitsSection = ({ benefits, gridCols = 3 }: BenefitsSectionProps) => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {benefits.map((benefit, index) => {
+          {/* --- FIX: Added 'Benefit' and 'number' types to map parameters --- */}
+          {benefits.map((benefit: Benefit, index: number) => {
             const Icon = iconMap[benefit.icon];
             const gradientClass = gradients[index % gradients.length];
             
@@ -170,7 +172,6 @@ const BenefitsSection = ({ benefits, gridCols = 3 }: BenefitsSectionProps) => {
                       <div className="relative bg-gradient-to-br from-brand-teal to-brand-dark rounded-2xl p-4">
                         <Icon className="h-8 w-8 text-white" />
                       </div>
-                      {/* Animated ring */}
                       <motion.div
                         className="absolute inset-0 rounded-2xl border-2 border-brand-teal/0 group-hover:border-brand-teal/50"
                         animate={{
@@ -192,7 +193,6 @@ const BenefitsSection = ({ benefits, gridCols = 3 }: BenefitsSectionProps) => {
                     {benefit.description}
                   </p>
                   
-                  {/* Decorative corner accent */}
                   <div className="absolute top-4 right-4 w-20 h-20 bg-gradient-to-br from-brand-teal/10 to-transparent rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               </motion.div>
