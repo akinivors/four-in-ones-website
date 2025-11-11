@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import ChatbotProvider from "./components/chatbot/ModernChatbotProvider";
+import { OrganizationSchema } from "./components/common/StructuredData";
 
 const lora = Lora({
   variable: "--font-lora",
@@ -52,6 +53,7 @@ export default function RootLayout({
         className={`${lora.variable} ${inter.variable} font-inter bg-brand-background antialiased`}
         suppressHydrationWarning={true}
       >
+        <OrganizationSchema />
         <Header />
         <div className="pt-0">
           {children}

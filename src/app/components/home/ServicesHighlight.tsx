@@ -6,7 +6,7 @@ export default function ServicesHighlight() {
   const services = [
     {
       title: 'Plastic Surgery',
-      imageUrl: '/images/plastic-surgery.jpg',
+      imageUrl: '/images/plastic_surgery_category.jpg',
       href: '/services/plastic-surgery'
     },
     {

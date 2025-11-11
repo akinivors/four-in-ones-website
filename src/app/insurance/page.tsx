@@ -4,9 +4,18 @@ import ServiceCTA from '@/app/components/services/ServiceCTA';
 import TrustBadges from '@/app/components/home/TrustBadges';
 import ServiceFAQ from '@/app/components/services/ServiceFAQ';
 import { ShieldCheck, Plane, HeartHandshake, Users, Hospital, Award, AlertTriangle } from 'lucide-react';
-
-// --- 1. Import the new component ---
 import InsuranceProviders from '@/app/components/common/InsuranceProviders';
+import type { Metadata } from 'next';
+
+// --- STATIC METADATA ---
+export const metadata: Metadata = {
+  title: 'Patient Safety & Insurance | Get Beauty and Health',
+  description: 'Your peace of mind is our highest priority. Learn about our safety standards, insurance options, and patient protection measures.',
+  openGraph: {
+    title: 'Patient Safety & Insurance | Get Beauty and Health',
+    description: 'Your peace of mind is our highest priority.',
+  },
+};
 
 // --- (Safety Commitments: No Change) ---
 const safetyCommitments = [

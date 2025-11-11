@@ -146,10 +146,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Scalp Hair Transplant (FUE & DHI)",
       subtitle: "Restore your confidence with advanced FUE hair transplantation techniques",
-      backgroundImageUrl: "/images/hair-transplant-hero.jpg",
+      backgroundImageUrl: "/images/scalphairtransplant-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/hair-transplant-overview.jpg",
+      overviewImageUrl: "/images/scalphairtransplant-overview.jpg",
       facts: [
         { label: 'Techniques', value: 'FUE, DHI', icon: 'Scissors' },
         { label: 'Procedure Time', value: '6-8 Hours', icon: 'Clock' },
@@ -203,7 +203,7 @@ export const servicesData: Service[] = [
       "Back of head",
       "Top of head (overhead view)",
     ],
-    ctaImage: "/images/hair-transplant-hero.jpg",
+    ctaImage: "/images/scalphairtransplant-hero.jpg",
     specificQuestions: [
       { id: 'hair_loss_pattern', label: 'How would you describe your hair loss pattern (e.g., receding hairline, thinning crown)?', type: 'text' },
       { id: 'hair_loss_treatments', label: 'Have you used hair loss treatments like Minoxidil or Finasteride?', type: 'radio', options: ['Yes', 'No'] },
@@ -508,7 +508,7 @@ export const servicesData: Service[] = [
     hero: {
       title: "Breast Augmentation",
       subtitle: "Enhance your silhouette and confidence with our expert surgeons.",
-      backgroundImageUrl: "/images/breast-aug-hero.jpg",
+      backgroundImageUrl: '/images/breast-augmentation-hero.jpg',
     },
     overview: {
       overviewImageUrl: "/images/breast-aug-overview.jpg",
@@ -557,6 +557,7 @@ export const servicesData: Service[] = [
         answer: "Our surgeons are experts in minimizing scarring by placing incisions in hidden areas. Scars will fade significantly over time but will not disappear completely." 
       }
     ],
+    ctaImage: "/images/breast-augmentation-hero.jpg",
     photoRequirements: [
       "Front view of neck, shoulders, breasts and navel",
       "Front view of both arms raised above your head",
@@ -577,10 +578,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Breast Lift (Mastopexy)",
       subtitle: "Restore a youthful, elevated shape and position to your breasts.",
-      backgroundImageUrl: "/images/breast-lift-hero.jpg",
+      backgroundImageUrl: "/images/breastlift-hero.webp",
     },
     overview: {
-      overviewImageUrl: "/images/breast-lift-overview.jpg",
+      overviewImageUrl: "/images/breastlift-overview.jpg",
       facts: [
         { label: 'Procedure Time', value: '2-3 Hours', icon: 'Clock' },
         { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
@@ -626,6 +627,7 @@ export const servicesData: Service[] = [
         answer: "Yes, any surgical breast lift will leave permanent scars. However, our surgeons are skilled at placing incisions where they are least conspicuous, and the scars will fade significantly over time." 
       }
     ],
+    ctaImage: "/images/breastlift-hero.webp",
     photoRequirements: [
       "Front view of neck, shoulders, breasts and navel",
       "Front view of both arms raised above your head",
@@ -645,11 +647,11 @@ export const servicesData: Service[] = [
     hero: {
       title: 'Breast Reduction',
       subtitle: 'Relieve discomfort and achieve balanced proportions',
-      backgroundImageUrl: '/images/breast-lift-hero.jpg', 
+      backgroundImageUrl: '/images/breastreduction-hero.jpeg',
     },
-    ctaImage: '/images/breast-lift-hero.jpg',
+
     overview: {
-      overviewImageUrl: '/images/placeholder-procedure.jpg',
+      overviewImageUrl: '/images/breastreduction-overview.jpg',
       facts: [
         { 
           icon: 'Scissors', 
@@ -745,6 +747,7 @@ export const servicesData: Service[] = [
         type: 'text' 
       }
     ],
+    ctaImage: "/images/breastreduction-hero.jpeg",
     photoRequirements: [
       "Front view of your chest (arms down)",
       "Left side view of your chest (arm raised)",
@@ -760,7 +763,7 @@ export const servicesData: Service[] = [
       backgroundImageUrl: "/images/tummy-tuck-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/tummy-tuck-overview.jpg",
+      overviewImageUrl: "/images/tummy-tuck-overview.webp",
       facts: [
         { label: 'Procedure Time', value: '2-4 Hours', icon: 'Clock' },
         { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
@@ -810,6 +813,7 @@ export const servicesData: Service[] = [
         answer: "Yes, but it is highly recommended to wait until you are finished having children before undergoing a tummy tuck, as a future pregnancy will stretch the abdominal skin and muscles again, potentially compromising your surgical results." 
       }
     ],
+    ctaImageUrl: "/images/tummy-tuck-hero.jpg",
     photoRequirements: [
       "Left body profile",
       "Right body profile",
@@ -831,10 +835,11 @@ export const servicesData: Service[] = [
     hero: {
       title: "BBL (Brazilian Butt Lift)",
       subtitle: "Enhance your curves using your own natural fat for a fuller, shapelier buttocks.",
-      backgroundImageUrl: "/images/bbl-hero.jpg",
+      backgroundImageUrl: "/images/bbl-hero.png",
     },
+    ctaImage: "/images/bbl-hero.png",
     overview: {
-      overviewImageUrl: "/images/bbl-overview.jpg",
+      overviewImageUrl: "/images/bbl-overview.webp",
       facts: [
         { label: 'Procedure Time', value: '3-5 Hours', icon: 'Clock' },
         { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
@@ -899,10 +904,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Vaser Liposuction",
       subtitle: "High-definition body sculpting using advanced ultrasound technology.",
-      backgroundImageUrl: "/images/lipo-hero.jpg",
+      backgroundImageUrl: "/images/vaserliposuction-hero.webp",
     },
     overview: {
-      overviewImageUrl: "/images/lipo-overview.jpg",
+      overviewImageUrl: "/images/vaserliposuction-overview.webp",
       facts: [
         { label: 'Technology', value: 'Ultrasonic Lipolysis', icon: 'Waves' },
         { label: 'Anesthesia', value: 'General or Local', icon: 'UserCheck' },
@@ -947,6 +952,7 @@ export const servicesData: Service[] = [
         answer: "There is a limit to how much fat can be safely removed in a single procedure, typically around 5 liters. Vaser Lipo is a contouring tool, not a weight-loss surgery." 
       }
     ],
+    ctaImage: "/images/vaserliposuction-hero.webp",
     photoRequirements: [
       "Left body profile",
       "Right body profile",
@@ -966,10 +972,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Mummy Makeover",
       subtitle: "A personalized combination of procedures to restore your pre-pregnancy body.",
-      backgroundImageUrl: "/images/mummy-makeover-hero.jpg",
+      backgroundImageUrl: "/images/mummymakeover-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/mummy-makeover-overview.jpg",
+      overviewImageUrl: "/images/mummymakeover-overview.jpeg",
       facts: [
         { label: 'Procedures', value: 'Customized Combination', icon: 'ClipboardList' },
         { label: 'Common Areas', value: 'Abdomen, Breasts, Body', icon: 'Target' },
@@ -1014,6 +1020,7 @@ export const servicesData: Service[] = [
         answer: "While it is physically possible, it is highly recommended to wait until you are finished having children. A future pregnancy will re-stretch the skin and muscles, which can significantly compromise the results of your surgery." 
       }
     ],
+    ctaImage: "/images/mummymakeover-hero.jpg",
     photoRequirements: [
       "Front view of neck, shoulders, breasts and navel",
       "Front view of both arms raised above your head",
@@ -1083,6 +1090,7 @@ export const servicesData: Service[] = [
         answer: "While a facelift turns back the clock, it does not stop the aging process. The results are very long-lasting, often making a person appear 10-15 years younger for many years. A healthy lifestyle can help prolong the results." 
       }
     ],
+    ctaImage: "/images/facelift-hero.jpg",
     photoRequirements: [
       "1 left and 1 right facial profile",
       "1 front on of face",
@@ -1103,10 +1111,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Gynecomastia (Male Breast Reduction)",
       subtitle: "A surgical solution to create a flatter, firmer, and more masculine chest contour.",
-      backgroundImageUrl: "/images/gynecomastia-hero.jpg",
+      backgroundImageUrl: "/images/gynecomastia-hero.webp",
     },
     overview: {
-      overviewImageUrl: "/images/gynecomastia-overview.jpg",
+      overviewImageUrl: "/images/gynecomastia-overview.webp",
       facts: [
         { label: 'Procedure', value: 'Male Breast Reduction', icon: 'User' },
         { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
@@ -1151,6 +1159,7 @@ export const servicesData: Service[] = [
         answer: "You will need to wear a compression vest for several weeks to minimize swelling and support the new chest contour. Most patients can return to work within a week, but strenuous exercise and heavy lifting should be avoided for at least a month." 
       }
     ],
+    ctaImage: "/images/gynecomastia-hero.webp",
     photoRequirements: [
       "Front view of chest (arms down)",
       "Left side profile of chest (arms down)",
@@ -1170,10 +1179,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Otoplasty (Ear Surgery)",
       subtitle: "A procedure to improve the shape, position, or proportion of the ear.",
-      backgroundImageUrl: "/images/otoplasty-hero.jpg",
+      backgroundImageUrl: "/images/earsurgery-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/otoplasty-overview.jpg",
+      overviewImageUrl: "/images/earsurgery-overview.jpg",
       facts: [
         { label: 'Procedure', value: 'Ear Pinning / Reshaping', icon: 'Ear' },
         { label: 'Anesthesia', value: 'General or Local with Sedation', icon: 'UserCheck' },
@@ -1218,6 +1227,7 @@ export const servicesData: Service[] = [
         answer: "The surgery is performed under anesthesia, so you will not feel anything. Post-operative pain is usually mild and can be easily managed with prescribed pain medication for a few days." 
       }
     ],
+    ctaImage: "/images/earsurgery-hero.jpg",
     photoRequirements: [
       "Left and right full facial profile",
       "Front on of face",
@@ -1234,10 +1244,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Arm Lift (Brachioplasty)",
       subtitle: "Reshape and tone your upper arms by removing loose, sagging skin.",
-      backgroundImageUrl: "/images/arm-lift-hero.jpg",
+      backgroundImageUrl: "/images/armlift-hero.jpeg",
     },
     overview: {
-      overviewImageUrl: "/images/arm-lift-overview.jpg",
+      overviewImageUrl: "/images/armlift-overview.jpg",
       facts: [
         { label: 'Procedure', value: 'Upper Arm Skin Removal', icon: 'Scissors' },
         { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
@@ -1282,6 +1292,7 @@ export const servicesData: Service[] = [
         answer: "You will need to limit arm movement and avoid heavy lifting for at least 4-6 weeks to ensure the incisions heal properly and to minimize swelling and scarring." 
       }
     ],
+    ctaImage: "/images/armlift-hero.jpeg",
     photoRequirements: [
       "Front view of both arms held out to the sides",
       "Back view of both arms held out to the sides",
@@ -1299,10 +1310,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Thigh Lift",
       subtitle: "Reshape and tighten your thighs for a smoother, more toned appearance.",
-      backgroundImageUrl: "/images/thigh-lift-hero.jpg",
+      backgroundImageUrl: "/images/thighlift-hero.webp",
     },
     overview: {
-      overviewImageUrl: "/images/thigh-lift-overview.jpg",
+      overviewImageUrl: "/images/thighlift-overview.jpg",
       facts: [
         { label: 'Procedure', value: 'Thigh Skin & Fat Removal', icon: 'Scissors' },
         { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
@@ -1338,6 +1349,7 @@ export const servicesData: Service[] = [
       { question: "Is a thigh lift a weight loss procedure?", answer: "No. A thigh lift is a body contouring procedure designed to address loose skin. It is recommended for patients who are at or near their ideal, stable weight." },
       { question: "Can a thigh lift get rid of cellulite?", answer: "While the skin tightening effect may slightly improve the appearance of cellulite in the treated area, a thigh lift is not a procedure specifically designed to treat cellulite." }
     ],
+    ctaImage: "/images/thighlift-hero.webp",
     photoRequirements: [
       "Left body profile",
       "Right body profile",
@@ -1357,10 +1369,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Genital Rejuvenation",
       subtitle: "Procedures designed to enhance aesthetic appearance and personal comfort.",
-      backgroundImageUrl: "/images/genital-rejuvenation-hero.jpg",
+      backgroundImageUrl: "/images/genitalrejuvenation-hero.webp",
     },
     overview: {
-      overviewImageUrl: "/images/genital-rejuvenation-overview.jpg",
+      overviewImageUrl: "/images/genitalrejuvenation-overview.jpg",
       facts: [
         { label: 'Procedure', value: 'Aesthetic Genital Surgery', icon: 'Scissors' },
         { label: 'Anesthesia', value: 'Local or General', icon: 'UserCheck' },
@@ -1394,6 +1406,7 @@ export const servicesData: Service[] = [
       { question: "Is labiaplasty purely cosmetic?", answer: "While often performed for aesthetic reasons, it can also have functional benefits, such as reducing twisting, pulling, or discomfort that some women experience with enlarged labia during physical activities." },
       { question: "Will the procedure affect sensation?", answer: "When performed by a skilled surgeon, the risk of significant or permanent loss of sensation is very low. Temporary changes in sensation are a normal part of the healing process." },
     ],
+    ctaImage: "/images/genitalrejuvenation-hero.webp",
     requiredMedicalQuestions: [
       'anesthesia_problems',
       'smoking_status',
@@ -1405,10 +1418,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Scar Removal",
       subtitle: "Advanced treatments to minimize the appearance of scars and improve skin texture.",
-      backgroundImageUrl: "/images/scar-removal-hero.jpg",
+      backgroundImageUrl: "/images/scarremoval-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/scar-removal-overview.jpg",
+      overviewImageUrl: "/images/scarremoval-overview.jpg",
       facts: [
         { label: 'Treatments', value: 'Laser, Surgical, Microneedling', icon: 'Layers' },
         { label: 'Anesthesia', value: 'Varies (Topical to Local)', icon: 'UserCheck' },
@@ -1442,6 +1455,7 @@ export const servicesData: Service[] = [
       { question: "What is the best treatment for my type of scar?", answer: "The best treatment depends on your scar's type, age, and location. For example, laser resurfacing is great for acne scars, while surgical revision may be needed for a wide surgical scar. A consultation with our specialist is required." },
       { question: "How many sessions will I need?", answer: "Surgical revision is a single procedure. Non-surgical treatments like laser or microneedling typically require a series of sessions (usually 3-6) spaced several weeks apart to achieve the best results." }
     ],
+    ctaImage: "/images/scarremoval-hero.jpg",
     photoRequirements: [
       "A clear, well-lit photo of the scar(s) you wish to have treated.",
       "A photo from a distance to show the location of the scar on the body."
@@ -1457,10 +1471,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Mole Removal",
       subtitle: "Safe and effective removal of unwanted moles for cosmetic and medical peace of mind.",
-      backgroundImageUrl: "/images/mole-removal-hero.jpg",
+      backgroundImageUrl: "/images/moleremoval-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/mole-removal-overview.jpg",
+      overviewImageUrl: "/images/moleremoval-overview.jpg",
       facts: [
         { label: 'Treatments', value: 'Excision, Shave, Laser', icon: 'Scissors' },
         { label: 'Anesthesia', value: 'Local Anesthesia', icon: 'UserCheck' },
@@ -1493,6 +1507,7 @@ export const servicesData: Service[] = [
       { question: "Is the procedure painful?", answer: "No. The area is completely numbed with a local anesthetic before the procedure begins, so you will not feel any pain during the removal." },
       { question: "Can the mole grow back?", answer: "If any mole cells are left behind, there is a small chance the mole can recur. Surgical excision has the lowest rate of recurrence because the entire mole is removed." }
     ],
+    ctaImage: "/images/moleremoval-hero.jpg",
     photoRequirements: [
       "A clear, close-up, well-lit photo of the mole you wish to have removed.",
       "A photo from a slight distance to show the location of the mole on the body."
@@ -1508,10 +1523,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Penis Enlargement",
       subtitle: "Surgical options for enhancing penile length and girth.",
-      backgroundImageUrl: "/images/penis-enlargement-hero.jpg",
+      backgroundImageUrl: "/images/penisenlargement-hero.avif",
     },
     overview: {
-      overviewImageUrl: "/images/penis-enlargement-overview.jpg",
+      overviewImageUrl: "/images/penisenlargement-overview.avif",
       facts: [
         { label: 'Procedures', value: 'Ligamentolysis, Fat Transfer', icon: 'Scissors' },
         { label: 'Anesthesia', value: 'General or Local with Sedation', icon: 'UserCheck' },
@@ -1547,6 +1562,7 @@ export const servicesData: Service[] = [
       { question: "Are the results from fat transfer permanent?", answer: "A certain percentage of the transferred fat (typically 20-40%) will be naturally absorbed by the body. The fat cells that survive after the initial months are considered permanent. However, significant weight changes can affect the result." },
       { question: "Is the procedure safe?", answer: "When performed by a qualified and experienced urologist or plastic surgeon, the procedures are generally safe. However, like any surgery, they carry risks which must be thoroughly discussed during your consultation." }
     ],
+    ctaImage: "/images/penisenlargement-hero.avif",
     requiredMedicalQuestions: [
       'anesthesia_problems',
       'smoking_status',
@@ -1728,10 +1744,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Eyebrow Transplantation",
       subtitle: "Create perfectly shaped, natural-looking eyebrows with precision FUE & DHI techniques.",
-      backgroundImageUrl: "/images/eyebrow-hero.jpg",
+      backgroundImageUrl: "/images/eyebrowtransplant-hero.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/eyebrow-overview.jpg",
+      overviewImageUrl: "/images/eyebrowtransplant-overview.jpeg",
       facts: [
         { label: 'Technique', value: 'FUE / DHI', icon: 'Scissors' },
         { label: 'Anesthesia', value: 'Local Anesthesia', icon: 'UserCheck' },
@@ -1744,7 +1760,7 @@ export const servicesData: Service[] = [
       { icon: "CheckCircle2", title: "Permanent Solution", description: "Unlike microblading or makeup, transplanted eyebrow hair is a permanent solution that grows naturally." },
       { icon: "Smile", title: "Boosted Confidence", description: "Frame your face beautifully and enhance your features, boosting your self-esteem." },
     ],
-    ctaImage: "/images/eyebrow-hero.jpg",
+    ctaImage: "/images/eyebrowtransplant-hero.jpg",
     details: {
       tabs: {
         "What is it?": "eyebrow-transplant-what",
@@ -1775,10 +1791,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Beard Transplantation",
       subtitle: "Achieve a full, dense, and natural-looking beard with advanced hair restoration.",
-      backgroundImageUrl: "/images/beard-hero.jpg",
+      backgroundImageUrl: "/images/beardtransplant-hero.webp",
     },
     overview: {
-      overviewImageUrl: "/images/beard-overview.jpg",
+      overviewImageUrl: "/images/beardtransplant-overview.jpg",
       facts: [
         { label: 'Technique', value: 'FUE / DHI', icon: 'Scissors' },
         { label: 'Anesthesia', value: 'Local Anesthesia', icon: 'UserCheck' },
@@ -1791,7 +1807,7 @@ export const servicesData: Service[] = [
       { icon: "Eye", title: "Masculine Contouring", description: "A well-defined beard can enhance your jawline and provide a more masculine facial structure." },
       { icon: "Smile", title: "Natural & Permanent", description: "The transplanted hair is your own, and it grows, shaves, and behaves just like a natural beard." },
     ],
-    ctaImage: "/images/beard-hero.jpg",
+    ctaImage: "/images/beardtransplant-hero.webp",
     details: {
       tabs: {
         "What is it?": "beard-transplant-what",

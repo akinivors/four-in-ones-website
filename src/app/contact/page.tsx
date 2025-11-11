@@ -3,6 +3,17 @@ import React from 'react';
 import Link from 'next/link';
 import ContactForm from '@/app/components/contact/ContactForm';
 import { Mail, Phone, MessageSquare } from 'lucide-react';
+import type { Metadata } from 'next';
+
+// --- STATIC METADATA ---
+export const metadata: Metadata = {
+  title: 'Contact Us | Get Beauty and Health',
+  description: 'Get in touch for a free quote. We\'re here to answer your questions and help you begin your journey to Turkey.',
+  openGraph: {
+    title: 'Contact Us | Get Beauty and Health',
+    description: 'Get in touch for a free quote.',
+  },
+};
 
 const ContactPage = () => {
   return (
@@ -27,21 +38,39 @@ const ContactPage = () => {
           <div className="bg-brand-background p-8 rounded-lg">
             <h2 className="font-lora text-3xl font-bold text-brand-dark mb-6">Direct Contact</h2>
             <div className="space-y-6">
-              <a href="mailto:info@fourinones.com" className="flex items-center group">
+              
+              {/* --- UPDATED: Email --- */}
+              <a href="mailto:info@getbeautyandhealth.com" className="flex items-center group">
                 <Mail className="h-6 w-6 text-brand-dark mr-4" />
-                <span className="text-brand-text group-hover:text-brand-dark">info@fourinones.com</span>
+                <span className="text-brand-text group-hover:text-brand-dark">info@getbeautyandhealth.com</span>
               </a>
-              <a href="tel:+905551234567" className="flex items-center group">
+
+              {/* --- UPDATED: UK Phone --- */}
+              <a href="tel:+447359104606" className="flex items-center group">
                 <Phone className="h-6 w-6 text-brand-dark mr-4" />
-                <span className="text-brand-text group-hover:text-brand-dark">+90 555 123 4567</span>
+                <span className="text-brand-text group-hover:text-brand-dark">+44 7359 104606 (UK)</span>
               </a>
-              <a href="https://wa.me/905551234567" target="_blank" rel="noopener noreferrer" className="flex items-center group">
+
+              {/* --- UPDATED: US Phone --- */}
+              <a href="tel:+16302013340" className="flex items-center group">
+                <Phone className="h-6 w-6 text-brand-dark mr-4" />
+                <span className="text-brand-text group-hover:text-brand-dark">+1 630 201 3340 (US)</span>
+              </a>
+
+              {/* --- UPDATED: WhatsApp (using UK) --- */}
+              <a href="https://wa.me/447359104606" target="_blank" rel="noopener noreferrer" className="flex items-center group">
                 <MessageSquare className="h-6 w-6 text-brand-dark mr-4" />
-                <span className="text-brand-text group-hover:text-brand-dark">Chat with us on WhatsApp</span>
+                <span className="text-brand-text group-hover:text-brand-dark">Chat with us on WhatsApp (UK)</span>
               </a>
+
+              {/* --- UPDATED: Address --- */}
               <div className="border-t pt-6">
                  <h3 className="font-lora text-xl font-bold text-brand-dark">Our Office</h3>
-                 <p className="text-brand-text mt-2">123 Health St, Izmir, Turkey, 35000</p>
+                 <p className="text-brand-text mt-2">
+                   Avenida Acapulco 17, Local 7
+                   <br />
+                   29640 Fuengirola - Málaga, Spain
+                 </p>
               </div>
             </div>
           </div>

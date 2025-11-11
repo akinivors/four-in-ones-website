@@ -1,7 +1,5 @@
 // In app/services/cosmetic-dentistry/page.tsx
-// --- FIX: Updated import path ---
 import { getServiceBySlug } from '@/lib/servicesData';
-
 import { notFound } from 'next/navigation';
 import ServiceHero from '@/app/components/services/ServiceHero';
 import ServiceOverview from '@/app/components/services/ServiceOverview';
@@ -13,14 +11,26 @@ import PatientJourney from '@/app/components/services/PatientJourney';
 import ServiceFAQ from '@/app/components/services/ServiceFAQ';
 import ServiceCTA from '@/app/components/services/ServiceCTA';
 import ServiceDetails from '@/app/components/services/ServiceDetails';
+import type { Metadata } from 'next';
+
+// --- STATIC METADATA ---
+export const metadata: Metadata = {
+  title: 'Cosmetic Dentistry in Turkey | Get Beauty and Health',
+  description: 'Complete smile makeovers with cutting-edge dental veneers, implants, and crowns in Turkey.',
+  openGraph: {
+    title: 'Cosmetic Dentistry in Turkey | Get Beauty and Health',
+    description: 'Complete smile makeovers with cutting-edge dental veneers, implants, and crowns in Turkey.',
+  },
+};
 
 const CosmeticDentistryPage = () => {
+  // ... (rest of the component is unchanged) ...
   const service = getServiceBySlug('cosmetic-dentistry');
   
   if (!service) {
     notFound();
   }
-
+  // ... (rest of the component is unchanged) ...
   return (
     <div>
       <ServiceHero

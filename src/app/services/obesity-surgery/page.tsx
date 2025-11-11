@@ -1,13 +1,11 @@
 // In app/services/obesity-surgery/page.tsx
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import ServiceHero from '@/app/components/services/ServiceHero';
 import WhyTurkeyBariatric from '@/app/components/services/WhyTurkeyBariatric';
 import ServiceCTA from '@/app/components/services/ServiceCTA';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const procedures = [
   {
@@ -37,12 +35,6 @@ const procedures = [
 ];
 
 const ObesitySurgeryCategoryPage = () => {
-  const [hoveredImage, setHoveredImage] = useState<string | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
-  };
 
   return (
     <div>
@@ -52,7 +44,7 @@ const ObesitySurgeryCategoryPage = () => {
         backgroundImageUrl="/images/obesity-surgery-2.jpg"
       />
 
-      <section className="bg-brand-background py-16 lg:py-24" onMouseMove={handleMouseMove}>
+      <section className="bg-brand-background py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="font-lora text-3xl font-bold text-brand-dark">Comprehensive Bariatric Care</h2>
@@ -61,49 +53,11 @@ const ObesitySurgeryCategoryPage = () => {
             </p>
           </div>
 
-          {/* Floating Image Preview */}
-          <AnimatePresence>
-            {hoveredImage && (
-              <div 
-                className="fixed z-50 hidden xl:block pointer-events-none"
-                style={{
-                  left: `${mousePosition.x + 20}px`,
-                  top: `${mousePosition.y - 144}px`,
-                }}
-              >
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.2 }}
-                  className="relative w-64 h-72 rounded-2xl overflow-hidden shadow-2xl"
-                >
-                  <Image
-                    src={hoveredImage}
-                    alt="Procedure preview"
-                    fill
-                    className="object-cover"
-                    sizes="256px"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-transparent to-transparent"></div>
-                  <div className="absolute inset-0 border-2 border-white/20 rounded-2xl"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <div className="w-12 h-1 bg-brand-teal rounded-full mb-2"></div>
-                    <p className="text-white text-sm font-semibold">Preview</p>
-                  </div>
-                </motion.div>
-              </div>
-            )}
-          </AnimatePresence>
-
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {procedures.map((proc) => (
               <Link
                 key={proc.title}
                 href={proc.href}
-                onMouseEnter={() => setHoveredImage(proc.image)}
-                onMouseLeave={() => setHoveredImage(null)}
                 className="group flex items-center justify-between p-6 bg-white rounded-xl border border-gray-200 hover:border-brand-teal hover:shadow-lg transition-all"
               >
                 <div>

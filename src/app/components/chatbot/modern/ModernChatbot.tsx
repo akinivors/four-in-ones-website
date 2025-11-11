@@ -6,7 +6,13 @@ import { MessageCircle, X, Send, Bot, User } from 'lucide-react'
 import Image from 'next/image'
 import { ChatMessage, ChatContext } from './types'
 import { ModernAIEngine } from './aiEngine'
-import { CHATBOT_CONFIG, SUGGESTIONS } from './config'
+
+// --- NEW IMPORTS ---
+import { usePathname } from 'next/navigation'
+import { servicesData, Service } from '@/lib/servicesData'
+import { CHATBOT_CONFIG, SUGGESTIONS, PROACTIVE_GREETINGS } from './config'
+// --- END NEW IMPORTS ---
+
 
 interface ModernChatbotProps {
   className?: string
@@ -14,23 +20,65 @@ interface ModernChatbotProps {
   size?: 'compact' | 'standard' | 'large'
 }
 
+// --- NEW: Helper function to get context from the URL ---
+const getInitialContext = (pathname: string): { greeting: string, context: ChatContext } => {
+  let greeting = CHATBOT_CONFIG.messages.greeting;
+  let initialContext: ChatContext = {
+    sessionId: `session_${Date.now()}`,
+    previousMessages: [],
+    metadata: { pathname }, // Store the path
+    conversationHistory: [],
+    queryCount: 0
+  };
+
+  const pathParts = pathname.split('/').filter(Boolean); // e.g., ['services', 'rhinoplasty']
+
+  if (pathParts[0] === 'services' && pathParts[1]) {
+    // This is a specific service page, e.g., /services/rhinoplasty
+    const slug = pathParts[1];
+    const service = servicesData.find((s: Service) => s.slug === slug);
+    
+    if (service) {
+      // Pre-populate the context!
+      initialContext.lastProcedure = {
+        slug: service.slug,
+        title: service.hero.title,
+        timestamp: new Date()
+      };
+      // Use the default service greeting and replace the name
+      greeting = PROACTIVE_GREETINGS.default_service.replace('{serviceName}', service.hero.title);
+    } else if (PROACTIVE_GREETINGS[slug]) {
+      // This is a category page, e.g., /services/plastic-surgery
+      greeting = PROACTIVE_GREETINGS[slug];
+    }
+  } else if (pathParts[0] === 'journey' || pathParts[0] === 'contact' || pathParts[0] === 'health-form') {
+    // This is a core page
+    greeting = PROACTIVE_GREETINGS[pathParts[0]];
+  }
+
+  return { greeting, context: initialContext };
+};
+
+
 export default function ModernChatbot({ 
   className = '', 
   position = 'bottom-right',
   size = 'standard' 
 }: ModernChatbotProps) {
+  
+  // --- NEW: Get the current URL path ---
+  const pathname = usePathname();
+
+  // --- NEW: Get proactive greeting and initial context ---
+  const { greeting: proactiveGreeting, context: initialContext } = getInitialContext(pathname);
+
   // State management
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [inputValue, setInputValue] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [context, setContext] = useState<ChatContext>({
-    sessionId: `session_${Date.now()}`,
-    previousMessages: [],
-    metadata: {},
-    conversationHistory: [],
-    queryCount: 0
-  })
+  // --- NEW: Set the initial context from our helper function ---
+  const [context, setContext] = useState<ChatContext>(initialContext)
 
   // Refs
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -46,14 +94,14 @@ export default function ModernChatbot({
     scrollToBottom()
   }, [messages])
 
-  // Initialize chat with greeting
+  // --- UPDATED: Initialize chat with PROACTIVE greeting ---
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       setTimeout(() => {
         const greetingMessage: ChatMessage = {
           id: `msg_${Date.now()}`,
           type: 'bot',
-          content: CHATBOT_CONFIG.messages.greeting,
+          content: proactiveGreeting, // Use the new proactive greeting
           timestamp: new Date(),
           suggestions: SUGGESTIONS.initial,
           metadata: {
@@ -64,7 +112,27 @@ export default function ModernChatbot({
         setMessages([greetingMessage])
       }, CHATBOT_CONFIG.behavior.greetingDelay)
     }
-  }, [isOpen, messages.length])
+    // We only want this to run when the chat is opened
+  }, [isOpen, proactiveGreeting, messages.length]) 
+  
+  // --- NEW: Update context if the user navigates to a new page ---
+  useEffect(() => {
+    // When the user navigates, get the new context
+    const { greeting, context: newPageContext } = getInitialContext(pathname);
+    
+    // Update the chatbot's internal context with the new path and procedure
+    setContext(prevContext => ({
+      ...prevContext, // Keep session ID and chat history
+      metadata: { ...prevContext.metadata, pathname },
+      lastProcedure: newPageContext.lastProcedure || prevContext.lastProcedure
+    }));
+
+    // If the chat is closed, reset messages so it can show a new greeting
+    if (!isOpen) {
+      setMessages([]);
+    }
+
+  }, [pathname, isOpen]); // This hook re-runs every time the URL changes
 
   // Handle message sending
   const handleSendMessage = async (message: string = inputValue.trim()) => {
@@ -89,7 +157,7 @@ export default function ModernChatbot({
         previousMessages: [...context.previousMessages, userMessage]
       }
 
-      // Generate AI response (this will modify updatedContext with conversationHistory, lastProcedure, etc.)
+      // Generate AI response
       const response = await aiEngine.current.generateResponse(message, updatedContext)
 
       // Simulate typing delay

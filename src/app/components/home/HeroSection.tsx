@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image"; // Import Image
 
 export default function HeroSection() {
   const containerVariants = {
@@ -19,10 +20,20 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: "url('/hero-background.jpg')" }}
+      className="relative min-h-screen flex items-center justify-center bg-brand-dark"
+      // The style prop has been removed
     >
-      <div className="absolute inset-0 bg-brand-dark bg-opacity-50"></div>
+      {/* NEW: Next.js Image Component for Performance */}
+      <Image
+        src="/hero-background.jpg"
+        alt="Patient consultation in a modern clinic in Turkey"
+        fill
+        priority // <-- This is the most important prop for SEO/LCP
+        sizes="100vw"
+        className="object-cover opacity-50" // We apply opacity here instead of on the overlay
+      />
+      {/* The old overlay is no longer needed as opacity is on the image */}
+
       <motion.div
         className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
         variants={containerVariants}

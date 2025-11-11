@@ -5,9 +5,7 @@ import ServiceHero from '@/app/components/services/ServiceHero';
 import WhyTurkeyPlasticSurgery from '@/app/components/services/WhyTurkeyPlasticSurgery';
 import ServiceCTA from '@/app/components/services/ServiceCTA';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ChevronRight, Star } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 // Categorized procedures with featured flag and images
 const procedureCategories = {
@@ -46,12 +44,6 @@ const procedureCategories = {
 
 const PlasticSurgeryCategoryPage = () => {
   const [activeTab, setActiveTab] = useState<string>('all');
-  const [hoveredImage, setHoveredImage] = useState<string | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
-  };
 
   return (
     <div>
@@ -62,7 +54,7 @@ const PlasticSurgeryCategoryPage = () => {
       />
 
       {/* Featured Procedures Section */}
-      <section className="bg-gradient-to-b from-brand-background to-white py-16 lg:py-24" onMouseMove={handleMouseMove}>
+      <section className="bg-gradient-to-b from-brand-background to-white py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-brand-teal/10 text-brand-teal px-4 py-2 rounded-full text-sm font-semibold mb-4">
@@ -80,8 +72,6 @@ const PlasticSurgeryCategoryPage = () => {
               <Link
                 key={proc.title}
                 href={proc.href}
-                onMouseEnter={() => setHoveredImage(proc.image)}
-                onMouseLeave={() => setHoveredImage(null)}
                 className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100"
               >
                 <div className={`absolute inset-0 bg-gradient-to-br ${proc.gradient} opacity-5 group-hover:opacity-10 transition-opacity`}></div>
@@ -109,7 +99,7 @@ const PlasticSurgeryCategoryPage = () => {
       </section>
 
       {/* All Procedures Section */}
-      <section className="bg-white py-16 lg:py-24" onMouseMove={handleMouseMove}>
+      <section className="bg-white py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center mb-12">
             <h2 className="font-lora text-3xl md:text-4xl font-bold text-brand-dark">Complete Procedure Guide</h2>
@@ -117,42 +107,6 @@ const PlasticSurgeryCategoryPage = () => {
               Our team of board-certified plastic surgeons combines artistic vision with surgical precision to deliver natural-looking, beautiful results tailored to your unique goals.
             </p>
           </div>
-
-          {/* Floating Image Preview */}
-          <AnimatePresence>
-            {hoveredImage && (
-              <div 
-                className="fixed z-50 hidden xl:block pointer-events-none"
-                style={{
-                  left: `${mousePosition.x + 20}px`,
-                  top: `${mousePosition.y - 144}px`,
-                }}
-              >
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.2 }}
-                  className="relative w-64 h-72 rounded-2xl overflow-hidden shadow-2xl"
-                >
-                  <Image
-                    src={hoveredImage}
-                    alt="Procedure preview"
-                    fill
-                    className="object-cover"
-                    sizes="256px"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 via-transparent to-transparent"></div>
-                  <div className="absolute inset-0 border-2 border-white/20 rounded-2xl"></div>
-                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <div className="w-12 h-1 bg-brand-teal rounded-full mb-2"></div>
-                    <p className="text-white text-sm font-semibold">Preview</p>
-                  </div>
-                </motion.div>
-              </div>
-            )}
-          </AnimatePresence>
 
           {/* Filter Tabs */}
           <div className="flex flex-wrap justify-center gap-3 mb-12">
@@ -182,8 +136,6 @@ const PlasticSurgeryCategoryPage = () => {
                     <Link
                       key={proc.title}
                       href={proc.href}
-                      onMouseEnter={() => setHoveredImage(proc.image)}
-                      onMouseLeave={() => setHoveredImage(null)}
                       className="group flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-200 hover:border-brand-teal hover:shadow-lg transition-all"
                     >
                       <div>
@@ -206,8 +158,6 @@ const PlasticSurgeryCategoryPage = () => {
                     <Link
                       key={proc.title}
                       href={proc.href}
-                      onMouseEnter={() => setHoveredImage(proc.image)}
-                      onMouseLeave={() => setHoveredImage(null)}
                       className="group flex items-center justify-between p-6 bg-gradient-to-r from-orange-50/50 to-white rounded-xl border border-gray-200 hover:border-brand-orange hover:shadow-lg transition-all"
                     >
                       <div>
@@ -230,8 +180,6 @@ const PlasticSurgeryCategoryPage = () => {
                     <Link
                       key={proc.title}
                       href={proc.href}
-                      onMouseEnter={() => setHoveredImage(proc.image)}
-                      onMouseLeave={() => setHoveredImage(null)}
                       className="group flex items-center justify-between p-6 bg-gradient-to-r from-blue-50/50 to-white rounded-xl border border-gray-200 hover:border-brand-dark hover:shadow-lg transition-all"
                     >
                       <div>
@@ -254,8 +202,6 @@ const PlasticSurgeryCategoryPage = () => {
                     <Link
                       key={proc.title}
                       href={proc.href}
-                      onMouseEnter={() => setHoveredImage(proc.image)}
-                      onMouseLeave={() => setHoveredImage(null)}
                       className="group flex items-center justify-between p-6 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-200 hover:border-brand-teal hover:shadow-lg transition-all"
                     >
                       <div>
@@ -278,8 +224,6 @@ const PlasticSurgeryCategoryPage = () => {
                     <Link
                       key={proc.title}
                       href={proc.href}
-                      onMouseEnter={() => setHoveredImage(proc.image)}
-                      onMouseLeave={() => setHoveredImage(null)}
                       className="group flex items-center justify-between p-6 bg-gradient-to-r from-orange-50/50 to-white rounded-xl border border-gray-200 hover:border-orange-400 hover:shadow-lg transition-all"
                     >
                       <div>
@@ -302,8 +246,6 @@ const PlasticSurgeryCategoryPage = () => {
                     <Link
                       key={proc.title}
                       href={proc.href}
-                      onMouseEnter={() => setHoveredImage(proc.image)}
-                      onMouseLeave={() => setHoveredImage(null)}
                       className="group flex items-center justify-between p-6 bg-gradient-to-r from-orange-50/50 to-white rounded-xl border border-gray-200 hover:border-brand-orange hover:shadow-lg transition-all"
                     >
                       <div>

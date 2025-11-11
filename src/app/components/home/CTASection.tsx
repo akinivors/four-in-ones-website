@@ -32,9 +32,9 @@ export default function CTASection() {
 
           {/* Right Column - Image */}
           <div className="relative">
-            <Image
-              src="/images/doctor-patient-consultation.jpg"
-              alt="Doctor consulting with patient in modern medical facility"
+          <Image
+              src="/images/cta-doctor-image.webp"
+              alt="Dr. Aysin Akdogan, founder of Get Beauty and Health, in her office"
               width={600}
               height={400}
               className="w-full h-auto rounded-xl shadow-lg object-cover"

@@ -7,24 +7,61 @@ import BenefitsSection from '@/app/components/services/BenefitsSection';
 import PatientJourney from '@/app/components/services/PatientJourney';
 import ServiceFAQ from '@/app/components/services/ServiceFAQ';
 import ServiceCTA from '@/app/components/services/ServiceCTA';
-
-// --- FIX: Updated import path ---
 import { getServiceBySlug } from '@/lib/servicesData';
-
 import { notFound } from 'next/navigation';
 import React from 'react';
+import type { Metadata, ResolvingMetadata } from 'next';
+import { ServicePageSchema } from '@/app/components/common/StructuredData';
 
+// --- DYNAMIC METADATA FUNCTION ---
+type Props = {
+  params: { slug: string }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // Fetch service data
+  const service = getServiceBySlug(params.slug);
+
+  // Handle service not found
+  if (!service) {
+    return {
+      title: 'Service Not Found',
+      description: 'The requested service is not available.',
+    };
+  }
+
+  // Get parent metadata (from layout.tsx)
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: `${service.hero.title} | Get Beauty and Health`,
+    description: service.hero.subtitle,
+    // Set OpenGraph (social media share) images
+    openGraph: {
+      title: `${service.hero.title} | Get Beauty and Health`,
+      description: service.hero.subtitle,
+      images: [service.hero.backgroundImageUrl, ...previousImages],
+    },
+  };
+}
+// --- END NEW FUNCTION ---
+
+
+// --- Your Page Component (No Changes) ---
 const ServiceDetailPage = ({ params }: { params: { slug: string } }) => {
-  // Get service data based on the slug
   const service = getServiceBySlug(params.slug);
   
-  // If service not found, return 404
   if (!service) {
     notFound();
   }
 
   return (
     <div>
+      <ServicePageSchema service={service} />
+      
       <ServiceHero
         title={service.hero.title}
         subtitle={service.hero.subtitle}

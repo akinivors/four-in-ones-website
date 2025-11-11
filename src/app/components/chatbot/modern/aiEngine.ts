@@ -1,18 +1,43 @@
 // Modern AI Engine - Clean, Intelligent Response System
 import { ChatbotResponse, ChatContext, KnowledgeSource } from './types'
 import { PRIORITY_INTENTS, SUGGESTIONS, CTA_BUTTONS } from './config'
-
-// --- FIX 1: Updated all import paths to use the '@/' alias ---
 import { servicesData, Service, Benefit } from '@/lib/servicesData'
 import { contentMap } from '@/lib/serviceContent'
 import { knowledgeMap } from '@/lib/chatbotKnowledgeMap'
 import { faqData, FAQItem } from '@/lib/faqData'
 
+// --- NEW HELPER FUNCTION FOR LOGGING ---
+const logInteraction = (query: string, response: ChatbotResponse, context: ChatContext) => {
+  // Fire-and-forget this async function. We don't await it.
+  // This ensures that logging *never* slows down the user's response.
+  (async () => {
+    try {
+      await fetch('/api/log-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: context.sessionId,
+          query: query,
+          response: response.content,
+          intent: response.intent,
+          source: response.source,
+          confidence: response.confidence,
+          procedureContext: context.lastProcedure?.slug || null
+        })
+      });
+    } catch (error) {
+      console.error('Chat logging failed:', error);
+      // We log the error, but don't re-throw.
+      // The user's experience is more important than the log.
+    }
+  })();
+};
+// --- END NEW HELPER FUNCTION ---
+
 export class ModernAIEngine {
   private knowledgeSources: KnowledgeSource[] = []
   private static instance: ModernAIEngine
   
-  // Use the new knowledge map and content map
   private knowledgeMap = knowledgeMap
   private contentMap = contentMap
 
@@ -20,7 +45,6 @@ export class ModernAIEngine {
     if (ModernAIEngine.instance) {
       return ModernAIEngine.instance
     }
-    // Initialize knowledge sources if any
     ModernAIEngine.instance = this
   }
 
@@ -31,149 +55,119 @@ export class ModernAIEngine {
     return ModernAIEngine.instance
   }
 
-  // --- 1. MASTER RESPONSE GENERATOR (Correct Logic Order) ---
-
-  async generateResponse(query: string, context?: ChatContext): Promise<ChatbotResponse> {
+  async generateResponse(query: string, context: ChatContext): Promise<ChatbotResponse> {
     const normalizedQuery = this.normalizeQuery(query)
     
+    // --- THIS IS THE FINAL RESPONSE OBJECT ---
+    let finalResponse: ChatbotResponse; 
+
     if (process.env.NODE_ENV === 'development') {
       console.log('🚀 Processing query:', query)
       console.log('🔧 Normalized query:', normalizedQuery)
       console.log('📝 Context:', context)
     }
     
-    // Initialize context if not provided
-    if (!context) {
-      context = {
-        sessionId: Math.random().toString(36).substring(7),
-        previousMessages: [],
-        metadata: {},
-        conversationHistory: [],
-        queryCount: 0
-      }
-    }
-    
-    // Update query count
     context.queryCount = (context.queryCount || 0) + 1
     
-    // 0. Check for repeated queries (BEFORE everything else)
     const recentQueries = context.conversationHistory
-      .slice(-5) // Check last 5 queries
+      .slice(-5)
       .filter(h => h.query.toLowerCase() === normalizedQuery.toLowerCase())
     
     if (recentQueries.length >= 2) {
       if (process.env.NODE_ENV === 'development') {
         console.log('🔁 Repeated query detected:', normalizedQuery)
       }
-      return {
+      finalResponse = {
         content: "I notice you've asked this question before. Would you like to speak with a specialist who can provide more detailed, personalized information? They can address your specific concerns in depth.",
-        suggestions: [
-          "Schedule consultation",
-          "Ask different question",
-          "Speak to coordinator",
-          "View all FAQs"
-        ],
+        suggestions: ["Schedule consultation", "Ask different question", "Speak to coordinator", "View all FAQs"],
         ctaButton: CTA_BUTTONS.consultation,
         confidence: 0.95,
         source: 'ai',
         intent: 'repeated_query_escalation'
-      }
+      };
+      
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
     }
     
-    // 1. Check high-priority intents first
     const priorityResponse = this.checkPriorityIntents(normalizedQuery)
     if (priorityResponse) {
-      // Add to conversation history
       context.conversationHistory.push({
         query: normalizedQuery,
         intent: priorityResponse.intent || 'priority',
         timestamp: new Date()
       })
-      return priorityResponse
+      
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, priorityResponse, context);
+      return priorityResponse;
     }
 
-    // 2. Check for Procedure-Specific Logic (MOVED UP)
-    // This is the most important check. It catches:
-    // - "process for rhinoplasty" (procedure + type)
-    // - "what is recovery like?" (null procedure + type)
-    // - "tell me about ivf" (procedure + intro type)
-    
-    // Try to find procedure in current query
     let procedure = this.findProcedure(normalizedQuery)
     
-    // If not found in query, try to use context from previous conversation
     if (!procedure && context.lastProcedure) {
-      // Check if the query seems to be a follow-up question (no procedure name)
       const hasFollowUpPattern = this.isFollowUpQuestion(normalizedQuery)
-      
       if (hasFollowUpPattern) {
-        // --- FIX 2: Added 'Service' type to the find() parameter ---
         procedure = servicesData.find((p: Service) => p.slug === context.lastProcedure!.slug) || null
-        
         if (process.env.NODE_ENV === 'development') {
           console.log('🔗 Using context procedure:', context.lastProcedure.title)
         }
       }
     }
+    
     const questionType = this.detectQuestionType(normalizedQuery)
     
-    // Update context with current procedure if found
     if (procedure) {
       context.lastProcedure = {
         slug: procedure.slug,
         title: procedure.hero.title,
         timestamp: new Date()
       }
-      
       if (process.env.NODE_ENV === 'development') {
         console.log('💾 Stored procedure in context:', procedure.hero.title)
       }
     }
 
-    // If a specific question type (cost, risk, recovery, etc.) was detected,
-    // handle it immediately. The generator function will handle if procedure is null.
     if (questionType !== 'intro') {
-      let response: ChatbotResponse
-      
       switch (questionType) {
         case 'cost':
-          response = this.generateCostResponse(procedure)
+          finalResponse = this.generateCostResponse(procedure)
           break
         case 'process':
-          response = this.generateProcessResponse(procedure)
+          finalResponse = this.generateProcessResponse(procedure)
           break
         case 'candidates':
-          response = this.generateCandidatesResponse(procedure)
+          finalResponse = this.generateCandidatesResponse(procedure)
           break
         case 'recovery':
-          response = this.generateRecoveryResponse(procedure)
+          finalResponse = this.generateRecoveryResponse(procedure)
           break
         case 'benefits':
-          response = this.generateBenefitsResponse(procedure)
+          finalResponse = this.generateBenefitsResponse(procedure)
           break
         case 'risks':
-          response = this.generateRisksResponse(procedure)
+          finalResponse = this.generateRisksResponse(procedure)
           break
         default:
-          response = this.generateIntelligentFallback(normalizedQuery, context)
+          finalResponse = this.generateIntelligentFallback(normalizedQuery, context)
       }
       
-      // Add to conversation history
       context.conversationHistory.push({
         query: normalizedQuery,
-        intent: response.intent || questionType,
+        intent: finalResponse.intent || questionType,
         timestamp: new Date(),
         procedureSlug: procedure?.slug
       })
       
-      return response
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
     }
     
-    // If no specific type, but a procedure *was* found, show the intro.
     if (procedure && questionType === 'intro') {
-      const response = this.generateProcedureIntro(procedure)
+      finalResponse = this.generateProcedureIntro(procedure)
       
-      // Add to conversation history
       context.conversationHistory.push({
         query: normalizedQuery,
         intent: 'procedure_intro',
@@ -181,113 +175,113 @@ export class ModernAIEngine {
         procedureSlug: procedure.slug
       })
       
-      return response
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
     }
 
-    // 3. Check for emotional/trust concerns BEFORE FAQ
-    // These are high-priority and shouldn't be overridden by weak FAQ matches
     if (this.isEmotionalConcernQuestion(normalizedQuery)) {
-      return {
+      finalResponse = {
         content: "Your safety and peace of mind are our top priorities. We understand that medical tourism can feel overwhelming, especially when traveling alone. You'll have 24/7 support from our patient coordinators, VIP airport transfers, and a personal assistant throughout your stay. We work exclusively with JCI-accredited hospitals and internationally trained, board-certified surgeons. Thousands of international patients trust us each year, and we're here to support you every step of the way.",
-        suggestions: [
-          "24/7 support details",
-          "See patient stories",
-          "Hospital certifications",
-          "Talk to coordinator"
-        ],
+        suggestions: ["24/7 support details", "See patient stories", "Hospital certifications", "Talk to coordinator"],
         ctaButton: CTA_BUTTONS.consultation,
         confidence: 0.95,
         source: 'ai',
         intent: 'safety_quality'
-      }
+      };
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
     }
 
-    // 4. Check general safety/quality questions BEFORE FAQ
-    // These are more important than weak FAQ matches
     if (this.isSafetyQualityQuestion(normalizedQuery)) {
-      return {
+      finalResponse = {
         content: "Your safety is our top priority. We work exclusively with JCI-accredited hospitals and internationally trained, board-certified surgeons. All facilities meet the highest international standards for safety and quality. Our partner hospitals have multiple certifications including JCI (Joint Commission International), ISO standards, and Turkish Ministry of Health accreditation, ensuring world-class medical care.",
-        suggestions: [
-          "What is JCI accreditation?",
-          "Surgeon credentials",
-          "See success rates",
-          "Book consultation"
-        ],
+        suggestions: ["What is JCI accreditation?", "Surgeon credentials", "See success rates", "Book consultation"],
         ctaButton: CTA_BUTTONS.consultation,
         confidence: 0.9,
         source: 'ai',
         intent: 'safety_quality'
-      }
+      };
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
     }
 
-    // 5. Check FAQ Knowledge Base (Now runs *after* procedure logic, emotional concerns, and safety checks)
-    // Catches specific questions like "What is JCI?" or "Can I bring a companion?"
     const faqResponse = this.checkFaqKnowledge(normalizedQuery, context)
     if (faqResponse) {
-      // Add to conversation history
       context.conversationHistory.push({
         query: normalizedQuery,
         intent: faqResponse.intent || 'faq',
         timestamp: new Date(),
         procedureSlug: context.lastProcedure?.slug
       })
-      return faqResponse
+      
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, faqResponse, context);
+      return faqResponse;
     }
 
-    // 6. Check remaining backup functions (flight cost, hotel, medical technology)
-    // These are less critical than safety checks
     if (this.isFlightCostQuestion(normalizedQuery)) {
-      return {
+      finalResponse = {
         content: "Yes, the cost of flight tickets is included in the total price of our all-inclusive packages. We handle everything from the medical fees and hotel to the transfers and your flights to ensure a completely transparent and stress-free journey.",
         suggestions: SUGGESTIONS.cost_inquiry,
         ctaButton: CTA_BUTTONS.packages,
         confidence: 0.95,
         source: 'ai',
         intent: 'flight_cost_inclusion'
-      }
+      };
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
     }
+
     if (this.isHotelAccommodationQuestion(normalizedQuery)) {
-      return {
+      finalResponse = {
         content: "Great question! You have options with our accommodation. We work with carefully selected 4-5 star hotels that are recovery-friendly and close to medical facilities. While we pre-select the best options based on your procedure and needs, we're happy to discuss preferences and can often accommodate specific requests. Our patient coordinators will work with you to ensure you're comfortable with your accommodation choice.",
-        suggestions: [
-          "What's included?",
-          "Hotel amenities",
-          "How long do I stay?",
-          "Talk to coordinator"
-        ],
+        suggestions: ["What's included?", "Hotel amenities", "How long do I stay?", "Talk to coordinator"],
         ctaButton: CTA_BUTTONS.consultation,
         confidence: 0.9,
         source: 'ai',
         intent: 'hotel_accommodation'
-      }
+      };
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
     }
+
     if (this.isMedicalTechnologyQuestion(normalizedQuery)) {
-      return {
+      finalResponse = {
         content: "Da Vinci Robotic Surgery represents the cutting edge of minimally invasive surgical technology. This advanced robotic system allows our surgeons to perform complex procedures with enhanced precision, smaller incisions, reduced scarring, and faster recovery times. We use da Vinci technology for various procedures including gynecological surgeries, urological procedures, and certain gastrointestinal operations. The system provides 3D high-definition vision and instruments that move like a human hand but with greater range of motion and tremor elimination.",
-        suggestions: [
-          "Which procedures use it?",
-          "Benefits vs traditional?",
-          "Recovery advantages",
-          "Book consultation"
-        ],
+        suggestions: ["Which procedures use it?", "Benefits vs traditional?", "Recovery advantages", "Book consultation"],
         ctaButton: CTA_BUTTONS.consultation,
         confidence: 0.9,
         source: 'ai',
         intent: 'medical_technology'
-      }
+      };
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
     }
 
-    // 7. Search other knowledge sources (if any)
     for (const source of this.knowledgeSources.sort((a, b) => b.priority - a.priority)) {
       const response = await source.search(normalizedQuery, context)
       if (response && response.confidence >= 0.7) {
+        // --- LOG AND RETURN ---
+        logInteraction(normalizedQuery, response, context);
         return response
       }
     }
 
-    // 8. Intelligent fallback
-    return this.generateIntelligentFallback(normalizedQuery, context)
+    // --- Intelligent fallback ---
+    finalResponse = this.generateIntelligentFallback(normalizedQuery, context);
+    // --- LOG AND RETURN ---
+    logInteraction(normalizedQuery, finalResponse, context);
+    return finalResponse;
   }
+
+  // --- (All other private helper functions like normalizeQuery, findProcedure, etc. remain unchanged) ---
+  // [ ... all the functions from the previous file ... ]
 
   // --- 2. HELPER & DETECTION FUNCTIONS (Corrected Versions) ---
 
@@ -415,8 +409,6 @@ export class ModernAIEngine {
     // Check if query matches any follow-up pattern
     const matchesFollowUp = followUpPatterns.some(pattern => query.includes(pattern))
     
-    // Also check if query does NOT contain any procedure names
-    // --- FIX 3: Added 'Service' type to the some() parameter ---
     const hasProcedureName = servicesData.some((proc: Service) => 
       query.includes(proc.hero.title.toLowerCase()) || 
       query.includes(proc.slug)
@@ -432,12 +424,10 @@ export class ModernAIEngine {
     const informationalPhrases = ['what is', 'what are', 'tell me about', 'what kind', 'what type', 'explain', 'describe']
     const isInformationalQuestion = informationalPhrases.some(phrase => query.includes(phrase))
     
-    // If it's asking for information (what is, tell me), let FAQ handle it
     if (isInformationalQuestion) {
       return false
     }
     
-    // Now check for actual safety CONCERNS
     const safetyWords = ['safe', 'safety']
     const riskWords = ['risk', 'risks', 'danger', 'dangers']
     const concernWords = ['nervous', 'worried', 'concern', 'concerned', 'trust', 'reliable', 'reputation', 'skeptical', 'hesitant']
@@ -454,12 +444,11 @@ export class ModernAIEngine {
     const hasExperienceWord = experienceWords.some(word => query.includes(word))
     const hasGeneralContext = generalContext.some(word => query.includes(word))
     
-    // Catch actual CONCERNS, not informational questions:
-    return (hasSafetyWord) || // "Is it safe?" "Is surgery safe?"
-           (hasConcernWord) || // "I'm nervous..." "I'm worried..."
-           (hasSafetyWord && hasHospitalWord) || // "Are hospitals safe?"
-           (hasSurgeonWord && hasExperienceWord) || // "Are surgeons experienced?"
-           (hasRiskWord && hasGeneralContext) // "Are there risks abroad?"
+    return (hasSafetyWord) || 
+           (hasConcernWord) || 
+           (hasSafetyWord && hasHospitalWord) || 
+           (hasSurgeonWord && hasExperienceWord) || 
+           (hasRiskWord && hasGeneralContext) 
   }
 
   private isFlightCostQuestion(query: string): boolean {
@@ -478,11 +467,9 @@ export class ModernAIEngine {
     return hasTechWord && hasQuestionWord
   }
 
-  // CORRECTED: Fixes 3-char bug, searches answers, has bonuses
   private checkFaqKnowledge(normalizedQuery: string, context?: ChatContext): ChatbotResponse | null {
     const queryWords = normalizedQuery.toLowerCase().split(' ').filter(w => w.length >= 3)
     
-    // Manually add important 3-char acronyms if they exist
     if (normalizedQuery.includes('jci')) queryWords.push('jci')
     if (normalizedQuery.includes('ivf')) queryWords.push('ivf')
     if (normalizedQuery.includes('fue')) queryWords.push('fue')
@@ -494,10 +481,9 @@ export class ModernAIEngine {
 
     let bestMatch: { faq: FAQItem, score: number } | null = null
   
-    // --- FIX 4: Added 'FAQItem' type to the loop parameter ---
     for (const faq of faqData as FAQItem[]) {
       const questionLower = faq.question.toLowerCase()
-      const answerLower = faq.answer.toLowerCase() // Search answers
+      const answerLower = faq.answer.toLowerCase() 
       let score = 0
   
       for (const word of queryWords) {
@@ -505,11 +491,10 @@ export class ModernAIEngine {
           score++
         }
         if (answerLower.includes(word)) {
-          score += 0.5 // Credit for answer match
+          score += 0.5 
         }
       }
   
-      // Add bonus points for high-intent keywords
       if (normalizedQuery.includes("jci")) {
         if (questionLower.includes("jci") || answerLower.includes("jci-accredited")) score += 5
       }
@@ -526,22 +511,18 @@ export class ModernAIEngine {
         if (questionLower.includes("payment")) score += 5
       }
       
-      // Follow-up care questions
       if (normalizedQuery.includes("follow-up") || normalizedQuery.includes("follow up")) {
         if (questionLower.includes("follow-up") || answerLower.includes("follow-up")) score += 5
       }
       
-      // Aftercare questions - but prioritize stay duration if asking "how long"
       if (normalizedQuery.includes("aftercare")) {
         if (questionLower.includes("aftercare") || answerLower.includes("aftercare")) {
           score += 5
         } else if (normalizedQuery.includes("how long") && questionLower.includes("stay")) {
-          // "How long should I stay for aftercare?" should match stay FAQ
           score += 3
         }
       }
       
-      // Surgeon-specific questions - ONLY for assignment/meeting questions, NOT quality questions
       const isSurgeonAssignmentQuestion = (normalizedQuery.includes("who will") || 
                                            normalizedQuery.includes("which surgeon") || 
                                            normalizedQuery.includes("my surgeon") ||
@@ -550,30 +531,25 @@ export class ModernAIEngine {
         if (questionLower.includes("who will") || questionLower.includes("meet") || questionLower.includes("surgeon")) score += 5
       }
       
-      // Pre-op meeting questions
       if ((normalizedQuery.includes("meet") || normalizedQuery.includes("see")) && normalizedQuery.includes("before")) {
         if (questionLower.includes("meet") || questionLower.includes("consultation")) score += 5
       }
       
-      // Anesthesia questions
       if (normalizedQuery.includes("anesthesia") || normalizedQuery.includes("anesthetic") || normalizedQuery.includes("sedation")) {
         if (questionLower.includes("anesthesia") || answerLower.includes("anesthesia")) score += 5
       }
       
-      // "What if something goes wrong" / emergency concern questions
       if ((normalizedQuery.includes("something goes wrong") || normalizedQuery.includes("goes wrong") || 
            normalizedQuery.includes("what if") || normalizedQuery.includes("worst case"))) {
         if (questionLower.includes("emergency") || questionLower.includes("complication") || 
             answerLower.includes("emergency") || answerLower.includes("protocols")) score += 5
       }
       
-      // Timeline questions (consultation to surgery)
       if ((normalizedQuery.includes("how long from") || normalizedQuery.includes("time from") || 
            normalizedQuery.includes("timeline")) && normalizedQuery.includes("consultation")) {
         if (questionLower.includes("consultation") && questionLower.includes("surgery")) score += 5
       }
       
-      // Language/translation questions
       if (normalizedQuery.includes("speak english") || normalizedQuery.includes("do you speak") || 
           normalizedQuery.includes("language") || normalizedQuery.includes("translator") || 
           normalizedQuery.includes("translation") || normalizedQuery.includes("translate")) {
@@ -581,7 +557,6 @@ export class ModernAIEngine {
             questionLower.includes("language") || answerLower.includes("translation")) score += 5
       }
       
-      // Payment questions (installments, timing, deposit, refund)
       if (normalizedQuery.includes("installment") || normalizedQuery.includes("installments") || 
           (normalizedQuery.includes("pay") && (normalizedQuery.includes("when") || normalizedQuery.includes("how"))) ||
           normalizedQuery.includes("payment plan") || normalizedQuery.includes("deposit") || 
@@ -592,33 +567,28 @@ export class ModernAIEngine {
             answerLower.includes("payment") || answerLower.includes("deposit")) score += 5
       }
       
-      // International patients question
       if ((normalizedQuery.includes("international") || normalizedQuery.includes("foreign")) && 
           normalizedQuery.includes("patient")) {
         if (questionLower.includes("international") || answerLower.includes("international")) score += 5
       }
       
-      // Airport pickup/transfer questions
       if (normalizedQuery.includes("airport") || normalizedQuery.includes("pick me up") || 
           normalizedQuery.includes("pickup") || normalizedQuery.includes("transfer")) {
         if (questionLower.includes("airport") || questionLower.includes("pick") || 
             answerLower.includes("airport") || answerLower.includes("transfer")) score += 5
       }
       
-      // Companion/partner travel questions (to prevent candidates detection collision)
       if ((normalizedQuery.includes("bring") || normalizedQuery.includes("take")) && 
           (normalizedQuery.includes("companion") || normalizedQuery.includes("partner") || 
            normalizedQuery.includes("friend") || normalizedQuery.includes("family"))) {
         if (questionLower.includes("companion") || questionLower.includes("bring") || 
-            answerLower.includes("companion")) score += 6  // Higher than candidates to win
+            answerLower.includes("companion")) score += 6  
       }
       
-      // 🔥 CONTEXT-AWARE SCORING: Boost FAQs related to current procedure
       if (context?.lastProcedure) {
         const procedureTitle = context.lastProcedure.title.toLowerCase()
         const procedureSlug = context.lastProcedure.slug
         
-        // Boost if FAQ answer mentions the current procedure
         if (answerLower.includes(procedureTitle) || answerLower.includes(procedureSlug)) {
           score += 3
           
@@ -627,20 +597,16 @@ export class ModernAIEngine {
           }
         }
         
-        // Special boosting for procedure-specific FAQs
-        // IVF-related FAQs
         if (procedureSlug === 'ivf-treatment' && 
             (faq.category === 'Procedures' && (answerLower.includes('ivf') || answerLower.includes('fertility')))) {
           score += 5
         }
         
-        // Hair transplant-related FAQs
         if ((procedureSlug === 'scalp-hair-transplant' || procedureSlug === 'eyebrow-transplantation' || procedureSlug === 'beard-transplantation') &&
             (faq.category === 'Procedures' && (answerLower.includes('hair') || answerLower.includes('fue') || answerLower.includes('dhi')))) {
           score += 5
         }
         
-        // Bariatric surgery-related FAQs
         if ((procedureSlug === 'sleeve-gastrectomy' || procedureSlug === 'gastric-bypass' || 
              procedureSlug === 'gastric-balloon' || procedureSlug === 'gastric-botox') &&
             (faq.category === 'Procedures' && (answerLower.includes('weight loss') || answerLower.includes('bariatric') || 
@@ -648,14 +614,12 @@ export class ModernAIEngine {
           score += 5
         }
         
-        // Dental-related FAQs
         if (procedureSlug === 'cosmetic-dentistry' &&
             (faq.category === 'Procedures' && (answerLower.includes('dental') || answerLower.includes('veneers') || 
              answerLower.includes('implants') || answerLower.includes('crowns')))) {
           score += 5
         }
         
-        // Plastic surgery-related FAQs
         if ((procedureSlug === 'rhinoplasty' || procedureSlug === 'breast-augmentation' || 
              procedureSlug === 'breast-lift' || procedureSlug === 'tummy-tuck' || procedureSlug === 'bbl' ||
              procedureSlug === 'vaser-liposuction' || procedureSlug === 'facelift') &&
@@ -671,7 +635,6 @@ export class ModernAIEngine {
     }
   
     if (bestMatch && bestMatch.score >= 3) {
-      // Generate contextual suggestions based on FAQ category
       const category = bestMatch.faq.category.toLowerCase()
       let contextualSuggestions: string[] = []
       
@@ -699,27 +662,22 @@ export class ModernAIEngine {
       }
     }
   
-    return null // No match
+    return null 
   }
 
-  // CORRECTED: Specific types first, then intro phrases, contextual process detection
   private detectQuestionType(query: string): string {
     const lowerQuery = query.toLowerCase()
   
-    // Early return for consultation timeline questions (these should be handled by FAQ)
     const isConsultationTimelineQ = (lowerQuery.includes('consultation') && lowerQuery.includes('surgery')) &&
                                      (lowerQuery.includes('how long') || lowerQuery.includes('timeline') || 
                                       lowerQuery.includes('time from') || lowerQuery.includes('from'))
-    if (isConsultationTimelineQ) return 'intro' // Let FAQ handle it
+    if (isConsultationTimelineQ) return 'intro' 
   
-    // Check SPECIFIC question types first (these are unambiguous)
-    // Exception: "how much weight" is benefits, not cost
     const isWeightLossQuestion = (lowerQuery.includes('how much') || lowerQuery.includes('how many')) && 
                                   (lowerQuery.includes('weight') || lowerQuery.includes('pounds') || 
                                    lowerQuery.includes('kilos') || lowerQuery.includes('lose'))
     
     if (isWeightLossQuestion) {
-      // This is about weight loss results/benefits, not cost
       return 'benefits'
     }
     
@@ -729,8 +687,6 @@ export class ModernAIEngine {
     const candidateKeywords = ['candidate', 'eligible', 'suitable', 'good for', 'right for me', 'qualify', 'eligibility', 'requirements', 'too old', 'too young', 'minimum age', 'maximum age', 'age limit']
     const candidateConditions = ['diabetes', 'diabetic', 'pregnant', 'pregnancy', 'breastfeeding', 'heart condition', 'blood pressure', 'medication']
     
-    // Check if asking about eligibility with a medical condition
-    // Must have: (1) eligibility phrasing AND (2) actual medical condition
     const hasEligibilityPhrasing = lowerQuery.includes('can i') || lowerQuery.includes('can someone') || 
                                     lowerQuery.includes('am i able') || lowerQuery.includes('is someone')
     const hasMedicalCondition = candidateConditions.some(cond => lowerQuery.includes(cond)) ||
@@ -742,19 +698,15 @@ export class ModernAIEngine {
     if (candidateKeywords.some(keyword => lowerQuery.includes(keyword)) || isConditionEligibilityQuestion) return 'candidates'
   
     const benefitKeywords = ['benefit', 'benefits', 'advantage', 'advantages', 'pros', 'why choose', 'why should i choose', 'why would i choose', 'natural', 'look natural']
-    // Special case: "natural" should be benefits if asking about results
     const isNaturalResultsQuestion = (lowerQuery.includes('natural') || lowerQuery.includes('look')) && 
                                       (lowerQuery.includes('will') || lowerQuery.includes('look') || lowerQuery.includes('appear'))
     if (benefitKeywords.some(keyword => lowerQuery.includes(keyword)) || isNaturalResultsQuestion) return 'benefits'
   
-    // Risk keywords - but 'safe'/'safety' and post-return complications are handled specially below
     const riskKeywords = ['risk', 'risks', 'danger', 'dangers', 'side effect', 'side effects', 'cons', 'scar', 'scars', 'scarring']
-    // Special case: "complications at home" / "complications after" is FAQ, not risks
     const isPostReturnComplication = (lowerQuery.includes('complication') || lowerQuery.includes('complications')) &&
                                       (lowerQuery.includes('at home') || lowerQuery.includes('after i return') || 
                                        lowerQuery.includes('back home') || lowerQuery.includes('when i get home'))
     
-    // Special case: "risks" with general safety context (abroad, turkey, hospitals) is safety_quality, not procedure_risks
     const hasGeneralSafetyContext = lowerQuery.includes('turkey') || lowerQuery.includes('turkish') || 
                                      lowerQuery.includes('hospital') || lowerQuery.includes('hospitals') ||
                                      lowerQuery.includes('country') || lowerQuery.includes('abroad')
@@ -762,8 +714,6 @@ export class ModernAIEngine {
     if (!isPostReturnComplication && !hasGeneralSafetyContext && riskKeywords.some(keyword => lowerQuery.includes(keyword))) return 'risks'
     if (!isPostReturnComplication && !hasGeneralSafetyContext && (lowerQuery.includes('complication') || lowerQuery.includes('complications'))) return 'risks'
     
-    // Special handling for 'safe'/'safety' - only treat as risks if asking about procedure-specific safety
-    // General safety questions (how safe, is it safe, is this safe) should NOT be treated as risks
     const hasSafe = lowerQuery.includes('safe') || lowerQuery.includes('safety')
     const isGeneralSafetyQuestion = lowerQuery.includes('how safe') || lowerQuery.includes('is it safe') || 
                                      lowerQuery.includes('is this safe') || lowerQuery.includes('is surgery safe') ||
@@ -771,15 +721,10 @@ export class ModernAIEngine {
                                       lowerQuery.includes('hospital') || lowerQuery.includes('hospitals') ||
                                       lowerQuery.includes('country') || lowerQuery.includes('abroad'))
     
-    // Only treat as procedure risks if asking about a specific procedure's safety
     if (hasSafe && !isGeneralSafetyQuestion) {
       return 'risks'
     }
   
-    // Check 'recovery' BEFORE 'process' (handles "recovery process" correctly)
-    // Also detect temporal/activity questions that are recovery-related
-    // BUT EXCLUDE "stay duration" questions (those are about travel, not recovery)
-    // AND EXCLUDE "consultation to surgery timeline" questions (those are about process, not recovery)
     const isStayDurationQuestion = (lowerQuery.includes('how long') && lowerQuery.includes('stay')) ||
                                     (lowerQuery.includes('how many days') && lowerQuery.includes('stay'))
     const isConsultationTimelineQuestion = (lowerQuery.includes('consultation') && lowerQuery.includes('surgery')) &&
@@ -797,13 +742,11 @@ export class ModernAIEngine {
       
       const temporalRecovery = hasTimingWord && hasActivityWord && hasAfterSurgery
       
-      // Also detect "when will I see results" type questions as recovery
       const isResultsTimingQuestion = (lowerQuery.includes('when will') || lowerQuery.includes('when do') || 
                                        lowerQuery.includes('how long until') || lowerQuery.includes('how soon')) && 
                                       (lowerQuery.includes('see results') || lowerQuery.includes('see the results') || 
                                        lowerQuery.includes('notice results') || lowerQuery.includes('results'))
       
-      // Also detect symptom-based recovery questions (e.g., "when will swelling go down")
       const recoverySymptoms = ['swelling', 'bruising', 'pain', 'discomfort', 'soreness', 'numbness']
       const symptomActions = ['go down', 'go away', 'subside', 'decrease', 'reduce', 'disappear', 'heal']
       const hasSymptom = recoverySymptoms.some(symptom => lowerQuery.includes(symptom))
@@ -815,12 +758,9 @@ export class ModernAIEngine {
       }
     }
   
-    // Check 'process' - but exclude queries asking ABOUT available procedures
-    // "What procedures do you offer?" should NOT be treated as a process question
     const isAskingAboutProcedures = (lowerQuery.includes('what procedures') || lowerQuery.includes('which procedures')) && 
                                      (lowerQuery.includes('offer') || lowerQuery.includes('have') || lowerQuery.includes('available') || lowerQuery.includes('do you do'))
     
-    // Also detect "how does X work" and "what happens" as process questions
     const isHowDoesItWork = (lowerQuery.includes('how does') || lowerQuery.includes('how do')) && 
                             (lowerQuery.includes('work') || lowerQuery.includes('happen'))
     const isWhatHappens = lowerQuery.includes('what happens') && 
@@ -830,19 +770,15 @@ export class ModernAIEngine {
       return 'process'
     }
   
-    // Check intro phrases AFTER specific types (allows "what is the process?" to be caught by process)
     if (lowerQuery.includes('what is') || lowerQuery.includes('tell me about') || lowerQuery.includes('explain')) return 'intro'
   
-    return 'intro' // Default
+    return 'intro' 
   }
 
-  // CORRECTED: Uses full keyword map
   private findProcedure(query: string): Service | null {
     const lowerQuery = query.toLowerCase()
-    const procedures = servicesData as Service[] // Cast to array of Service
+    const procedures = servicesData as Service[] 
 
-    // 1. Check for exact or near-exact title matches first
-    // --- FIX 5: Added 'Service' type to loop parameter ---
     for (const proc of procedures) {
       if (lowerQuery.includes(proc.hero.title.toLowerCase())) {
         return proc
@@ -852,10 +788,8 @@ export class ModernAIEngine {
       }
     }
 
-    // 2. Check keywords mapped to specific slugs (ORDER MATTERS - more specific first!)
     const procedureKeywords: { [slug: string]: string[] } = {
       'rhinoplasty': ['nose', 'rhinoplasty', 'nasal job'],
-      // Hair transplant keywords BEFORE organ transplant to avoid collision
       'scalp-hair-transplant': ['hair transplant', 'scalp hair transplant', 'hair loss', 'balding', 'fue', 'dhi', 'hair restoration'],
       'eyebrow-transplantation': ['eyebrow transplant', 'eyebrow hair'],
       'beard-transplantation': ['beard transplant', 'beard hair'],
@@ -880,7 +814,6 @@ export class ModernAIEngine {
       'penis-enlargement': ['penis enlargement', 'phalloplasty'],
       'cosmetic-dentistry': ['dentist', 'dental', 'veneers', 'crowns', 'implants', 'teeth whitening', 'smile makeover'],
       'eye-surgery': ['eye surgery', 'lasik', 'blepharoplasty', 'cataract'],
-      // Organ transplant - more specific keywords to avoid collision with "hair transplant"
       'transplantation': ['organ transplant', 'kidney transplant', 'liver transplant', 'bone marrow transplant', 'kidney', 'liver', 'bone marrow'],
       'mesotherapy': ['mesotherapy', 'meso'],
       'micro-scalp-pigmentation': ['smp', 'scalp tattoo', 'scalp pigmentation'],
@@ -892,7 +825,6 @@ export class ModernAIEngine {
     for (const slug in procedureKeywords) {
       const keywords = procedureKeywords[slug]
       if (keywords.some(keyword => lowerQuery.includes(keyword))) {
-        // --- FIX 6: Added 'Service' type to find() parameter ---
         const matchedProcedure = procedures.find((p: Service) => p.slug === slug)
         if (matchedProcedure) {
           return matchedProcedure
@@ -905,15 +837,12 @@ export class ModernAIEngine {
 
   // --- 3. GENERATOR FUNCTIONS (Knowledge-Map Aware) ---
 
-  // CORRECTED: Uses knowledgeMap
   private generateProcedureIntro(procedure: Service): ChatbotResponse {
     const procedureKnowledge = this.knowledgeMap[procedure.slug]
     let introContent = `**${procedure.hero.title}** - ${procedure.hero.subtitle} Our experienced specialists use the latest techniques to ensure optimal outcomes with comprehensive care and support. What specific aspect would you like to know more about?`
   
     const contentKey = procedureKnowledge?.what
     if (contentKey && this.contentMap.hasOwnProperty(contentKey)) {
-      // In a real implementation, we'd summarize the ReactNode.
-      // For now, this is a robust placeholder.
       introContent = `**${procedure.hero.title}** - ${procedure.hero.subtitle} Our experienced specialists use the latest techniques to ensure optimal outcomes with comprehensive care and support. What specific aspect would you like to know more about?`
     }
   
@@ -932,7 +861,6 @@ export class ModernAIEngine {
     }
   }
 
-  // CORRECTED: Uses knowledgeMap
   private generateProcessResponse(procedure: Service | null): ChatbotResponse {
     if (!procedure) {
       return {
@@ -975,7 +903,6 @@ export class ModernAIEngine {
     }
   }
   
-  // CORRECTED: Uses knowledgeMap
   private generateCandidatesResponse(procedure: Service | null): ChatbotResponse {
     if (!procedure) {
     return {
@@ -1018,7 +945,6 @@ export class ModernAIEngine {
     }
   }
 
-  // CORRECTED: Uses knowledgeMap
   private generateRecoveryResponse(procedure: Service | null): ChatbotResponse {
     if (!procedure) {
       return {
@@ -1061,7 +987,6 @@ export class ModernAIEngine {
     }
   }
 
-  // (This one is correct, just needs the `| null` check)
   private generateCostResponse(procedure: Service | null): ChatbotResponse {
     if (!procedure) {
       return {
@@ -1079,7 +1004,6 @@ export class ModernAIEngine {
       }
     }
     
-    // This is the specific (but still generic) quote response
     return {
       content: `For **${procedure.hero.title}**, pricing is tailored to your specific needs. Our all-inclusive packages offer excellent value. To get a personalized, detailed quote with no obligation, please schedule a free consultation with our medical advisors.`,
       suggestions: [
@@ -1095,7 +1019,6 @@ export class ModernAIEngine {
     }
   }
 
-  // (This one is correct, just needs the `| null` check)
   private generateBenefitsResponse(procedure: Service | null): ChatbotResponse {
     let responseContent = ''
     let responseSuggestions: string[] = []
@@ -1104,7 +1027,6 @@ export class ModernAIEngine {
       responseContent = `Our procedures offer significant advantages tailored to patient goals. For specific benefits relevant to your situation, please schedule a consultation with our specialists.`
       responseSuggestions = ["What are the risks?", "View procedures", "See before & after", "Get consultation"]
     } else if (procedure.benefits && procedure.benefits.length > 0) {
-      // --- FIX 7: Added 'Benefit' type to map parameter ---
       const benefitsList = procedure.benefits
         .map((b: Benefit) => `* **${b.title}:** ${b.description}`)
         .join('\n')
@@ -1130,7 +1052,6 @@ export class ModernAIEngine {
     }
   }
 
-  // (This one is correct, just needs the `| null` check)
   private generateRisksResponse(procedure: Service | null): ChatbotResponse {
     let responseContent = ''
     let responseSuggestions: string[] = []
@@ -1140,7 +1061,7 @@ export class ModernAIEngine {
       responseSuggestions = ["What are the benefits?", "Safety measures", "Success rates", "Talk to surgeon"]
     } else if (procedure.risks && procedure.risks.length > 0) {
       const risksList = procedure.risks
-        .map(risk => `* ${risk}`) // risk is implicitly string, which is fine
+        .map(risk => `* ${risk}`) 
         .join('\n')
       responseContent = `**Potential Risks of ${procedure.hero.title}:**\nLike any surgical procedure, there are potential risks. Common ones include:\n${risksList}\n\nPlease note this is not a complete list. It's crucial to discuss all potential risks thoroughly with your surgeon during a consultation.`
       responseSuggestions = [

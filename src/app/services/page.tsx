@@ -104,7 +104,7 @@ const ServicesPage = () => {
       <ServiceHero
         title="World-Class Medical Services"
         subtitle="Comprehensive healthcare solutions delivered by Turkey's finest specialists in state-of-the-art facilities."
-        backgroundImageUrl="/images/placeholder-procedure.jpg"
+        backgroundImageUrl="/images/services-hub-hero.jpg" // <-- UPDATED PATH
       />
 
       {/* Interactive Body Map Section */}

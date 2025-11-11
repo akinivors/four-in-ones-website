@@ -5,9 +5,8 @@ import React, { useState, useMemo } from 'react';
 import { Disclosure } from '@headlessui/react';
 import { ChevronUp, Search } from 'lucide-react';
 import FAQ_CTA from '@/app/components/faq/FAQ_CTA';
-
-// --- FIX: Updated import path ---
 import { faqData, FAQItem } from '@/lib/faqData';
+import { FaqPageSchema } from '@/app/components/common/StructuredData';
 
 const categories = ["All", "General", "Process", "Payments", "Aftercare", "Procedures"];
 
@@ -28,6 +27,8 @@ export default function FaqPage() {
 
   return (
     <>
+      <FaqPageSchema faqs={filteredFaqs} />
+      
       <section className="bg-brand-background py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="font-lora text-4xl md:text-5xl font-bold text-brand-dark">Frequently Asked Questions</h1>

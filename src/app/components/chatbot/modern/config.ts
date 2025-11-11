@@ -41,7 +41,21 @@ export const PRIORITY_INTENTS: Intent[] = [
       'airfare included',
       'ticket included',
       'flight expenses',
-      'cost of airfare'
+      'cost of airfare',
+      // --- ENRICHED ---
+      'plane?',
+      'flight?',
+      'about the flight',
+      'is flight included',
+      'is the flight included',
+      'are flights included',
+      'plane',
+      'flight',
+      'plane ticket',
+      'plane tickets',
+      'plane included',
+      'planes included',
+      'are plane tickets included'
     ],
     response: "Yes, the cost of flight tickets is included in the total price of our all-inclusive packages. We handle everything from the medical fees and hotel to the transfers and your flights to ensure a completely transparent and stress-free journey.",
     confidence: 0.95,
@@ -60,7 +74,15 @@ export const PRIORITY_INTENTS: Intent[] = [
       'about packages',
       'package details',
       'all-inclusive',
-      'comprehensive package'
+      'comprehensive package',
+      "what's included?",
+      "what is included?",
+      // --- ENRICHED ---
+      'package',
+      'packages',
+      'inclusion',
+      'inclusions',
+      'what is in the package'
     ],
     response: "Our all-inclusive packages include: Complete medical care, luxury hotel accommodation, VIP transfers, round-trip flight tickets, 24/7 personal support, and comprehensive aftercare. Everything is covered with transparent pricing.",
     confidence: 0.9,
@@ -85,7 +107,14 @@ export const PRIORITY_INTENTS: Intent[] = [
       'know about hotels',
       'wanna know about hotels',
       'tell me about hotels',
-      'hotel information'
+      'hotel information',
+      // --- ENRICHED ---
+      'hotel',
+      'hotels',
+      'accommodation',
+      'where do i stay',
+      'stay',
+      'where will i stay'
     ],
     response: "Great question! You have options with our accommodation. We work with carefully selected 4-5 star hotels that are recovery-friendly and close to medical facilities. While we pre-select the best options based on your procedure and needs, we're happy to discuss preferences and can often accommodate specific requests. Our patient coordinators will work with you to ensure you're comfortable with your accommodation choice.",
     confidence: 0.9,
@@ -100,7 +129,12 @@ export const PRIORITY_INTENTS: Intent[] = [
       'cost comparison',
       'cheaper than',
       'savings',
-      'affordable'
+      'affordable',
+      // --- ENRICHED ---
+      'save',
+      'how much cheaper',
+      'is it cheaper',
+      'how affordable'
     ],
     response: "You'll save 60-80% compared to US/Europe prices while receiving the same quality care. Our transparent, all-inclusive packages have no hidden costs and include everything you need for a successful medical journey.",
     confidence: 0.9,
@@ -117,7 +151,14 @@ export const PRIORITY_INTENTS: Intent[] = [
       'list procedures',
       'see all procedures',
       'browse procedures',
-      'available procedures'
+      'available procedures',
+      // --- ENRICHED ---
+      'procedures',
+      'what procedures',
+      'what services',
+      'services',
+      'what do you offer',
+      'treatments'
     ],
     response: "We offer a comprehensive range of procedures across multiple specialties:\n\n**Bariatric Surgery:** Gastric Sleeve, Gastric Bypass, Gastric Balloon, Gastric Botox\n\n**Hair Transplant:** FUE, DHI, Eyebrow & Beard Transplantation\n\n**Plastic Surgery:** Rhinoplasty, BBL, Liposuction, Breast Augmentation, Tummy Tuck, Facelift, and more\n\n**Fertility:** IVF Treatment\n\n**Dental:** Veneers, Implants, Crowns, Smile Makeover\n\n**Eye Surgery:** LASIK, Blepharoplasty, Cataract\n\n**Plus:** Transplantation, Orthopedic, Neurosurgery, and da Vinci Robotic Surgery",
     confidence: 0.95,
@@ -139,7 +180,15 @@ export const PRIORITY_INTENTS: Intent[] = [
       'what kind of accreditations',
       'quality standards',
       'international standards',
-      'hospital accreditation'
+      'hospital accreditation',
+      // --- ENRICHED ---
+      'safe',
+      'safety',
+      'is it safe',
+      'how safe',
+      'surgeon quality',
+      'are surgeons good',
+      'are hospitals good'
     ],
     response: "Your safety is our top priority. We work exclusively with JCI-accredited hospitals and internationally trained, board-certified surgeons. All facilities meet the highest international standards for safety and quality. Our partner hospitals have multiple certifications including JCI (Joint Commission International), ISO standards, and Turkish Ministry of Health accreditation, ensuring world-class medical care.",
     confidence: 0.9,
@@ -161,7 +210,12 @@ export const PRIORITY_INTENTS: Intent[] = [
       'what that is',
       'tell me what that is',
       'advanced surgical',
-      'latest technology'
+      'latest technology',
+      // --- ENRICHED ---
+      'robot',
+      'robotic',
+      'technology',
+      'davinci'
     ],
     response: "Da Vinci Robotic Surgery represents the cutting edge of minimally invasive surgical technology. This advanced robotic system allows our surgeons to perform complex procedures with enhanced precision, smaller incisions, reduced scarring, and faster recovery times. We use da Vinci technology for various procedures including gynecological surgeries, urological procedures, and certain gastrointestinal operations. The system provides 3D high-definition vision and instruments that move like a human hand but with greater range of motion and tremor elimination.",
     confidence: 0.9,
@@ -173,7 +227,16 @@ export const PRIORITY_INTENTS: Intent[] = [
       'book consultation',
       'schedule appointment',
       'contact doctor',
-      'free consultation'
+      'free consultation',
+      // --- ENRICHED ---
+      'book',
+      'consultation',
+      'how to book',
+      'schedule',
+      'make an appointment',
+      'appointment',
+      'talk to someone',
+      'talk to a doctor'
     ],
     response: "I'd be happy to help you schedule a free consultation! Our medical team will provide personalized treatment plans, discuss your goals, and answer all your questions.",
     confidence: 0.9,
@@ -274,4 +337,21 @@ export const CTA_BUTTONS = {
     action: 'faq' as const,
     url: "/faq"
   }
+}
+
+// --- PROACTIVE GREETINGS (Page-Aware Chatbot) ---
+export const PROACTIVE_GREETINGS: { [key: string]: string } = {
+  // Service Category Pages
+  'plastic-surgery': "I see you're looking at Plastic Surgery. I can answer questions about procedures like Rhinoplasty, BBL, or Tummy Tucks. What are you most curious about?",
+  'obesity-surgery': "I see you're interested in Obesity Surgery. I can help with specific questions about Gastric Sleeve, recovery, or costs. What's on your mind?",
+  'hair-transplant': "I see you're exploring Hair Transplants. I can provide details on FUE vs. DHI, recovery time, or provide a cost estimate. How can I help?",
+  'cosmetic-dentistry': "I see you're looking at Cosmetic Dentistry. I can answer questions about Veneers, Implants, or Smile Makeovers. What would you like to know?",
+  
+  // Core Journey Pages
+  'journey': "This is the all-inclusive journey! I can clarify what's included in our packages, from flights to hotels. Just ask!",
+  'contact': "This is our main contact page. If you have a quick question before you fill out the form, feel free to ask me here!",
+  'health-form': "I see you're on the health form. If you have any questions about the form or the process, I'm here to help!",
+
+  // Default for all other service pages
+  'default_service': "I see you're interested in {serviceName}! I can answer specific questions about this procedure, recovery time, or provide a cost estimate. What are you most curious about?"
 }

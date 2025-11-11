@@ -96,20 +96,28 @@ export default function Footer() {
               Contact Us
             </h4>
             <div className="space-y-3">
+              {/* --- UPDATED: Address --- */}
               <div className="flex items-start space-x-3">
-                <MapPin size={16} className="text-brand-dark mt-1 flex-shrink-0" />
+                <MapPin size={16} className="text-brand-teal mt-1 flex-shrink-0" />
                 <p className="font-inter text-sm">
-                  123 Healthcare Plaza<br />
-                  Istanbul, Turkey 34000
+                  Avenida Acapulco 17, Local 7<br />
+                  29640 Fuengirola - Málaga, Spain
                 </p>
               </div>
+              {/* --- UPDATED: UK Phone --- */}
               <div className="flex items-center space-x-3">
-                <Phone size={16} className="text-brand-dark flex-shrink-0" />
-                <p className="font-inter text-sm">+90 212 123 4567</p>
+                <Phone size={16} className="text-brand-teal flex-shrink-0" />
+                <p className="font-inter text-sm">+44 7359 104606 (UK)</p>
               </div>
+              {/* --- UPDATED: US Phone --- */}
               <div className="flex items-center space-x-3">
-                <Mail size={16} className="text-brand-dark flex-shrink-0" />
-                <p className="font-inter text-sm">info@fourinones.com</p>
+                <Phone size={16} className="text-brand-teal flex-shrink-0" />
+                <p className="font-inter text-sm">+1 630 201 3340 (US)</p>
+              </div>
+              {/* --- UPDATED: Email --- */}
+              <div className="flex items-center space-x-3">
+                <Mail size={16} className="text-brand-teal flex-shrink-0" />
+                <p className="font-inter text-sm">info@getbeautyandhealth.com</p>
               </div>
               
               {/* Social Media Icons */}

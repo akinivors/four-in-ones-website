@@ -1,40 +1,70 @@
-// In app/components/about/TeamSection.tsx
+// In src/app/components/about/TeamSection.tsx
 import React from 'react';
 import Image from 'next/image';
 
+// --- UPDATED: Real team members with correct roles ---
 const teamMembers = [
   {
-    name: "Dr. Elif Yilmaz",
-    title: "Founder & Lead Surgeon",
-    imageUrl: "/images/team-member-1.jpg",
+    name: "Yasemin Demirtaş",
+    title: "Founder",
+    imageUrl: "/images/team-member-2.jpg", // (Placeholder image)
   },
   {
-    name: "Ahmet Kaya",
-    title: "Head of Patient Coordination",
-    imageUrl: "/images/team-member-2.jpg",
+    name: "Dr. Ayşin Akdoğan",
+    title: "Expert IVF Doctor",
+    imageUrl: "/images/cta-doctor-image.webp", // (Real photo)
   },
   {
-    name: "Zeynep Ozcan",
-    title: "Real Estate Advisor",
-    imageUrl: "/images/team-member-3.jpg",
-  },
-  {
-    name: "Murat Demir",
-    title: "Logistics Manager",
-    imageUrl: "/images/team-member-4.jpg",
+    name: "Özlem Morgan",
+    title: "UK Coordinator",
+    imageUrl: "/images/team-member-3.jpg", // (Placeholder image)
   },
 ];
-// AI: Please find 4 diverse, professional, royalty-free headshot photos for the team members.
+
+// --- UPDATED: Person Schema with correct roles & expertise ---
+const TeamSchema = () => {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: teamMembers.map((member, index) => ({
+      '@type': 'Person',
+      name: member.name,
+      jobTitle: member.title,
+      image: `https://getbeautyandhealth.com${member.imageUrl}`,
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Get Beauty and Health',
+      },
+      // --- THIS IS THE KEY SEO UPDATE ---
+      // We are telling Google that Dr. Akdoğan is an expert in IVF.
+      ...(member.name.includes('Dr.') && {
+        knowsAbout: 'IVF, Fertility, Reproductive Medicine'
+      })
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+};
+// --- END SCHEMA UPDATE ---
+
 
 const TeamSection = () => {
   return (
     <section className="bg-white py-16 lg:py-24">
+      <TeamSchema />
+
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="font-lora text-3xl font-bold text-brand-dark">Meet Our Team</h2>
           <p className="mt-4 max-w-2xl mx-auto text-brand-text">The dedicated professionals ensuring your journey is seamless and successful.</p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+        {/* The md:grid-cols-3 layout is perfect for 3 members */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
           {teamMembers.map((member) => (
             <div key={member.name} className="text-center">
               <div className="relative h-40 w-40 md:h-48 md:w-48 mx-auto rounded-full overflow-hidden shadow-lg">

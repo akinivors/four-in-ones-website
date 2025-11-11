@@ -1,6 +1,17 @@
 // In app/health-form/page.tsx
 import React from 'react';
 import SmartHealthForm from '@/app/components/contact/SmartHealthForm';
+import type { Metadata } from 'next';
+
+// --- STATIC METADATA ---
+export const metadata: Metadata = {
+  title: 'Secure Health Form | Get Beauty and Health',
+  description: 'Submit your health information securely for a personalized treatment plan. Our medical team will review your details and provide expert recommendations.',
+  openGraph: {
+    title: 'Secure Health Form | Get Beauty and Health',
+    description: 'Submit your health information securely for a personalized treatment plan.',
+  },
+};
 
 const HealthFormPage = () => {
   return (
