@@ -26,7 +26,7 @@ const destinations = [
         tips: "Visit early morning to avoid crowds, dress modestly",
         location: "Sultan Ahmet, Ayasofya Meydanı No:1, 34122 Fatih/İstanbul",
         website: "https://ayasofyacamii.gov.tr/en",
-        googleMaps: "https://maps.google.com/?q=Hagia+Sophia+Istanbul"
+        googleMaps: "https://maps.app.goo.gl/GTYhG4sWZhd7emqT8" // <-- UPDATED
       },
       { 
         name: "Grand Bazaar", 
@@ -37,32 +37,32 @@ const destinations = [
         price: "Free entry",
         tips: "Bargain expected, cash preferred, try Turkish tea",
         location: "Beyazıt, 34126 Fatih/İstanbul, Turkey",
-        website: "https://grandbazaaristanbul.org",
-        googleMaps: "https://maps.google.com/?q=Grand+Bazaar+Istanbul"
+        website: "https://grandbazaaristanbul.org/", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/1P8vgzzLUuSw4pmT9" // <-- UPDATED
       },
       { 
-        name: "Bosphorus Cruise", 
-        icon: Camera,
-        description: "Scenic boat ride between Europe and Asia continents",
+        name: "Galata Tower", // <-- REPLACED Bosphorus Cruise
+        icon: Landmark,
+        description: "Historic medieval tower offering 360-degree panoramic views of Istanbul",
         rating: 4.7,
-        visitTime: "1.5-2 hours",
-        price: "$15-30",
-        tips: "Sunset cruises offer best views, bring camera",
-        location: "Eminönü Pier, 34110 Fatih/İstanbul",
-        website: "https://www.bosphorus-cruises.com/",
-        googleMaps: "https://maps.google.com/?q=Eminonu+Pier+Istanbul"
+        visitTime: "1-2 hours",
+        price: "€30",
+        tips: "Best views at sunset, elevator available",
+        location: "Bereketzade, Galata Kulesi, 34421 Beyoğlu/İstanbul",
+        website: "https://galatakulesi.gov.tr/", // <-- UPDATED
+        googleMaps: "https://muze.gov.tr/muze-detay?sectionId=GLT04&distId=MRK" // <-- UPDATED
       },
       { 
-        name: "Turkish Cuisine Tour", 
-        icon: UtensilsCrossed,
-        description: "World-famous food scene: kebabs, baklava, Turkish delight",
+        name: "Dolmabahçe Palace", // <-- REPLACED Turkish Cuisine Tour
+        icon: Landmark, // Changed icon to Landmark
+        description: "Magnificent 19th-century palace blending Ottoman and European styles",
         rating: 4.9,
-        visitTime: "All day",
-        price: "$10-50",
-        tips: "Try local street food, ask for recommendations",
-        location: "Various locations in Sultanahmet & Galata",
-        website: "https://www.tripadvisor.com.tr/RestaurantsNear-g293974-d294495-Blue_Mosque-Istanbul.html",
-        googleMaps: "https://maps.google.com/?q=Sultanahmet+Istanbul+restaurants"
+        visitTime: "2-3 hours",
+        price: "€40",
+        tips: "Guided tours only, no photos allowed inside",
+        location: "Vişnezade, Dolmabahçe Cd., 34357 Beşiktaş/İstanbul",
+        website: "https://www.dolmabahce-palace.com/", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/Y2T7oSLZFYmVuxsSA" // <-- UPDATED
       },
     ]
   },
@@ -81,47 +81,47 @@ const destinations = [
         description: "Best-preserved ancient Roman city, UNESCO World Heritage Site",
         rating: 4.9,
         visitTime: "3-4 hours",
-        price: "$20-35",
+        price: "€40",
         tips: "Wear comfortable shoes, bring water, guided tour recommended",
         location: "Selçuk, 35920 Selçuk/İzmir, Turkey",
-        website: "https://whc.unesco.org/en/list/1018/",
-        googleMaps: "https://maps.google.com/?q=Ancient+City+of+Ephesus+Selcuk+Izmir"
+        website: "https://muze.gov.tr/muze-detay?DistId=EFS&SectionId=EFS01", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/smLTsEZ4TDd4qjDSA" // <-- UPDATED
       },
       { 
-        name: "Kordon Promenade", 
-        icon: Camera,
-        description: "Beautiful waterfront walkway with cafes and sea views",
+        name: "Izmir Clock Tower", // <-- NEW
+        icon: Landmark,
+        description: "The iconic symbol of Izmir, a beautiful Ottoman-style clock tower at Konak Square",
+        rating: 4.7,
+        visitTime: "30 mins",
+        price: "Free",
+        tips: "Located near the Kemeralti Bazaar and seaside, great for photos",
+        location: "Konak Square, 35360 Konak/İzmir",
+        website: "https://izmir.ktb.gov.tr/EN-239241/clock-tower.html", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/EewmL8LjHLH8AwNE8" // <-- UPDATED
+      },
+      { 
+        name: "The Historical Elevator", // <-- NEW
+        icon: Camera, // Best for views
+        description: "Historic building offering panoramic views of Izmir's coastline and city",
+        rating: 4.6,
+        visitTime: "1 hour",
+        price: "Free",
+        tips: "Visit the terrace cafe at the top for sunset views",
+        location: "Turgut Reis, 35280 Konak/İzmir",
+        website: "https://izmir.ktb.gov.tr/EN-239228/the-elevator.html", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/yHhyPfbq3gX9oj7dA" // <-- UPDATED
+      },
+      { 
+        name: "Agora of Smyrna", // <-- NEW
+        icon: Landmark,
+        description: "One of the best-preserved agoras of the ancient world, right in the city center",
         rating: 4.5,
         visitTime: "1-2 hours",
-        price: "Free",
-        tips: "Perfect for evening walks, many seafood restaurants",
-        location: "Alsancak, Kordon Boyu, 35220 Konak/İzmir",
-        website: "https://www.izmir.bel.tr/en/izmir/kordon",
-        googleMaps: "https://maps.google.com/?q=Kordon+Alsancak+Izmir"
-      },
-      { 
-        name: "Fish Market & Restaurants", 
-        icon: UtensilsCrossed,
-        description: "Fresh seafood, olive oil dishes, and Mediterranean flavors",
-        rating: 4.8,
-        visitTime: "All day",
-        price: "$12-40",
-        tips: "Try local fish restaurants, olive oil tastings available",
-        location: "Kemeraltı Çarşısı, 35360 Konak/İzmir",
-        website: "https://www.izmir.bel.tr/en/izmir/kemeralti-bazaar",
-        googleMaps: "https://maps.google.com/?q=Kemeralti+Fish+Market+Izmir"
-      },
-      { 
-        name: "Cesme & Alacati", 
-        icon: Camera,
-        description: "Crystal clear waters and pristine beaches, 1-hour drive",
-        rating: 4.7,
-        visitTime: "Half day",
-        price: "$5-15",
-        tips: "Best beaches: Ilica and Alacati, windsurfing popular",
-        location: "Çeşme, 35930 Çeşme/İzmir, Turkey",
-        website: "https://www.cesme.bel.tr/en",
-        googleMaps: "https://maps.google.com/?q=Cesme+Alacati+Beach+Izmir"
+        price: "€10",
+        tips: "Walkable from Konak Square, rich history",
+        location: "Namazgah, Tarık Sarı Sk. No:29, 35240 Konak/İzmir",
+        website: "https://izmir.ktb.gov.tr/EN-239225/agora.html", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/wGJeefHZSs4famDd8" // <-- UPDATED
       },
     ]
   },
@@ -137,50 +137,50 @@ const destinations = [
       { 
         name: "Kyrenia Castle", 
         icon: Landmark,
-        description: "Medieval fortress with harbor views and shipwreck museum",
-        rating: 4.6,
-        visitTime: "2-3 hours",
-        price: "$8-12",
-        tips: "Combine with harbor visit, great photo opportunities",
-        location: "Kyrenia Harbour, Girne, Northern Cyprus",
-        website: "https://www.northcyprus.cc/kyrenia/kyrenia-castle.html",
-        googleMaps: "https://maps.google.com/?q=Kyrenia+Castle+Northern+Cyprus"
-      },
-      { 
-        name: "Blue Lagoon (Akamas)", 
-        icon: Camera,
-        description: "Stunning natural swimming spot with turquoise waters",
+        description: "A majestic 16th-century fortress housing the famous Shipwreck Museum",
         rating: 4.8,
-        visitTime: "Half day",
-        price: "Free",
-        tips: "Bring snorkeling gear, can get crowded in summer",
-        location: "Akamas Peninsula, Paphos District, Cyprus",
-        website: "https://www.visitcyprus.com/index.php/en/discovercyprus/nature/item/158-akamas-peninsula",
-        googleMaps: "https://maps.google.com/?q=Blue+Lagoon+Akamas+Cyprus"
+        visitTime: "2-3 hours",
+        price: "€5",
+        tips: "Don't miss the stunning harbor views from the ramparts",
+        location: "Kyrenia Harbour, Girne, North Cyprus",
+        website: "https://www.visitncy.com/discover/kyrenia-castle-shipwreck-museum/", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/YSKoGUwkT3mEovih8" // <-- UPDATED
       },
       { 
-        name: "Traditional Tavernas", 
-        icon: UtensilsCrossed,
-        description: "Fresh fish, halloumi cheese, and traditional meze platters",
-        rating: 4.7,
-        visitTime: "All day",
-        price: "$10-35",
-        tips: "Try local halloumi, meze is perfect for sharing",
-        location: "Limassol & Paphos Old Towns, Cyprus",
-        website: "https://www.visitcyprus.com/index.php/en/discovercyprus/gastronomy",
-        googleMaps: "https://maps.google.com/?q=Traditional+restaurants+Limassol+Cyprus"
-      },
-      { 
-        name: "Paphos Archaeological Park", 
-        icon: ShoppingBag,
-        description: "Ancient mosaics, tombs, and UNESCO World Heritage sites",
-        rating: 4.4,
+        name: "Salamis Ancient City", // <-- NEW
+        icon: Landmark,
+        description: "Vast ancient Roman city ruins with a theater, gymnasium, and baths",
+        rating: 4.9,
         visitTime: "3-4 hours",
-        price: "$5-8",
-        tips: "Early morning visits recommended, wear sun protection",
-        location: "Kato Paphos, 8042 Paphos, Cyprus",
-        website: "https://whc.unesco.org/en/list/79/",
-        googleMaps: "https://maps.google.com/?q=Paphos+Archaeological+Park+Cyprus"
+        price: "€7",
+        tips: "Bring water and sun protection, it's a large open-air site",
+        location: "Yeni Boğaziçi, Famagusta, North Cyprus",
+        website: "https://www.visitncy.com/discover/salamis-ruins/", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/RDBWhNBHL8Yv2p26A" // <-- UPDATED
+      },
+      { 
+        name: "The Great Inn (Büyük Han)", // <-- NEW
+        icon: ShoppingBag, // Great for local crafts and food
+        description: "Historic Ottoman caravanserai turned into a vibrant arts and crafts center",
+        rating: 4.7,
+        visitTime: "1-2 hours",
+        price: "Free",
+        tips: "Try the traditional Turkish coffee and Borek in the courtyard",
+        location: "Asmaaltı Sk, Nicosia, North Cyprus",
+        website: "https://www.visitncy.com/discover/the-great-inn/", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/1Qpjk34Mb7FE5mkh7" // <-- UPDATED
+      },
+      { 
+        name: "The Great Turkish Bath", // <-- NEW
+        icon: Landmark,
+        description: "A restored 16th-century Ottoman bathhouse (Büyük Hamam) still in use today",
+        rating: 4.5,
+        visitTime: "1-2 hours",
+        price: "€30-50",
+        tips: "Book a traditional foam massage for the full experience",
+        location: "İplik Pazarı Sk, Nicosia, North Cyprus",
+        website: "https://www.visitncy.com/discover/buyuk-hamam/", // <-- UPDATED
+        googleMaps: "https://maps.app.goo.gl/Wr5uT5SrK32a5EEX9" // <-- UPDATED
       },
     ]
   },
@@ -190,9 +190,9 @@ const destinations = [
 const fetchWeatherData = async (city: string) => {
   try {
     const API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
-    if (!API_KEY) {
-      console.warn('Weather API key not found, using fallback data');
-      // Fallback to mock data if no API key
+    // Check for missing, empty, or placeholder API key
+    if (!API_KEY || API_KEY.trim() === '' || API_KEY === 'your_api_key_here') {
+      // Silently use fallback data (no console warning needed)
       const baseTemps = { "Istanbul": 18, "Izmir": 22, "Nicosia": 20 };
       const temp = baseTemps[city as keyof typeof baseTemps] || 20;
       return {
@@ -267,7 +267,11 @@ const fetchWeatherData = async (city: string) => {
     };
     
   } catch (error) {
-    console.error('Error fetching weather data:', error);
+    // Silently fall back to default data (weather is not critical)
+    // Only log in development
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('Weather API unavailable, using fallback data');
+    }
     // Fallback to reasonable default data
     const baseTemps = { "Istanbul": 18, "Izmir": 22, "Nicosia": 20 };
     const temp = baseTemps[city as keyof typeof baseTemps] || 20;
@@ -305,7 +309,10 @@ const EnhancedDestinationsSection = () => {
         const weatherResults = await Promise.all(weatherPromises);
         setWeatherData(weatherResults);
       } catch (error) {
-        console.error('Failed to load weather data:', error);
+        // Silently fail - weather is not critical, fallback data is used
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Failed to load weather data:', error);
+        }
       } finally {
         setWeatherLoading(false);
       }

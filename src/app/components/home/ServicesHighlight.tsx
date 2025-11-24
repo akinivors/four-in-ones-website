@@ -20,6 +20,11 @@ export default function ServicesHighlight() {
       href: '/services/hair-transplant'
     },
     {
+      title: 'Cosmetic Dentistry',
+      imageUrl: '/images/cosmeticdentistry_hero.png',
+      href: '/services/cosmetic-dentistry'
+    },
+    {
       title: 'IVF Treatment',
       imageUrl: '/images/ivf-baby.jpg',
       href: '/services/ivf-treatment'

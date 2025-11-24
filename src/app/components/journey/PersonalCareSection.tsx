@@ -3,8 +3,8 @@ import React from 'react';
 import Image from 'next/image';
 
 const PersonalCareSection = () => {
-  // AI: Find a professional and friendly photo of a patient coordinator or a welcoming host.
-  const imageUrl = "/images/personal-host.jpg";
+  // Professional nurse photo for patient care section
+  const imageUrl = "/images/nurse.jpg";
 
   return (
     <section className="bg-brand-background py-16 lg:py-24">

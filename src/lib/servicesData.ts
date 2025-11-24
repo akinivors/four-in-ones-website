@@ -1574,10 +1574,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Cosmetic Dentistry",
       subtitle: "Transform your smile with world-class dental aesthetics.",
-      backgroundImageUrl: "/images/cosmetic-dentistry.jpg",
+      backgroundImageUrl: "/images/cosmeticdentistry_hero.png",
     },
     overview: {
-      overviewImageUrl: "/images/dentistry-overview.jpg",
+      overviewImageUrl: "/images/cosmeticdentistry_overview.jpg",
       facts: [
         { label: 'Materials', value: 'E.max® & Zirconium', icon: 'Award' },
         { label: 'Treatment Time', value: '5-7 Days', icon: 'Clock' },
@@ -1627,7 +1627,7 @@ export const servicesData: Service[] = [
       'smoking_status',
       'chronic_diseases',
     ],
-    ctaImageUrl: "/images/dentistry-cta.jpg",
+    ctaImageUrl: "/images/cosmeticdentistry_hero.png",
   },
   {
     slug: "eye-surgery",

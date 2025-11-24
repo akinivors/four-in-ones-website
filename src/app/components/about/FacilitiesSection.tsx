@@ -1,14 +1,35 @@
-// In app/components/about/FacilitiesSection.tsx
+// In src/app/components/about/FacilitiesSection.tsx
 import React from 'react';
 import Image from 'next/image';
 
+// --- UPDATED: All 6 Real Facility Photos ---
 const facilities = [
-  { src: '/images/Modern hospital reception .jpeg', alt: 'Modern hospital reception' },
-  { src: '/images/State-of-the-art operating room.jpeg', alt: 'State-of-the-art operating room' },
-  { src: '/images/Comfortable patient recovery room.jpeg', alt: 'Comfortable patient recovery room' },
-  { src: '/images/Advanced medical equipment.jpeg', alt: 'Advanced medical equipment' },
+  { 
+    src: '/images/facilities/medicalpoint.webp', 
+    alt: 'Medical Point Hospital - State-of-the-art Exterior' 
+  },
+  { 
+    src: '/images/facilities/medicalpointhall.webp', 
+    alt: 'Modern and Welcoming Hospital Reception' 
+  },
+  { 
+    src: '/images/facilities/medicalpointroom.webp', 
+    alt: 'Private, Luxury Patient Recovery Suite' 
+  },
+  { 
+    src: '/images/facilities/bolgehastanesi.jpg', 
+    alt: 'Partner Regional Hospital Facility' 
+  },
+  // --- NEW PHOTOS ADDED HERE ---
+  { 
+    src: '/images/facilities/medicalpointroom2.webp', 
+    alt: 'Premium Patient Room Interior' 
+  },
+  { 
+    src: '/images/facilities/bolgehastanesihall.jpg', 
+    alt: 'Regional Hospital Main Hall' 
+  },
 ];
-// AI: Please find 4 high-quality, royalty-free images that match the alt text descriptions.
 
 const FacilitiesSection = () => {
   return (
@@ -16,12 +37,25 @@ const FacilitiesSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="font-lora text-3xl font-bold text-brand-dark">State-of-the-Art Facilities</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-brand-text">We partner exclusively with internationally accredited, modern hospitals that are equipped with the latest medical technology to ensure your safety and comfort.</p>
+          <p className="mt-4 max-w-2xl mx-auto text-brand-text">
+            We partner exclusively with internationally accredited, modern hospitals. 
+            These real photos show the actual environment where you will receive your world-class care.
+          </p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        
+        {/* --- UPDATED: Grid is now 3 columns wide for a perfect 2x3 layout --- */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {facilities.map((facility, index) => (
-            <div key={index} className="relative h-64 w-full rounded-lg overflow-hidden shadow-lg group">
-              <Image src={facility.src} alt={facility.alt} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+            <div key={index} className="relative h-72 w-full rounded-xl overflow-hidden shadow-lg group">
+              <Image 
+                src={facility.src} 
+                alt={facility.alt} 
+                fill 
+                className="object-cover transition-transform duration-500 group-hover:scale-110" 
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+              {/* Optional: Overlay text on hover */}
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-300" />
             </div>
           ))}
         </div>

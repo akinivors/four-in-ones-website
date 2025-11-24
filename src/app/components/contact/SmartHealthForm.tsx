@@ -56,7 +56,9 @@ const SmartHealthForm = () => {
         const parsedData = JSON.parse(savedData) as FormData;
         setFormData(parsedData);
       } catch (error) {
-        console.error("Failed to parse saved form data", error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error("Failed to parse saved form data", error);
+        }
         localStorage.removeItem(STORAGE_KEY);
       }
     }
@@ -123,7 +125,9 @@ const SmartHealthForm = () => {
         setFormStatus('error');
       }
     } catch (error) {
-      console.error('Form submission error:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Form submission error:', error);
+      }
       setFormStatus('error');
     } finally {
       setIsLoading(false);

@@ -11,7 +11,7 @@ const dentalData = [
   { 
     id: 'implants', 
     title: 'IMPLANTS', 
-    imageUrl: '/images/dental-grid/implants.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_implants.png', 
     procedures: [
       'Implant including Abutment', 
       'Implant straumann including Abutment', 
@@ -21,7 +21,7 @@ const dentalData = [
   { 
     id: 'bleaching', 
     title: 'TEETH BLEACHING', 
-    imageUrl: '/images/dental-grid/bleaching.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_teethbleaching.jpeg', 
     procedures: [
       'Home Bleaching', 
       'Office Bleaching', 
@@ -31,7 +31,7 @@ const dentalData = [
   { 
     id: 'prosthetic', 
     title: 'PROSTHETIC DENTISTRY', 
-    imageUrl: '/images/dental-grid/prosthetic.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_prostheticdentistry.jpg', 
     procedures: [
       'Smile Designing', 
       'Fixed Prosthodontics', 
@@ -44,7 +44,7 @@ const dentalData = [
   { 
     id: 'removable', 
     title: 'REMOVABLE DENTURE', 
-    imageUrl: '/images/dental-grid/removable.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_removeabledenture.jpg', 
     procedures: [
       'Implant supported Complete Denture', 
       'Implant supported Hybrid Denture', 
@@ -56,7 +56,7 @@ const dentalData = [
   { 
     id: 'surgeries', 
     title: 'SURGERIES', 
-    imageUrl: '/images/dental-grid/surgeries.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_surgeries.jpg', 
     procedures: [
       'Sinus lift (lateral window technic)', 
       'Bone graft and membrane', 
@@ -68,7 +68,7 @@ const dentalData = [
   { 
     id: 'orthodontics', 
     title: 'ORTHODONTICS', 
-    imageUrl: '/images/dental-grid/orthodontics.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_orthodontics.jpg', 
     procedures: [
       'Fixed orthodontic treatment (metallic braces)', 
       'Fixed orthodontic treatment (ceramic braces)', 
@@ -81,7 +81,7 @@ const dentalData = [
   { 
     id: 'pediatric', 
     title: 'PEDIATRIC DENTISTRY', 
-    imageUrl: '/images/dental-grid/pediatric.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_pediatric.jpg', 
     procedures: [
       'Filling', 
       'Stainless Steel Crown', 
@@ -91,7 +91,7 @@ const dentalData = [
   { 
     id: 'periodontology', 
     title: 'PERIODONTOLOGY', 
-    imageUrl: '/images/dental-grid/periodontology.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_periodontology.jpg', 
     procedures: [
       'Closed Curettage (dental scaling and polishing)', 
       'Root Planing'
@@ -100,7 +100,7 @@ const dentalData = [
   { 
     id: 'restorative', 
     title: 'RESTORATIVE DENTISTRY', 
-    imageUrl: '/images/dental-grid/restorative.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_restorative.jpg', 
     procedures: [
       'Composite Filling (anterior/posterior)', 
       'Composite/filling (laminate)'
@@ -109,7 +109,7 @@ const dentalData = [
   { 
     id: 'endodontics', 
     title: 'ENDODONTICS', 
-    imageUrl: '/images/dental-grid/endodontics.jpg', 
+    imageUrl: '/images/dental-grid/dentistry_endodontics.jpg', 
     procedures: [
       'Root canal treatment (anterior)', 
       'Root canal treatment (posterior)', 

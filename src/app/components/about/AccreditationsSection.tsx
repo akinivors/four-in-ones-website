@@ -1,7 +1,8 @@
-// In app/components/about/AccreditationsSection.tsx
+// In src/app/components/about/AccreditationsSection.tsx
 import React from 'react';
 import Image from 'next/image';
 
+// --- UPDATED: Added new logos from your upload ---
 const accreditations = [
   { 
     src: '/images/Jci_logo.png', 
@@ -21,10 +22,29 @@ const accreditations = [
     width: 5150,
     height: 5150
   },
+  // --- NEW LOGOS ---
+  { 
+    src: '/images/tursab.png', // <-- NEW
+    alt: 'TÜRSAB - Association of Turkish Travel Agencies',
+    width: 199, // Original width from your file
+    height: 199 // Original height from your file
+  },
+  { 
+    src: '/images/tprecd.png', // <-- NEW
+    alt: 'Türk Plastik Rekonstrüktif ve Estetik Cerrahi Derneği',
+    width: 267, // Original width from your file
+    height: 267 // Original height from your file
+  },
+  { 
+    src: '/images/turkiye-brand.png', // <-- NEW
+    alt: 'Türkiye Tourism Brand',
+    width: 116, // Original width from your file
+    height: 116 // Original height from your file
+  },
 ];
 
 const AccreditationsSection = () => {
-  // Fixed height for all logos - width will adjust automatically
+  // Fixed height for all logos
   const fixedHeight = 100;
 
   return (
@@ -32,10 +52,10 @@ const AccreditationsSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="font-lora text-3xl font-bold text-brand-dark">Our Commitment to Quality & Safety</h2>
-          <p className="mt-4 max-w-2xl mx-auto text-brand-text">Your safety is our highest priority. We are proud to work with facilities that hold the highest international standards of medical care and patient safety.</p>
+          <p className="mt-4 max-w-2xl mx-auto text-brand-text">Your safety is our highest priority. We are proud to work with facilities and associations that hold the highest international standards of medical care and patient safety.</p>
         </div>
 
-        {/* Simple flexbox - same height, auto width based on aspect ratio */}
+        {/* This flex-wrap layout will now create two clean rows of 3 */}
         <div className="flex flex-wrap justify-center items-center gap-x-16 gap-y-10 max-w-5xl mx-auto">
           {accreditations.map((acc) => {
             // Calculate proportional width based on fixed height

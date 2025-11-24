@@ -47,7 +47,7 @@ import {
   {
     title: "Cosmetic Dentistry",
     description: "Complete smile makeovers with cutting-edge techniques",
-    imageUrl: "/images/cosmetic-dentistry.jpg",
+    imageUrl: "/images/cosmeticdentistry_hero.png",
     href: "/services/cosmetic-dentistry",
     icon: Smile,
     procedures: "Veneers, Implants, Whitening & More"

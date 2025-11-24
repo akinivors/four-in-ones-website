@@ -26,7 +26,7 @@ const PatientJourneyPage = () => {
       <ServiceHero
         title="Your All-Inclusive Journey"
         subtitle="From your doorstep to our clinic and back, we manage every detail with precision and care."
-        backgroundImageUrl="/images/doctor-patient-consultation.jpg"
+        backgroundImageUrl="/images/dest-istanbul.jpg"
       />
       <PatientJourney />
       <FlightTrackerSection />
@@ -34,7 +34,7 @@ const PatientJourneyPage = () => {
       <PersonalCareSection />
       <PackageInclusions />
       <JourneyTestimonials />
-      <ServiceCTA />
+      <ServiceCTA imageUrl="/images/dest-istanbul.jpg" />
     </div>
   );
 };

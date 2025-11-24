@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Phone, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -35,10 +35,10 @@ export default function Header() {
         : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-24">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="relative block h-20 w-64" aria-label="Link to Homepage">
+            <Link href="/" className="relative block h-24 w-80" aria-label="Link to Homepage">
               <Image
                 src="/logo-main.png"
                 alt="Get Beauty and Health - Medical Tourism Logo"
@@ -67,8 +67,35 @@ export default function Header() {
             </ul>
           </nav>
 
-          {/* Desktop CTA Button */}
-          <div className="hidden lg:block">
+          {/* Desktop Quick Contact & CTA */}
+          <div className="hidden lg:flex lg:items-center lg:space-x-4">
+            {/* Quick Contact Icons */}
+            <div className="flex items-center space-x-2">
+              <a 
+                href="tel:+447359104606"
+                className={`p-2 rounded-full hover:bg-brand-teal hover:text-white transition-all duration-200 ${
+                  scrolled ? 'text-brand-text' : 'text-gray-200'
+                }`}
+                aria-label="Call UK: +44 7359 104606"
+                title="Call UK: +44 7359 104606"
+              >
+                <Phone size={18} />
+              </a>
+              <a 
+                href="https://wa.me/447359104606"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`p-2 rounded-full hover:bg-brand-teal hover:text-white transition-all duration-200 ${
+                  scrolled ? 'text-brand-text' : 'text-gray-200'
+                }`}
+                aria-label="WhatsApp"
+                title="Chat on WhatsApp"
+              >
+                <MessageCircle size={18} />
+              </a>
+            </div>
+            
+            {/* CTA Button */}
             <Link href="/contact" className="bg-brand-orange text-white font-inter font-medium px-6 py-2 rounded-lg hover:brightness-110 hover:shadow-lg transition-all duration-200 inline-block">
               Get a Free Quote
             </Link>
@@ -96,7 +123,7 @@ export default function Header() {
             <div className="flex flex-col h-full">
               {/* Mobile Menu Header */}
               <div className="flex justify-between items-center p-6 border-b border-gray-200">
-                <Link href="/" onClick={() => setIsMenuOpen(false)} className="relative block h-16 w-56" aria-label="Link to Homepage">
+                <Link href="/" onClick={() => setIsMenuOpen(false)} className="relative block h-20 w-64" aria-label="Link to Homepage">
                   <Image
                     src="/logo-main.png"
                     alt="Get Beauty and Health - Medical Tourism Logo"
@@ -139,6 +166,36 @@ export default function Header() {
                   >
                     Get a Free Quote
                   </Link>
+                </div>
+
+                {/* Mobile Quick Contact */}
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <p className="text-sm font-inter text-brand-text mb-3">Quick Contact:</p>
+                  <div className="flex flex-col space-y-3">
+                    <a 
+                      href="tel:+447359104606"
+                      className="flex items-center space-x-3 text-brand-text hover:text-brand-teal transition-colors"
+                    >
+                      <Phone size={20} className="text-brand-teal" />
+                      <span className="font-inter">+44 7359 104606 (UK)</span>
+                    </a>
+                    <a 
+                      href="tel:+16302013340"
+                      className="flex items-center space-x-3 text-brand-text hover:text-brand-teal transition-colors"
+                    >
+                      <Phone size={20} className="text-brand-teal" />
+                      <span className="font-inter">+1 630 201 3340 (US)</span>
+                    </a>
+                    <a 
+                      href="https://wa.me/447359104606"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-3 text-brand-text hover:text-brand-teal transition-colors"
+                    >
+                      <MessageCircle size={20} className="text-brand-teal" />
+                      <span className="font-inter">WhatsApp</span>
+                    </a>
+                  </div>
                 </div>
               </nav>
             </div>

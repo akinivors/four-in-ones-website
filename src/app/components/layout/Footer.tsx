@@ -1,4 +1,4 @@
-import { Instagram, Facebook, Twitter, Linkedin, MapPin, Phone, Mail } from 'lucide-react';
+import { Instagram, Facebook, Twitter, Linkedin, MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -11,21 +11,27 @@ export default function Footer() {
     { name: 'Insurance', href: '/insurance' },
     { name: 'FAQ', href: '/faq' },
     { name: 'Contact', href: '/contact' },
+    { name: 'Get Started', href: '/health-form' }, // NEW: Quick access to health form
   ];
 
   const topServices = [
     { name: 'Plastic Surgery', href: '/services/rhinoplasty' },
     { name: 'Hair Transplant', href: '/services/hair-transplant' },
     { name: 'Obesity Surgery', href: '/services/obesity-surgery' },
-    { name: 'Cosmetic Dentistry', href: '/services' },
+    { name: 'Cosmetic Dentistry', href: '/services/cosmetic-dentistry' }, // FIXED: Specific page
+    { name: 'IVF Treatment', href: '/services/ivf-treatment' }, // NEW: Popular service
   ];
 
+  // NOTE: Social links removed until you have active social media profiles
+  // When you create your profiles, uncomment and update these URLs
+  /*
   const socialLinks = [
-    { name: 'Instagram', icon: Instagram, href: '#' },
-    { name: 'Facebook', icon: Facebook, href: '#' },
-    { name: 'Twitter', icon: Twitter, href: '#' },
-    { name: 'LinkedIn', icon: Linkedin, href: '#' },
+    { name: 'Instagram', icon: Instagram, href: 'https://instagram.com/getbeautyandhealth' },
+    { name: 'Facebook', icon: Facebook, href: 'https://facebook.com/getbeautyandhealth' },
+    { name: 'Twitter', icon: Twitter, href: 'https://twitter.com/getbeautyhealth' },
+    { name: 'LinkedIn', icon: Linkedin, href: 'https://linkedin.com/company/getbeautyandhealth' },
   ];
+  */
 
   return (
     <footer className="bg-brand-dark text-gray-200">
@@ -104,40 +110,42 @@ export default function Footer() {
                   29640 Fuengirola - Málaga, Spain
                 </p>
               </div>
-              {/* --- UPDATED: UK Phone --- */}
-              <div className="flex items-center space-x-3">
-                <Phone size={16} className="text-brand-teal flex-shrink-0" />
+              {/* --- UPDATED: UK Phone (Clickable) --- */}
+              <a 
+                href="tel:+447359104606"
+                className="flex items-center space-x-3 hover:text-brand-teal transition-colors duration-200 group"
+              >
+                <Phone size={16} className="text-brand-teal flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <p className="font-inter text-sm">+44 7359 104606 (UK)</p>
-              </div>
-              {/* --- UPDATED: US Phone --- */}
-              <div className="flex items-center space-x-3">
-                <Phone size={16} className="text-brand-teal flex-shrink-0" />
+              </a>
+              {/* --- UPDATED: US Phone (Clickable) --- */}
+              <a 
+                href="tel:+16302013340"
+                className="flex items-center space-x-3 hover:text-brand-teal transition-colors duration-200 group"
+              >
+                <Phone size={16} className="text-brand-teal flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <p className="font-inter text-sm">+1 630 201 3340 (US)</p>
-              </div>
-              {/* --- UPDATED: Email --- */}
-              <div className="flex items-center space-x-3">
-                <Mail size={16} className="text-brand-teal flex-shrink-0" />
+              </a>
+              {/* --- UPDATED: Email (Clickable) --- */}
+              <a 
+                href="mailto:info@getbeautyandhealth.com"
+                className="flex items-center space-x-3 hover:text-brand-teal transition-colors duration-200 group"
+              >
+                <Mail size={16} className="text-brand-teal flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <p className="font-inter text-sm">info@getbeautyandhealth.com</p>
-              </div>
+              </a>
+              {/* --- NEW: WhatsApp (Clickable) --- */}
+              <a 
+                href="https://wa.me/447359104606"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-3 hover:text-brand-teal transition-colors duration-200 group"
+              >
+                <MessageCircle size={16} className="text-brand-teal flex-shrink-0 group-hover:scale-110 transition-transform" />
+                <p className="font-inter text-sm">WhatsApp (UK)</p>
+              </a>
               
-              {/* Social Media Icons */}
-              <div className="pt-2">
-                <div className="flex space-x-4">
-                  {socialLinks.map((social) => {
-                    const IconComponent = social.icon;
-                    return (
-                      <a
-                        key={social.name}
-                        href={social.href}
-                        className="p-2 rounded-full bg-gray-700 hover:bg-brand-dark transition-colors duration-200"
-                        aria-label={social.name}
-                      >
-                        <IconComponent size={18} />
-                      </a>
-                    );
-                  })}
-                </div>
-              </div>
+              {/* NOTE: Social media icons removed - will be added when profiles are active */}
             </div>
           </div>
         </div>

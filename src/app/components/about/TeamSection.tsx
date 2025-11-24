@@ -7,7 +7,7 @@ const teamMembers = [
   {
     name: "Yasemin Demirtaş",
     title: "Founder",
-    imageUrl: "/images/team-member-2.jpg", // (Placeholder image)
+    imageUrl: "/images/yasemindemirtas.jpg", // (Placeholder image)
   },
   {
     name: "Dr. Ayşin Akdoğan",
