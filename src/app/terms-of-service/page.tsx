@@ -23,9 +23,9 @@ const TermsOfServicePage = () => {
       <LegalTextWrapper>
         <h2 className="font-lora text-3xl font-bold text-brand-dark mb-6">1. Agreement to Terms</h2>
         <p className="text-brand-text text-lg leading-relaxed mb-6">
-          These Terms of Service ("Terms") constitute a legally binding agreement
-          made between you ("you," "the patient") and Get Beauty and Health
-          ("we," "our," or "us"). By accessing our website and using our
+          These Terms of Service (&quot;Terms&quot;) constitute a legally binding agreement
+          made between you (&quot;you,&quot; &quot;the patient&quot;) and Get Beauty and Health
+          (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). By accessing our website and using our
           services, you agree that you have read, understood, and agree to be
           bound by all of these Terms.
         </p>

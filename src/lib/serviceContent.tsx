@@ -301,7 +301,7 @@ export const contentMap: Record<string, React.ReactNode> = {
         with your body.
       </p>
       <p>
-        For many women, this procedure is about more than just aesthetics; it's a life-changing 
+        For many women, this procedure is about more than just aesthetics; it&apos;s a life-changing 
         solution to alleviate the physical and emotional discomfort associated with overly 
         large breasts (macromastia). This can include chronic back, neck, and shoulder pain, 
         skin irritation, and difficulty living an active lifestyle.
@@ -329,7 +329,7 @@ export const contentMap: Record<string, React.ReactNode> = {
       <h4 className="font-bold text-brand-dark">The Procedure</h4>
       <p>
         Performed under general anesthesia (2-4 hours), your surgeon will make incisions 
-        (typically in an "anchor" or "lollipop" shape) to remove excess tissue, fat, 
+        (typically in an &quot;anchor&quot; or &quot;lollipop&quot; shape) to remove excess tissue, fat, 
         and skin. The nipple and areola are then repositioned to a higher, more 
         youthful position, and the incisions are closed to reshape the new, smaller breast.
       </p>
@@ -362,7 +362,7 @@ export const contentMap: Record<string, React.ReactNode> = {
   "br_comparison": (
     <div className="space-y-4">
       <p>
-        It's common to confuse these two procedures, but they serve very different purposes.
+        It&apos;s common to confuse these two procedures, but they serve very different purposes.
       </p>
       <h4 className="font-bold text-brand-dark">Breast Reduction</h4>
       <p>

@@ -4,7 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Clock, Cloud, Sun, Landmark, UtensilsCrossed, Camera, ShoppingBag, Star, ExternalLink, DollarSign, CloudRain, CloudSnow, Zap, Eye } from 'lucide-react';
+import { MapPin, Clock, Cloud, Sun, Landmark, Camera, ShoppingBag, Star, ExternalLink, DollarSign, CloudRain, CloudSnow, Zap, Eye } from 'lucide-react';
 
 const destinations = [
   { 
@@ -266,7 +266,7 @@ const fetchWeatherData = async (city: string) => {
       feelsLike: Math.round(data.main.feels_like)
     };
     
-  } catch (error) {
+  } catch {
     // Silently fall back to default data (weather is not critical)
     // Only log in development
     if (process.env.NODE_ENV === 'development') {

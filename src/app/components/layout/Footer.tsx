@@ -1,4 +1,4 @@
-import { Instagram, Facebook, Twitter, Linkedin, MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
+import { MapPin, Phone, Mail, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 

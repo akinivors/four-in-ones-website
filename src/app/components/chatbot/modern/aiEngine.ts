@@ -1087,7 +1087,7 @@ export class ModernAIEngine {
 
   // --- 4. FALLBACK ---
 
-  private generateIntelligentFallback(query: string, context?: ChatContext): ChatbotResponse {
+  private generateIntelligentFallback(_query: string, _context?: ChatContext): ChatbotResponse {
       return {
       content: "I can help you with detailed information about our medical procedures, package inclusions, costs, recovery times, or any aspect of medical tourism in Turkey. What would you like to know?",
         suggestions: SUGGESTIONS.initial,

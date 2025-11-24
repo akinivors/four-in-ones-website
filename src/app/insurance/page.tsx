@@ -110,7 +110,7 @@ const InsurancePage = () => {
             </h2>
             <p className="text-lg text-brand-text">
               We believe in 100% transparency. Here is a simple breakdown 
-              of what's included and what we recommend.
+              of what&apos;s included and what we recommend.
             </p>
           </div>
           

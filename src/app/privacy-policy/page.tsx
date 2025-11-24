@@ -23,7 +23,7 @@ const PrivacyPolicyPage = () => {
       <LegalTextWrapper>
         <h2 className="font-lora text-3xl font-bold text-brand-dark mb-6">1. Introduction</h2>
         <p className="text-brand-text text-lg leading-relaxed mb-6">
-          Welcome to Get Beauty and Health ("we," "our," or "us"). We are committed to
+          Welcome to Get Beauty and Health (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;). We are committed to
           protecting the privacy of your personal and medical information. This Privacy
           Policy explains how we collect, use, store, and share the information
           you provide through our website (getbeautyandhealth.com) and services.
@@ -64,7 +64,7 @@ const PrivacyPolicyPage = () => {
         <p className="text-brand-text text-lg leading-relaxed mb-6">
           Like most websites, we may collect technical information automatically,
           such as your IP address, browser type, and how you interact with our site.
-          This is used for analytics and to improve our website's performance.
+          This is used for analytics and to improve our website&apos;s performance.
         </p>
 
         <h2 className="font-lora text-3xl font-bold text-brand-dark mb-6 mt-12">3. How We Use Your Information</h2>
@@ -143,7 +143,7 @@ const PrivacyPolicyPage = () => {
         <p className="text-brand-text text-lg leading-relaxed mb-6">
           We may update our Privacy Policy from time to time. We will notify you
           of any changes by posting the new Privacy Policy on this page and
-          updating the "Last updated" date at the top.
+          updating the &quot;Last updated&quot; date at the top.
         </p>
 
         <h2 className="font-lora text-3xl font-bold text-brand-dark mb-6 mt-12">8. Contact Us</h2>

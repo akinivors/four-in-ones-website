@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import { ExternalLink, ShieldCheck } from 'lucide-react';
-import Link from 'next/link';
 
 // Updated array with provider website links
 const insuranceProviders = [
@@ -63,7 +62,7 @@ const InsuranceProviders = () => {
                     Get Your Quote
                   </h3>
                   <p className="text-brand-text mb-4 text-sm">
-                    We recommend "Medical Travel Shield" for their specialized policies.
+                    We recommend &quot;Medical Travel Shield&quot; for their specialized policies.
                   </p>
                   <a
                     href="https://www.medicaltravelshield.com/"

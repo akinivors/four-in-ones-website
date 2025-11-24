@@ -26,7 +26,7 @@ const TeamSchema = () => {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    itemListElement: teamMembers.map((member, index) => ({
+    itemListElement: teamMembers.map((member) => ({
       '@type': 'Person',
       name: member.name,
       jobTitle: member.title,

@@ -31,13 +31,13 @@ export async function POST(request: Request) {
   // 2. Separate Known Fields from Dynamic Questions
   const knownFields = ['name', 'email', 'phone', 'service', 'dob', 'sex', 'height', 'weight', 'smoke', 'alcohol'];
   
-  const personalInfo: Record<string, any> = {};
+  const personalInfo: Record<string, string | undefined> = {};
   const procedureQuestions: Record<string, string> = {};
   const medicalQuestions: Record<string, string> = {};
 
   for (const [key, value] of Object.entries(data)) {
     if (knownFields.includes(key)) {
-      personalInfo[key] = value;
+      personalInfo[key] = value as string | undefined;
     } else if (key.startsWith('q_')) { // Medical questions start with q_
       medicalQuestions[key] = value as string;
     } else { // Everything else is a procedure-specific question

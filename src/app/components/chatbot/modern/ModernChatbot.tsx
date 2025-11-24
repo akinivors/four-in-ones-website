@@ -2,7 +2,7 @@
 
 // Modern Chatbot Component - Clean, Responsive, Accessible
 import React, { useState, useEffect, useRef } from 'react'
-import { MessageCircle, X, Send, Bot, User } from 'lucide-react'
+import { X, Send, Bot, User } from 'lucide-react'
 import Image from 'next/image'
 import { ChatMessage, ChatContext } from './types'
 import { ModernAIEngine } from './aiEngine'
@@ -23,7 +23,7 @@ interface ModernChatbotProps {
 // --- NEW: Helper function to get context from the URL ---
 const getInitialContext = (pathname: string): { greeting: string, context: ChatContext } => {
   let greeting = CHATBOT_CONFIG.messages.greeting;
-  let initialContext: ChatContext = {
+  const initialContext: ChatContext = {
     sessionId: `session_${Date.now()}`,
     previousMessages: [],
     metadata: { pathname }, // Store the path
@@ -118,7 +118,7 @@ export default function ModernChatbot({
   // --- NEW: Update context if the user navigates to a new page ---
   useEffect(() => {
     // When the user navigates, get the new context
-    const { greeting, context: newPageContext } = getInitialContext(pathname);
+    const { context: newPageContext } = getInitialContext(pathname);
     
     // Update the chatbot's internal context with the new path and procedure
     setContext(prevContext => ({

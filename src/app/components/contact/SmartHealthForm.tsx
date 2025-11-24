@@ -21,7 +21,7 @@ interface FormData {
   weight: string;
   smoke: string;
   alcohol: string;
-  [key: string]: any; // For all dynamic questions
+  [key: string]: string | undefined; // For all dynamic questions
 }
 
 // --- NEW: Define the initial blank state ---
