@@ -10,14 +10,14 @@ const teamMembers = [
     imageUrl: "/images/yasemindemirtas.jpg", // (Placeholder image)
   },
   {
+    name: "Özlem Morgan",
+    title: "UK Coordinator",
+    imageUrl: "/images/ozlemmorgan.jpg",
+  },
+  {
     name: "Dr. Ayşin Akdoğan",
     title: "Expert IVF Doctor",
     imageUrl: "/images/cta-doctor-image.webp", // (Real photo)
-  },
-  {
-    name: "Özlem Morgan",
-    title: "UK Coordinator",
-    imageUrl: "/images/team-member-3.jpg", // (Placeholder image)
   },
 ];
 
