@@ -10,7 +10,7 @@ const teamMembers = [
     imageUrl: "/images/yasemindemirtas.jpg", // (Placeholder image)
   },
   {
-    name: "Özlem Morgan",
+    name: "Özlem Morgan Pryke",
     title: "UK Coordinator",
     imageUrl: "/images/ozlemmorgan.jpg",
   },
