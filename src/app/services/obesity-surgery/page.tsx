@@ -31,7 +31,13 @@ const procedures = [
     href: "/services/gastric-botox",
     description: "Minimally invasive appetite control",
     image: "/images/gastric-botox-hero.jpg",
-  }
+  },
+  {
+    title: "Swallowable Gastric Balloon (Allurion)",
+    href: "/services/swallowable-gastric-balloon",
+    description: "Swallowable, procedure-free balloon with digital lifestyle program",
+    image: "/images/gastric-balloon-hero.png",
+  },
 ];
 
 const ObesitySurgeryCategoryPage = () => {

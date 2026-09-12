@@ -74,54 +74,6 @@ export const contentMap: Record<string, React.ReactNode> = {
     </div>
   ),
 
-  // --- Obesity Surgery Content ---
-  "obesity-surgery-what": (
-    <div className="space-y-4">
-      <p>Bariatric (obesity) surgery is a life-changing procedure for individuals struggling with severe obesity. It works by restricting the amount of food the stomach can hold, causing malabsorption of nutrients, or by a combination of both. These procedures have proven to be the most effective treatment for severe obesity and related health conditions.</p>
-      <p>Our clinic offers several proven techniques including gastric sleeve, gastric bypass, and gastric balloon procedures, each tailored to individual patient needs and medical conditions. These procedures not only promote significant weight loss but also help resolve obesity-related health issues such as diabetes, high blood pressure, and sleep apnea.</p>
-    </div>
-  ),
-  "obesity-surgery-procedure": (
-    <div className="space-y-4">
-      <h3 className="font-bold text-lg">Available Bariatric Procedures</h3>
-      <p>These procedures are typically performed laparoscopically (keyhole surgery), which is minimally invasive. We offer several effective obesity surgery options:</p>
-      <ul className="list-disc list-inside space-y-2">
-        <li><strong>Gastric Sleeve:</strong> Removes 75-80% of the stomach, creating a smaller pouch that limits food intake</li>
-        <li><strong>Gastric Bypass:</strong> Creates a small stomach pouch and reroutes the small intestine to reduce absorption</li>
-        <li><strong>Gastric Balloon:</strong> Non-surgical option using an inflatable balloon to reduce stomach capacity</li>
-      </ul>
-      <p>All procedures are performed laparoscopically when possible, resulting in smaller incisions, less pain, and faster recovery compared to traditional open surgery.</p>
-    </div>
-  ),
-  "obesity-surgery-preparation": (
-    <div className="space-y-4">
-      <h3 className="font-bold text-lg">Who is an Ideal Candidate?</h3>
-      <p>Candidates typically have a BMI of 35 or higher with obesity-related health conditions, or BMI of 40 or higher. Patients must be committed to lifelong lifestyle changes including dietary modifications and regular exercise. Age typically ranges from 18-65 years old.</p>
-      <h3 className="font-bold text-lg mt-6">Pre-Surgery Requirements</h3>
-      <ul className="list-disc list-inside space-y-2">
-        <li>Comprehensive medical evaluation and psychological assessment</li>
-        <li>Nutritional counseling and education about post-surgery diet</li>
-        <li>Pre-operative diet to reduce liver size (typically 2 weeks)</li>
-        <li>Stop smoking and limit alcohol consumption</li>
-        <li>Clearance from your primary care physician and specialists if needed</li>
-      </ul>
-    </div>
-  ),
-  "obesity-surgery-recovery": (
-    <div className="space-y-4">
-      <h3 className="font-bold text-lg">Recovery Process</h3>
-      <p>Most patients stay 2-3 days in hospital and return to normal activities within 2-4 weeks. Long-term success requires commitment to dietary changes and regular follow-up care. You&apos;ll work closely with our nutritionist and medical team to ensure optimal results.</p>
-      <h3 className="font-bold text-lg mt-6">Long-term Care</h3>
-      <ul className="list-disc list-inside space-y-2">
-        <li>Follow a structured eating plan with small portions and proper nutrition</li>
-        <li>Take recommended vitamins and supplements to prevent deficiencies</li>
-        <li>Regular exercise as cleared by your medical team</li>
-        <li>Attend follow-up appointments and support groups</li>
-        <li>Monitor for any complications and maintain lifelong medical care</li>
-      </ul>
-    </div>
-  ),
-
   // --- Sleeve Gastrectomy Content ---
   "sleeve-gastrectomy-what": (
     <div className="space-y-4">
@@ -209,6 +161,127 @@ export const contentMap: Record<string, React.ReactNode> = {
   "gastric-balloon-removal": (
      <div className="space-y-4">
       <p>The balloon remains in the stomach for a period of 6 to 12 months. After this time, it is removed in a similar endoscopic procedure. The period with the balloon is a critical training phase, helping you adapt to healthier eating habits and smaller portion sizes for long-term success.</p>
+    </div>
+  ),
+
+  // --- Swallowable Gastric Balloon (Allurion) Content ---
+  "swallowable-balloon-what": (
+    <div className="space-y-4">
+      <p>
+        The <strong>Swallowable Gastric Balloon</strong> (Allurion) is the first and only
+        procedure-free gastric balloon that does not require surgery, endoscopy, or anesthesia.
+        Instead, you swallow a capsule the size of a large antibiotic pill, which contains a very
+        thin, deflated balloon.
+      </p>
+      <p>
+        Once the capsule reaches your stomach, the balloon is filled with fluid under X-ray
+        guidance and gently expands to take up space. By reducing the volume available for food, it
+        helps you feel full sooner, limit portion sizes, and follow a structured nutrition program
+        more easily.
+      </p>
+      <p>
+        The balloon remains in your stomach for around 16 weeks. At the end of this period, a
+        special valve opens, the fluid is released, and the now-empty, very thin balloon passes
+        naturally through your digestive system and out of the body in your stool.
+      </p>
+    </div>
+  ),
+  "swallowable-balloon-candidates": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Who Can Benefit?</h3>
+      <p>
+        The Swallowable Gastric Balloon is designed for adults who struggle to lose weight with
+        diet and exercise alone and want a non-surgical, temporary solution with strong medical
+        support. It is especially attractive for people who are anxious about anesthesia or
+        endoscopy.
+      </p>
+      <ul className="list-disc list-outside space-y-2 pl-5">
+        <li>Adults typically between 18 and 65 years old.</li>
+        <li>
+          Individuals whose body mass index (BMI) does not qualify them for bariatric surgery but
+          who still need structured, medically supervised weight loss support.
+        </li>
+        <li>
+          People who are not good candidates for surgery due to existing medical conditions or who
+          prefer to avoid surgical risk.
+        </li>
+        <li>
+          Patients who are at higher risk for anesthesia or endoscopy and therefore prefer a
+          swallowable, procedure-free option.
+        </li>
+      </ul>
+      <p>
+        The balloon is <strong>not suitable</strong> for patients who are pregnant, or who have had
+        previous stomach, small intestine, or large intestine surgery, as well as certain other
+        gastrointestinal conditions. A full medical assessment is always required.
+      </p>
+    </div>
+  ),
+  "swallowable-balloon-program": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">How the Allurion Program Works</h3>
+      <p>
+        The Swallowable Gastric Balloon is part of a comprehensive <strong>6-month program</strong>
+        — the first 4 months with the balloon in place and the next 2 months without it. The goal
+        is not just rapid weight loss, but to build lasting, healthy habits.
+      </p>
+      <ol className="list-decimal list-outside space-y-2 pl-5">
+        <li>
+          <strong>Preparation:</strong> Before the procedure, you follow a preparatory diet and may
+          use medications to reduce stomach acid to make the placement more comfortable.
+        </li>
+        <li>
+          <strong>Swallowing the Capsule:</strong> During the short clinic visit, you swallow the
+          capsule with water. In rare cases where swallowing is difficult, a thin guide wire can be
+          used to help it reach the stomach.
+        </li>
+        <li>
+          <strong>Balloon Inflation:</strong> Under X-ray control, the balloon is filled with its
+          special fluid in about 4–4.5 minutes through a thin tube attached to the capsule. Another
+          X-ray confirms the position, the tube is gently removed, and the procedure is complete.
+        </li>
+        <li>
+          <strong>Adaptation Period:</strong> Some people experience temporary nausea or cramps for
+          1–3 days. More than half of patients have little to no complaints and can continue their
+          daily life and work.
+        </li>
+        <li>
+          <strong>Digital Follow-Up:</strong> Throughout the 6-month program, the Allurion Digital
+          Scale, smartwatch, and mobile app provide continuous tracking of your weight, activity,
+          and progress, allowing close support from your bariatric team.
+        </li>
+      </ol>
+      <p>
+        With good adherence to the nutrition and lifestyle plan, most people can expect to lose
+        around <strong>10–15% of their body weight</strong> during the program.
+      </p>
+    </div>
+  ),
+  "swallowable-balloon-aftercare": (
+    <div className="space-y-4">
+      <h3 className="font-bold text-lg">Nutrition, Follow-up & Long-Term Success</h3>
+      <p>
+        In the first week after the Swallowable Gastric Balloon is placed, a staged consistency diet
+        is used to help your stomach adapt. You gradually move from clear liquids to thin purees,
+        thicker purees, and then soft solids, following your dietitian&apos;s guidance.
+      </p>
+      <p>
+        Your long-term eating plan is <strong>fully personalized</strong> and monitored by
+        specialist bariatric dietitians. The aim is to make healthy eating, portion control, and
+        active living part of your everyday routine, so that your weight loss does not stop when
+        the balloon passes.
+      </p>
+      <p>
+        The balloon does not need to be removed. After around 16 weeks, the valve opens, the fluid
+        is released, and the empty balloon moves through the intestines and exits naturally. If the
+        balloon ever needs to be removed earlier, this can be done with endoscopy and anesthesia in
+        a controlled hospital setting.
+      </p>
+      <p>
+        For patients who still have significant weight to lose or have difficulty maintaining their
+        results, a <strong>sequential balloon</strong> program can be planned. With carefully timed
+        repeat balloons, total weight loss of 30–35% is achievable for suitable candidates.
+      </p>
     </div>
   ),
 
@@ -942,24 +1015,6 @@ export const contentMap: Record<string, React.ReactNode> = {
     <div className="space-y-4">
       <h3 className="font-bold text-lg">Glaucoma Surgeries</h3>
       <p>Glaucoma is a condition that damages the optic nerve, often caused by high pressure inside the eye. When medication is not enough, surgery can create a new drainage channel for the eye fluid to lower the pressure. Common procedures include Trabeculectomy, which creates a new drainage flap, or the insertion of micro-implants or shunts to help fluid drain.</p>
-    </div>
-  ),
-  "transplant-kidney": (
-    <div className="space-y-4">
-      <h3 className="font-bold text-lg">Kidney Transplant</h3>
-      <p>A kidney transplant is a life-saving procedure for patients with end-stage renal disease (kidney failure). It involves surgically placing a healthy kidney from a living or deceased donor into a recipient whose own kidneys no longer function properly. A successful transplant allows a patient to live a healthier, more active life, free from the constraints of dialysis.</p>
-    </div>
-  ),
-  "transplant-liver": (
-    <div className="space-y-4">
-      <h3 className="font-bold text-lg">Liver Transplant</h3>
-      <p>A liver transplant is a surgical procedure to replace a diseased liver with a healthy liver from a donor. This is a vital treatment for people with acute or chronic liver failure caused by conditions like cirrhosis or hepatitis. Because the liver has the unique ability to regenerate, a transplant can sometimes be performed using just a portion of a healthy liver from a living donor.</p>
-    </div>
-  ),
-  "transplant-bone-marrow": (
-    <div className="space-y-4">
-      <h3 className="font-bold text-lg">Bone Marrow Transplant</h3>
-      <p>A bone marrow transplant (or stem cell transplant) is a medical procedure used to treat certain types of cancer, such as leukemia and lymphoma, as well as other blood and immune system diseases. The procedure involves replacing a patient&apos;s unhealthy bone marrow with healthy, blood-forming stem cells from a donor, allowing the body to produce healthy blood cells again.</p>
     </div>
   ),
   "eyebrow-transplant-what": (

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { Resend } from 'resend';
+import { escapeHtml } from '@/lib/escapeHtml';
 
 // Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -9,13 +10,13 @@ const fromEmail = process.env.FROM_EMAIL_ADDRESS;
 
 // Helper function to format questions for the email
 function formatQuestions(title: string, questions: Record<string, string>): string {
-  let html = `<h3>${title}</h3><table style="width: 100%; border-collapse: collapse;">`;
+  let html = `<h3>${escapeHtml(title)}</h3><table style="width: 100%; border-collapse: collapse;">`;
   for (const [key, value] of Object.entries(questions)) {
     if (value) { // Only show questions that were answered
       html += `
         <tr style="border-bottom: 1px solid #eee;">
-          <td style="padding: 8px 0; font-weight: bold; width: 40%;">${key.replace(/_/g, ' ')}</td>
-          <td style="padding: 8px 0;">${value}</td>
+          <td style="padding: 8px 0; font-weight: bold; width: 40%;">${escapeHtml(key.replace(/_/g, ' '))}</td>
+          <td style="padding: 8px 0;">${escapeHtml(value)}</td>
         </tr>
       `;
     }
@@ -83,34 +84,34 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: `New Health Form <${fromEmail}>`,
       to: [toEmail],
-      subject: `New Health Form: ${personalInfo.name} - ${personalInfo.service}`,
+      subject: `New Health Form: ${escapeHtml(personalInfo.name)} - ${escapeHtml(personalInfo.service)}`,
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6;">
           <h2>New "Get Beauty and Health" Health Form Submission</h2>
           <p>A new potential patient has submitted their detailed health form. Please follow up with them to request photos.</p>
-          
+
           <h3>Patient Details</h3>
           <table style="width: 100%; border-collapse: collapse;">
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Name:</td><td style="padding: 8px 0;">${personalInfo.name}</td></tr>
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Email:</td><td style="padding: 8px 0;">${personalInfo.email}</td></tr>
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Phone:</td><td style="padding: 8px 0;">${personalInfo.phone || 'Not provided'}</td></tr>
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Service of Interest:</td><td style="padding: 8px 0;">${personalInfo.service}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Name:</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.name)}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Email:</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.email)}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Phone:</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.phone) || 'Not provided'}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Service of Interest:</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.service)}</td></tr>
           </table>
-          
+
           ${formatQuestions('Procedure-Specific Answers', procedureQuestions)}
-          
+
           <h3>Medical History</h3>
           <table style="width: 100%; border-collapse: collapse;">
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Date of Birth:</td><td style="padding: 8px 0;">${personalInfo.dob}</td></tr>
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Sex:</td><td style="padding: 8px 0;">${personalInfo.sex}</td></tr>
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Height (cm):</td><td style="padding: 8px 0;">${personalInfo.height}</td></tr>
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Weight (kg):</td><td style="padding: 8px 0;">${personalInfo.weight}</td></tr>
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Smokes Daily:</td><td style="padding: 8px 0;">${personalInfo.smoke}</td></tr>
-            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Drinks Alcohol:</td><td style="padding: 8px 0;">${personalInfo.alcohol}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Date of Birth:</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.dob)}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Sex:</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.sex)}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Height (cm):</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.height)}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Weight (kg):</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.weight)}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Smokes Daily:</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.smoke)}</td></tr>
+            <tr style="border-bottom: 1px solid #eee;"><td style="padding: 8px 0; font-weight: bold; width: 40%;">Drinks Alcohol:</td><td style="padding: 8px 0;">${escapeHtml(personalInfo.alcohol)}</td></tr>
           </table>
-          
+
           ${formatQuestions('Medical Questions', medicalQuestions)}
-          
+
         </div>
       `,
     });

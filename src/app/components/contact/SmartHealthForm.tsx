@@ -9,6 +9,11 @@ import { ShieldCheck, User, Mail, Phone, Save } from 'lucide-react'; // Import S
 // --- NEW: A key for our browser storage ---
 const STORAGE_KEY = 'smart-form-backup';
 
+// --- Only these fields are ever written to browser storage. Everything else on
+// this form is medical history (HIV/Hepatitis/drug use/etc.) and must never be
+// persisted to localStorage, even temporarily. ---
+const SAFE_STORAGE_FIELDS = ['name', 'email', 'phone', 'service'] as const;
+
 // --- NEW: Define the shape of our form data ---
 interface FormData {
   name: string;
@@ -48,13 +53,19 @@ const SmartHealthForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [formStatus, setFormStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  // --- NEW: EFFECT 1 - Load from storage on page load ---
+  // --- EFFECT 1 - Load contact info (only) from storage on page load ---
   useEffect(() => {
     const savedData = localStorage.getItem(STORAGE_KEY);
     if (savedData) {
       try {
-        const parsedData = JSON.parse(savedData) as FormData;
-        setFormData(parsedData);
+        const parsedData = JSON.parse(savedData) as Partial<FormData>;
+        setFormData(prev => {
+          const restored = { ...prev };
+          for (const field of SAFE_STORAGE_FIELDS) {
+            if (parsedData[field] !== undefined) restored[field] = parsedData[field];
+          }
+          return restored;
+        });
       } catch (error) {
         if (process.env.NODE_ENV === 'development') {
           console.error("Failed to parse saved form data", error);
@@ -64,10 +75,14 @@ const SmartHealthForm = () => {
     }
   }, []);
 
-  // --- NEW: EFFECT 2 - Save to storage on any change ---
+  // --- EFFECT 2 - Save only the low-sensitivity contact fields to storage ---
   useEffect(() => {
     if (formData !== initialState) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+      const safeData: Partial<FormData> = {};
+      for (const field of SAFE_STORAGE_FIELDS) {
+        safeData[field] = formData[field];
+      }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(safeData));
       setIsSaved(true);
       // Make the "Saved" text appear and fade
       const timer = setTimeout(() => setIsSaved(false), 2000);
@@ -282,8 +297,8 @@ const SmartHealthForm = () => {
         <div className={`flex items-center gap-2 text-sm text-gray-500 transition-opacity ${isSaved ? 'opacity-100' : 'opacity-0'}`}>
           <Save className="w-4 h-4" />
           <span>Progress saved...</span>
-        </div>
-        
+          </div>
+
         <button 
           type="submit" 
           disabled={!selectedService || isLoading} 
@@ -291,13 +306,13 @@ const SmartHealthForm = () => {
         >
           {isLoading ? 'Submitting...' : 'Submit Health Form'}
         </button>
-      </div>
+                </div>
 
       {formStatus === 'success' && (
         <div className="text-green-600 bg-green-50 p-4 rounded-md">
           Thank you! Your health information has been submitted. A patient coordinator 
           will email you shortly with the next steps and instructions for photos.
-        </div>
+            </div>
       )}
       {formStatus === 'error' && (
         <div className="text-red-600 bg-red-50 p-4 rounded-md">

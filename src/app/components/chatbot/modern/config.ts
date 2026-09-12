@@ -55,7 +55,8 @@ export const PRIORITY_INTENTS: Intent[] = [
       'plane tickets',
       'plane included',
       'planes included',
-      'are plane tickets included'
+      'are plane tickets included',
+      'airfare'
     ],
     response: "Yes, the cost of flight tickets is included in the total price of our all-inclusive packages. We handle everything from the medical fees and hotel to the transfers and your flights to ensure a completely transparent and stress-free journey.",
     confidence: 0.95,
@@ -82,7 +83,8 @@ export const PRIORITY_INTENTS: Intent[] = [
       'packages',
       'inclusion',
       'inclusions',
-      'what is in the package'
+      'what is in the package',
+      'what do i get'
     ],
     response: "Our all-inclusive packages include: Complete medical care, luxury hotel accommodation, VIP transfers, round-trip flight tickets, 24/7 personal support, and comprehensive aftercare. Everything is covered with transparent pricing.",
     confidence: 0.9,
@@ -160,7 +162,7 @@ export const PRIORITY_INTENTS: Intent[] = [
       'what do you offer',
       'treatments'
     ],
-    response: "We offer a comprehensive range of procedures across multiple specialties:\n\n**Bariatric Surgery:** Gastric Sleeve, Gastric Bypass, Gastric Balloon, Gastric Botox\n\n**Hair Transplant:** FUE, DHI, Eyebrow & Beard Transplantation\n\n**Plastic Surgery:** Rhinoplasty, BBL, Liposuction, Breast Augmentation, Tummy Tuck, Facelift, and more\n\n**Fertility:** IVF Treatment\n\n**Dental:** Veneers, Implants, Crowns, Smile Makeover\n\n**Eye Surgery:** LASIK, Blepharoplasty, Cataract\n\n**Plus:** Transplantation, Orthopedic, Neurosurgery, and da Vinci Robotic Surgery",
+    response: "We offer a comprehensive range of procedures across multiple specialties:\n\n**Bariatric Surgery:** Gastric Sleeve, Gastric Bypass, Gastric Balloon, Gastric Botox\n\n**Hair Transplant:** FUE, DHI, Eyebrow & Beard Transplantation\n\n**Plastic Surgery:** Rhinoplasty, BBL, Liposuction, Breast Augmentation, Tummy Tuck, Facelift, and more\n\n**Fertility:** IVF Treatment\n\n**Dental:** Veneers, Implants, Crowns, Smile Makeover\n\n**Eye Surgery:** LASIK, Blepharoplasty, Cataract\n\n**Plus:** General Surgery, Orthopedic Surgery, and da Vinci Robotic Surgery",
     confidence: 0.95,
     priority: 4.5
   },
@@ -182,10 +184,13 @@ export const PRIORITY_INTENTS: Intent[] = [
       'international standards',
       'hospital accreditation',
       // --- ENRICHED ---
-      'safe',
-      'safety',
-      'is it safe',
-      'how safe',
+      // NOTE: bare 'safe' / 'safety' / 'is it safe' / 'how safe' were removed here.
+      // They matched even when a specific procedure was named ("is rhinoplasty
+      // safe"), always winning this generic hospital-accreditation reply instead of
+      // letting the procedure-aware routing give the real, specific risk list. The
+      // no-procedure case ("is it safe" on its own) still gets this exact same
+      // response via the isSafetyQualityQuestion / detectQuestionType fallback path
+      // later in the pipeline - nothing is lost, it's just no longer checked first.
       'surgeon quality',
       'are surgeons good',
       'are hospitals good'
@@ -324,18 +329,23 @@ export const CTA_BUTTONS = {
   },
   packages: {
     text: "View Complete Packages",
-    action: 'external' as const,
+    action: 'internal' as const,
     url: "/journey"
   },
   procedures: {
-    text: "Browse All Procedures", 
-    action: 'external' as const,
+    text: "Browse All Procedures",
+    action: 'internal' as const,
     url: "/services"
   },
   faq: {
     text: "View Full FAQ",
     action: 'faq' as const,
     url: "/faq"
+  },
+  whatsapp: {
+    text: "Chat on WhatsApp",
+    action: 'external' as const,
+    url: "https://wa.me/447359104606"
   }
 }
 
@@ -345,8 +355,12 @@ export const PROACTIVE_GREETINGS: { [key: string]: string } = {
   'plastic-surgery': "I see you're looking at Plastic Surgery. I can answer questions about procedures like Rhinoplasty, BBL, or Tummy Tucks. What are you most curious about?",
   'obesity-surgery': "I see you're interested in Obesity Surgery. I can help with specific questions about Gastric Sleeve, recovery, or costs. What's on your mind?",
   'hair-transplant': "I see you're exploring Hair Transplants. I can provide details on FUE vs. DHI, recovery time, or provide a cost estimate. How can I help?",
-  'cosmetic-dentistry': "I see you're looking at Cosmetic Dentistry. I can answer questions about Veneers, Implants, or Smile Makeovers. What would you like to know?",
-  
+  // NOTE: no 'cosmetic-dentistry' entry here - unlike plastic-surgery/obesity-surgery/
+  // hair-transplant (pure category hubs with no matching servicesData slug),
+  // "cosmetic-dentistry" IS a real service slug, so getInitialContext's specific-
+  // service branch always matches it first and this category-style greeting could
+  // never actually display. A dead entry here previously sat unreachable.
+
   // Core Journey Pages
   'journey': "This is the all-inclusive journey! I can clarify what's included in our packages, from flights to hotels. Just ask!",
   'contact': "This is our main contact page. If you have a quick question before you fill out the form, feel free to ask me here!",

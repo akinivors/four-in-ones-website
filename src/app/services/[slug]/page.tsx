@@ -15,7 +15,7 @@ import { ServicePageSchema } from '@/app/components/common/StructuredData';
 
 // --- DYNAMIC METADATA FUNCTION ---
 type Props = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata(
@@ -23,7 +23,8 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   // Fetch service data
-  const service = getServiceBySlug(params.slug);
+  const { slug } = await params;
+  const service = getServiceBySlug(slug);
 
   // Handle service not found
   if (!service) {
@@ -51,9 +52,10 @@ export async function generateMetadata(
 
 
 // --- Your Page Component (No Changes) ---
-const ServiceDetailPage = ({ params }: { params: { slug: string } }) => {
-  const service = getServiceBySlug(params.slug);
-  
+const ServiceDetailPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
+  const { slug } = await params;
+  const service = getServiceBySlug(slug);
+
   if (!service) {
     notFound();
   }

@@ -202,12 +202,6 @@ export const knowledgeMap: Record<string, ProcedureKnowledge> = {
     process: 'eye-surgery-refractive',
   },
 
-  // Transplantation Procedures
-  'transplantation': {
-    what: 'transplant-kidney',
-    process: 'transplant-kidney',
-  },
-
   // IVF Procedures
   'ivf-treatment': {
     what: 'ivf-what',
@@ -238,5 +232,45 @@ export const knowledgeMap: Record<string, ProcedureKnowledge> = {
     what: 'orthopedic-knee-replacement',
     process: 'orthopedic-knee-replacement',
   },
+};
+
+/**
+ * Colloquial/alternate terms a visitor might use instead of a procedure's
+ * official title or slug (e.g. "boob job" for breast-augmentation). Used by
+ * the chatbot's findProcedure() for matching, and by queryAnalysis.ts to
+ * build its typo-correction vocabulary - single source of truth for both so
+ * they can't drift out of sync.
+ */
+export const PROCEDURE_SEARCH_KEYWORDS: Record<string, string[]> = {
+  'rhinoplasty': ['nose', 'rhinoplasty', 'nasal job'],
+  'scalp-hair-transplant': ['hair transplant', 'scalp hair transplant', 'hair loss', 'balding', 'fue', 'dhi', 'hair restoration', 'hair plugs'],
+  'eyebrow-transplantation': ['eyebrow transplant', 'eyebrow hair'],
+  'beard-transplantation': ['beard transplant', 'beard hair'],
+  'sleeve-gastrectomy': ['sleeve', 'gastric sleeve', 'vsg'],
+  'gastric-bypass': ['gastric bypass', 'bypass surgery'],
+  'gastric-balloon': ['gastric balloon', 'stomach balloon'],
+  'gastric-botox': ['gastric botox', 'stomach botox'],
+  'breast-augmentation': ['breast implants', 'boob job', 'augmentation'],
+  'breast-lift': ['breast lift', 'mastopexy'],
+  'tummy-tuck': ['tummy tuck', 'abdominoplasty'],
+  'bbl': ['bbl', 'brazilian butt lift', 'butt lift'],
+  'vaser-liposuction': ['vaser', 'lipo', 'liposuction'],
+  'mummy-makeover': ['mummy makeover', 'mommy makeover'],
+  'facelift': ['facelift', 'rhytidectomy'],
+  'gynecomastia': ['gynecomastia', 'male breast reduction'],
+  'otoplasty': ['otoplasty', 'ear surgery', 'ear pinning'],
+  'arm-lift': ['arm lift', 'brachioplasty'],
+  'thigh-lift': ['thigh lift'],
+  'genital-rejuvenation': ['labiaplasty', 'vaginal rejuvenation'],
+  'scar-removal': ['scar removal', 'scar revision'],
+  'mole-removal': ['mole removal'],
+  'penis-enlargement': ['penis enlargement', 'phalloplasty'],
+  'cosmetic-dentistry': ['dentist', 'dental', 'veneers', 'crowns', 'implants', 'teeth', 'teeth whitening', 'smile makeover'],
+  'eye-surgery': ['eye surgery', 'lasik', 'blepharoplasty', 'cataract'],
+  'mesotherapy': ['mesotherapy', 'meso'],
+  'micro-scalp-pigmentation': ['smp', 'scalp tattoo', 'scalp pigmentation', 'micropigmentation'],
+  'general-surgery': ['general surgery', 'gallbladder', 'hernia', 'hemorrhoid'],
+  'orthopedic-surgery': ['orthopedic', 'knee replacement', 'hip replacement'],
+  'ivf-treatment': ['ivf', 'fertility', 'infertility', 'icsi'],
 };
 

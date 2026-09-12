@@ -15,7 +15,7 @@ export default function Footer() {
   ];
 
   const topServices = [
-    { name: 'Plastic Surgery', href: '/services/rhinoplasty' },
+    { name: 'Plastic Surgery', href: '/services/plastic-surgery' },
     { name: 'Hair Transplant', href: '/services/hair-transplant' },
     { name: 'Obesity Surgery', href: '/services/obesity-surgery' },
     { name: 'Cosmetic Dentistry', href: '/services/cosmetic-dentistry' }, // FIXED: Specific page
@@ -43,7 +43,7 @@ export default function Footer() {
             <div className="bg-white rounded-xl p-6 mb-4 shadow-lg">
               <Link href="/" className="relative block h-24 w-full" aria-label="Link to Homepage">
                 <Image
-                  src="/logo-main.png"
+                  src="/Get-Beauty-And-Health-Logo_new.svg"
                   alt="Get Beauty and Health - Medical Tourism Logo"
                   fill
                   style={{ objectFit: 'contain', objectPosition: 'center' }}

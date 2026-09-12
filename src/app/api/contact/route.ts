@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabaseClient';
 import { Resend } from 'resend';
+import { escapeHtml } from '@/lib/escapeHtml';
 
 // Initialize Resend
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -42,17 +43,17 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: `New Lead <${fromEmail}>`,
       to: [toEmail],
-      subject: `New Contact Form Lead: ${name}`,
+      subject: `New Contact Form Lead: ${escapeHtml(name)}`,
       html: `
         <div>
           <h2>New "Get Beauty and Health" Contact Inquiry</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
-          <p><strong>Service of Interest:</strong> ${service}</p>
+          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          <p><strong>Phone:</strong> ${escapeHtml(phone) || 'Not provided'}</p>
+          <p><strong>Service of Interest:</strong> ${escapeHtml(service)}</p>
           <hr />
           <p><strong>Message:</strong></p>
-          <p>${message}</p>
+          <p>${escapeHtml(message)}</p>
         </div>
       `,
     });

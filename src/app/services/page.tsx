@@ -201,11 +201,15 @@ const ServicesPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 max-w-7xl mx-auto">
             {additionalServices.map((service) => {
               const IconComponent = service.icon;
+              const categorySlug = service.href.split('/').pop() || '';
+              const isHighlighted = highlightedCategory === categorySlug;
               return (
                 <Link
                   key={service.title}
                   href={service.href}
-                  className="group relative p-6 bg-white rounded-xl border-2 border-gray-200 hover:border-brand-teal hover:shadow-xl transition-all duration-300"
+                  className={`group relative p-6 bg-white rounded-xl border-2 hover:border-brand-teal hover:shadow-xl transition-all duration-300 ${
+                    isHighlighted ? 'border-brand-orange ring-2 ring-brand-orange scale-105 shadow-xl' : 'border-gray-200'
+                  }`}
                 >
                   <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-teal/10 border border-brand-teal/20 mb-4 group-hover:bg-brand-teal group-hover:border-brand-teal transition-all duration-300">
                     <IconComponent className="w-6 h-6 text-brand-teal group-hover:text-white transition-colors" />

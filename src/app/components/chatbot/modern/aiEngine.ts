@@ -1,10 +1,48 @@
 // Modern AI Engine - Clean, Intelligent Response System
-import { ChatbotResponse, ChatContext, KnowledgeSource } from './types'
+import { isValidElement, type ReactNode, type ReactElement } from 'react'
+import { ChatbotResponse, ChatContext, KnowledgeSource, Intent } from './types'
 import { PRIORITY_INTENTS, SUGGESTIONS, CTA_BUTTONS } from './config'
 import { servicesData, Service, Benefit } from '@/lib/servicesData'
 import { contentMap } from '@/lib/serviceContent'
-import { knowledgeMap } from '@/lib/chatbotKnowledgeMap'
+import { knowledgeMap, PROCEDURE_SEARCH_KEYWORDS } from '@/lib/chatbotKnowledgeMap'
+import { correctTypos, isLikelyNonEnglish, STOPWORDS } from './queryAnalysis'
 import { faqData, FAQItem } from '@/lib/faqData'
+
+// Extracts a markdown-ish plain-text version of a serviceContent.tsx JSX node
+// (h3 -> **heading**, li -> * item, p -> paragraph) so the chatbot can surface the
+// real procedure content through the same markdown rendering the chat UI already
+// supports, instead of a generic "read our website" deflection.
+function extractPlainTextFromContent(node: ReactNode): string {
+  if (node === null || node === undefined || typeof node === 'boolean') {
+    return ''
+  }
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node)
+  }
+  if (Array.isArray(node)) {
+    return node.map(extractPlainTextFromContent).join('')
+  }
+  if (isValidElement(node)) {
+    const element = node as ReactElement<{ children?: ReactNode }>
+    const inner = extractPlainTextFromContent(element.props.children)
+    switch (element.type) {
+      case 'h3':
+        return `**${inner.trim()}**\n\n`
+      case 'p':
+      case 'ul':
+      case 'ol':
+        return `${inner.trim()}\n\n`
+      case 'li':
+        return `* ${inner.trim()}\n`
+      case 'strong':
+      case 'b':
+        return `**${inner}**`
+      default:
+        return inner
+    }
+  }
+  return ''
+}
 
 // --- NEW HELPER FUNCTION FOR LOGGING ---
 const logInteraction = (query: string, response: ChatbotResponse, context: ChatContext) => {
@@ -34,6 +72,25 @@ const logInteraction = (query: string, response: ChatbotResponse, context: ChatC
 };
 // --- END NEW HELPER FUNCTION ---
 
+// How many queries after being set that context.lastProcedure still counts as
+// "current topic" for routing purposes (follow-up reattachment, FAQ scoring
+// boosts). Past this window it's treated as stale so an early mention of one
+// procedure can't keep silently hijacking answers to later, unrelated questions.
+const PROCEDURE_CONTEXT_FRESHNESS_WINDOW = 2
+
+// One representative procedure from each major category, used to build
+// clarifying-question suggestion chips (e.g. "Rhinoplasty cost") when a query
+// names a category (cost/recovery/etc.) but no procedure. Each combination is
+// verified to round-trip correctly through findProcedure + detectQuestionType:
+// the procedure name resolves via its existing slug/keyword substring match,
+// and the trailing category word resolves via that category's own keyword
+// check - so one click lands on the specific answer, not a generic intro.
+const REPRESENTATIVE_PROCEDURES = ['Rhinoplasty', 'Hair Transplant', 'Gastric Sleeve', 'Dental']
+
+function clarifyingSuggestions(categoryWord: string): string[] {
+  return REPRESENTATIVE_PROCEDURES.map(procedure => `${procedure} ${categoryWord}`)
+}
+
 export class ModernAIEngine {
   private knowledgeSources: KnowledgeSource[] = []
   private static instance: ModernAIEngine
@@ -56,10 +113,15 @@ export class ModernAIEngine {
   }
 
   async generateResponse(query: string, context: ChatContext): Promise<ChatbotResponse> {
-    const normalizedQuery = this.normalizeQuery(query)
-    
+    // Typo correction runs once, here, on the string itself - every matcher
+    // below (priority intents, findProcedure, detectQuestionType, the FAQ
+    // scorer) operates on plain substrings of normalizedQuery, so a corrected
+    // word (e.g. "rhinoplasy" -> "rhinoplasty") is picked up automatically by
+    // all of them with no changes needed to the matchers themselves.
+    const normalizedQuery = correctTypos(this.normalizeQuery(query))
+
     // --- THIS IS THE FINAL RESPONSE OBJECT ---
-    let finalResponse: ChatbotResponse; 
+    let finalResponse: ChatbotResponse;
 
     if (process.env.NODE_ENV === 'development') {
       console.log('🚀 Processing query:', query)
@@ -90,7 +152,38 @@ export class ModernAIEngine {
       logInteraction(normalizedQuery, finalResponse, context);
       return finalResponse;
     }
-    
+
+    if (this.isBareGreeting(normalizedQuery)) {
+      finalResponse = {
+        content: "Hi there! How can I help you today? Feel free to ask about procedures, costs, recovery times, or anything else about your medical journey.",
+        suggestions: SUGGESTIONS.initial,
+        ctaButton: CTA_BUTTONS.consultation,
+        confidence: 0.9,
+        source: 'ai',
+        intent: 'bare_greeting'
+      };
+      // --- LOG AND RETURN ---
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
+    }
+
+    // Checked before priority intents specifically because 'robot'/'robotic'
+    // are also bare patterns in the medical_technology intent below - without
+    // this ordering, "I don't want to talk to a robot" was being swallowed
+    // into a da Vinci robotic-surgery info-dump.
+    if (this.isBotIdentityQuestion(normalizedQuery)) {
+      finalResponse = {
+        content: "I'm an AI-powered assistant, not a human - but I'm well-equipped to help with detailed questions about our procedures, packages, and the patient journey! If you'd rather speak with a real person on our team, I can connect you with a patient coordinator.",
+        suggestions: ["What procedures do you offer?", "Tell me about packages", "Book a consultation"],
+        ctaButton: CTA_BUTTONS.consultation,
+        confidence: 0.9,
+        source: 'ai',
+        intent: 'bot_identity'
+      };
+      logInteraction(normalizedQuery, finalResponse, context);
+      return finalResponse;
+    }
+
     const priorityResponse = this.checkPriorityIntents(normalizedQuery)
     if (priorityResponse) {
       context.conversationHistory.push({
@@ -105,8 +198,8 @@ export class ModernAIEngine {
     }
 
     let procedure = this.findProcedure(normalizedQuery)
-    
-    if (!procedure && context.lastProcedure) {
+
+    if (!procedure && context.lastProcedure && this.isProcedureContextFresh(context)) {
       const hasFollowUpPattern = this.isFollowUpQuestion(normalizedQuery)
       if (hasFollowUpPattern) {
         procedure = servicesData.find((p: Service) => p.slug === context.lastProcedure!.slug) || null
@@ -115,14 +208,15 @@ export class ModernAIEngine {
         }
       }
     }
-    
+
     const questionType = this.detectQuestionType(normalizedQuery)
-    
+
     if (procedure) {
       context.lastProcedure = {
         slug: procedure.slug,
         title: procedure.hero.title,
-        timestamp: new Date()
+        timestamp: new Date(),
+        setAtQueryCount: context.queryCount
       }
       if (process.env.NODE_ENV === 'development') {
         console.log('💾 Stored procedure in context:', procedure.hero.title)
@@ -289,67 +383,87 @@ export class ModernAIEngine {
     return query.toLowerCase().replace(/[?,!.]/g, '')
   }
 
-  private checkPriorityIntents(query: string): ChatbotResponse | null {
-    for (const intent of PRIORITY_INTENTS) {
-      if (this.matchesPatterns(query, intent.patterns)) {
-        // Handle both string and function responses
-        if (typeof intent.response === 'function') {
-          return intent.response(query)
-        }
-        
-        // Map intent names to appropriate suggestions and CTA buttons
-        let suggestions = SUGGESTIONS.initial
-        let ctaButton: ChatbotResponse['ctaButton'] = CTA_BUTTONS.consultation
-        
-        switch (intent.name) {
-          case 'flight_cost_inclusion':
-          case 'package_inclusions':
-            suggestions = SUGGESTIONS.cost_inquiry
-            ctaButton = CTA_BUTTONS.packages
-            break
-          case 'cost_savings':
-            suggestions = ["What's included?", "Tell me about packages", "Get free quote", "Browse procedures"]
-            ctaButton = CTA_BUTTONS.consultation
-            break
-          case 'view_procedures':
-            suggestions = ["Hair transplant details", "Gastric sleeve info", "Rhinoplasty details", "Get consultation"]
-            ctaButton = CTA_BUTTONS.procedures
-            break
-          case 'hotel_accommodation':
-            suggestions = ["What's included?", "Hotel amenities", "How long do I stay?", "Talk to coordinator"]
-            ctaButton = CTA_BUTTONS.consultation
-            break
-          case 'safety_quality':
-            suggestions = ["What is JCI accreditation?", "Surgeon credentials", "See success rates", "Book consultation"]
-            ctaButton = CTA_BUTTONS.consultation
-            break
-          case 'medical_technology':
-            suggestions = ["Which procedures use it?", "Benefits vs traditional?", "Recovery advantages", "Book consultation"]
-            ctaButton = CTA_BUTTONS.consultation
-            break
-          default:
-            suggestions = SUGGESTIONS.initial
-            ctaButton = CTA_BUTTONS.consultation
-        }
-        
-        return {
-            content: intent.response,
-          suggestions,
-          ctaButton,
-          confidence: 0.95,
-          source: 'ai',
-            intent: intent.name
-        }
-      }
-    }
-    return null
+  // Exact match only (not .includes()) - short words like 'hi' are substrings of
+  // lots of unrelated words ("this", "hi-tech"), so a bare greeting is only
+  // recognized when the *entire* message is just the greeting itself.
+  private isBareGreeting(query: string): boolean {
+    const bareGreetings = ['hi', 'hello', 'hey', 'hiya', 'yo', 'good morning', 'good afternoon', 'good evening']
+    return bareGreetings.includes(query.trim())
   }
 
-  private matchesPatterns(query: string, patterns: string[]): boolean {
-    // This is the simplified, correct version.
-    return patterns.some(pattern => query.includes(pattern))
+  private checkPriorityIntents(query: string): ChatbotResponse | null {
+    // Find the best match across ALL intents rather than returning on the first
+    // array match. Patterns are matched by plain substring, so a short, generic
+    // pattern in an earlier intent (e.g. 'procedures') would otherwise always beat
+    // a longer, more specific pattern in a later intent (e.g. 'robotic procedures'),
+    // making the later one permanently unreachable. The longest matching pattern
+    // wins; ties keep the original array order as the tiebreaker.
+    let bestIntent: Intent | null = null
+    let bestMatchLength = -1
+
+    for (const intent of PRIORITY_INTENTS) {
+      const matchedPattern = intent.patterns.find(pattern => query.includes(pattern))
+      if (matchedPattern && matchedPattern.length > bestMatchLength) {
+        bestIntent = intent
+        bestMatchLength = matchedPattern.length
+      }
+    }
+
+    if (!bestIntent) {
+      return null
+    }
+    const intent = bestIntent
+
+    // Handle both string and function responses
+    if (typeof intent.response === 'function') {
+      return intent.response(query)
+    }
+
+    // Map intent names to appropriate suggestions and CTA buttons
+    let suggestions = SUGGESTIONS.initial
+    let ctaButton: ChatbotResponse['ctaButton'] = CTA_BUTTONS.consultation
+
+    switch (intent.name) {
+      case 'flight_cost_inclusion':
+      case 'package_inclusions':
+        suggestions = SUGGESTIONS.cost_inquiry
+        ctaButton = CTA_BUTTONS.packages
+        break
+      case 'cost_savings':
+        suggestions = ["What's included?", "Tell me about packages", "Get free quote", "Browse procedures"]
+        ctaButton = CTA_BUTTONS.consultation
+        break
+      case 'view_procedures':
+        suggestions = ["Hair transplant details", "Gastric sleeve info", "Rhinoplasty details", "Get consultation"]
+        ctaButton = CTA_BUTTONS.procedures
+        break
+      case 'hotel_accommodation':
+        suggestions = ["What's included?", "Hotel amenities", "How long do I stay?", "Talk to coordinator"]
+        ctaButton = CTA_BUTTONS.consultation
+        break
+      case 'safety_quality':
+        suggestions = ["What is JCI accreditation?", "Surgeon credentials", "See success rates", "Book consultation"]
+        ctaButton = CTA_BUTTONS.consultation
+        break
+      case 'medical_technology':
+        suggestions = ["Which procedures use it?", "Benefits vs traditional?", "Recovery advantages", "Book consultation"]
+        ctaButton = CTA_BUTTONS.consultation
+        break
+      default:
+        suggestions = SUGGESTIONS.initial
+        ctaButton = CTA_BUTTONS.consultation
+    }
+
+    return {
+      content: intent.response,
+      suggestions,
+      ctaButton,
+      confidence: 0.95,
+      source: 'ai',
+      intent: intent.name
+    }
   }
-  
+
   // CORRECTED: 'stay' removed, 'how i' queries added
   private isHotelAccommodationQuestion(query: string): boolean {
     const hotelWords = ['hotel', 'hotels', 'accommodation', 'room', 'lodging'] // 'stay' is removed
@@ -382,22 +496,35 @@ export class ModernAIEngine {
     // Catch emotional concerns OR traveling alone concerns OR trust questions
     return hasConcernWord || (hasAloneWord && query.includes('travel')) || hasTrustPhrase
   }
-  
+
+  // Is context.lastProcedure recent enough to still be trusted for routing?
+  private isProcedureContextFresh(context: ChatContext): boolean {
+    if (!context.lastProcedure) return false
+    return context.queryCount - context.lastProcedure.setAtQueryCount <= PROCEDURE_CONTEXT_FRESHNESS_WINDOW
+  }
+
   // NEW: Check if query is a follow-up question (doesn't mention procedure but asks specific questions)
   private isFollowUpQuestion(query: string): boolean {
     // Follow-up question patterns (questions that don't name a procedure)
     const followUpPatterns = [
       // Question type indicators
       'how much', 'what is the cost', 'how does it work', 'what is the process',
-      'am i a', 'am i suitable', 'can i get', 'am i good', 'am i a good',
+      // NOTE: bare 'am i a' was removed here - it matched inside "am i **a**ble",
+      // misrouting unrelated questions (e.g. "am I able to pick my own room") as
+      // eligibility follow-ups about whatever procedure was last discussed.
+      // 'am i a good' below already covers the intended "am I a good candidate" case.
+      'am i suitable', 'can i get', 'am i good', 'am i a good',
       'what are the benefit', 'what are the advantage', 'why choose',
       'what are the risk', 'what are the danger', 'what are the side effect',
       'what is the recovery', 'how long to recover', 'recovery time', 
       "what's the recovery", 'recovery like', 'recovery period', 'healing time',  // NEW: More recovery patterns
       'how long does it take', 'what happens', 'when can i',
       
-      // Generic question words
-      'tell me more', 'more information', 'more details',
+      // Generic question words. Bare 'more' included too - a lazy but very
+      // common one-word continuation after an intro ("tell me about X" ->
+      // "more"), gated safely since this whole check only ever fires when a
+      // fresh procedure is already in context.
+      'tell me more', 'more information', 'more details', 'more',
       'explain', 'describe',
       
       // Pronouns suggesting continuation
@@ -433,7 +560,10 @@ export class ModernAIEngine {
     const concernWords = ['nervous', 'worried', 'concern', 'concerned', 'trust', 'reliable', 'reputation', 'skeptical', 'hesitant']
     const hospitalWords = ['hospital', 'hospitals', 'facility', 'facilities', 'clinic', 'clinics']
     const surgeonWords = ['surgeon', 'surgeons', 'doctor', 'doctors']
-    const experienceWords = ['experienced', 'qualified', 'qualifications', 'expert', 'expertise', 'credentials']
+    // 'good'/'great'/'best' are only ever checked *together with* a surgeon/
+    // doctor word (hasSurgeonWord && hasExperienceWord below), so this stays
+    // narrow - it won't fire on an unrelated "good" elsewhere in a message.
+    const experienceWords = ['experienced', 'qualified', 'qualifications', 'expert', 'expertise', 'credentials', 'good', 'great', 'best']
     const generalContext = ['turkey', 'turkish', 'abroad', 'country', 'overseas']
     
     const hasSafetyWord = safetyWords.some(word => query.includes(word))
@@ -468,7 +598,14 @@ export class ModernAIEngine {
   }
 
   private checkFaqKnowledge(normalizedQuery: string, context?: ChatContext): ChatbotResponse | null {
-    const queryWords = normalizedQuery.toLowerCase().split(' ').filter(w => w.length >= 3)
+    // Stopwords excluded here too, not just length>=3: common words like "when"/
+    // "can"/"after" appear across many FAQs and were found (via broad testing)
+    // to out-score the FAQ that's actually relevant, since they contribute
+    // matches wherever they happen to appear rather than wherever the query's
+    // real content is - e.g. "when i can go back my country after operation"
+    // out-scored on "when"/"can"/"after" alone into the wrong FAQ ("When can I
+    // shower after surgery?") over the actually-relevant stay-duration one.
+    const queryWords = normalizedQuery.toLowerCase().split(' ').filter(w => w.length >= 3 && !STOPWORDS.has(w))
     
     if (normalizedQuery.includes('jci')) queryWords.push('jci')
     if (normalizedQuery.includes('ivf')) queryWords.push('ivf')
@@ -498,9 +635,11 @@ export class ModernAIEngine {
       if (normalizedQuery.includes("jci")) {
         if (questionLower.includes("jci") || answerLower.includes("jci-accredited")) score += 5
       }
-      if (normalizedQuery.includes("companion") || normalizedQuery.includes("friend")) {
-        if (questionLower.includes("companion")) score += 5
-      }
+      // NOTE: there used to be an unconditioned boost here - any query merely
+      // *containing* "friend" as a substring (e.g. "girlfriend", "boyfriend")
+      // got +5 toward this FAQ regardless of context. The guarded version
+      // further down (bring/take + companion/family-relation word) covers the
+      // legitimate case without that false-positive surface.
       if (normalizedQuery.includes("how long") && normalizedQuery.includes("stay")) {
         if (questionLower.includes("how long") && questionLower.includes("stay")) score += 5
       }
@@ -539,9 +678,14 @@ export class ModernAIEngine {
         if (questionLower.includes("anesthesia") || answerLower.includes("anesthesia")) score += 5
       }
       
-      if ((normalizedQuery.includes("something goes wrong") || normalizedQuery.includes("goes wrong") || 
-           normalizedQuery.includes("what if") || normalizedQuery.includes("worst case"))) {
-        if (questionLower.includes("emergency") || questionLower.includes("complication") || 
+      // NOTE: bare 'what if' was removed as a trigger here - it's a generic hypothetical
+      // prefix used in all sorts of unrelated questions ("what if I have diabetes", "what
+      // if I change my mind"), not just emergency ones. It was boosting completely
+      // unrelated queries into an emergency/complications answer. The more specific
+      // phrases below ("goes wrong", "worst case") still catch the intended case.
+      if ((normalizedQuery.includes("something goes wrong") || normalizedQuery.includes("goes wrong") ||
+           normalizedQuery.includes("worst case"))) {
+        if (questionLower.includes("emergency") || questionLower.includes("complication") ||
             answerLower.includes("emergency") || answerLower.includes("protocols")) score += 5
       }
       
@@ -578,63 +722,94 @@ export class ModernAIEngine {
             answerLower.includes("airport") || answerLower.includes("transfer")) score += 5
       }
       
-      if ((normalizedQuery.includes("bring") || normalizedQuery.includes("take")) && 
-          (normalizedQuery.includes("companion") || normalizedQuery.includes("partner") || 
-           normalizedQuery.includes("friend") || normalizedQuery.includes("family"))) {
-        if (questionLower.includes("companion") || questionLower.includes("bring") || 
-            answerLower.includes("companion")) score += 6  
+      if ((normalizedQuery.includes("bring") || normalizedQuery.includes("take")) &&
+          (normalizedQuery.includes("companion") || normalizedQuery.includes("partner") ||
+           normalizedQuery.includes("friend") || normalizedQuery.includes("family") ||
+           // Real visitors usually name a specific relation rather than the
+           // generic word "companion" - "can I bring my husband with me".
+           normalizedQuery.includes("husband") || normalizedQuery.includes("wife") ||
+           normalizedQuery.includes("spouse") || normalizedQuery.includes("mother") ||
+           normalizedQuery.includes("father") || normalizedQuery.includes("sister") ||
+           normalizedQuery.includes("brother") || normalizedQuery.includes("mom") ||
+           normalizedQuery.includes("dad"))) {
+        // "companion" only, not bare "bring" - a separate FAQ ("What should I
+        // bring with me?", a packing-list question) also has "bring" in its
+        // question, and that bare check was boosting it over this one for
+        // "can I bring my husband with me"-style questions.
+        if (questionLower.includes("companion") || answerLower.includes("companion")) score += 6
       }
       
-      if (context?.lastProcedure) {
+      // The procedure-context boost below is only ever allowed to *tip the balance*
+      // between otherwise-plausible matches - never to manufacture a match out of
+      // nothing. Without this guard, a content-free message ("ok thanks") scores 0
+      // against every FAQ on its own merits, but the category boost alone (+5, e.g.
+      // for any answer containing the generic word "cosmetic") was enough to clear
+      // the match threshold and return a confidently wrong, unrelated answer.
+      const hasGenuineContentMatch = score > 0
+
+      if (hasGenuineContentMatch && context?.lastProcedure && this.isProcedureContextFresh(context)) {
         const procedureTitle = context.lastProcedure.title.toLowerCase()
         const procedureSlug = context.lastProcedure.slug
-        
+
         if (answerLower.includes(procedureTitle) || answerLower.includes(procedureSlug)) {
           score += 3
-          
+
           if (process.env.NODE_ENV === 'development') {
             console.log(`🎯 Context boost for "${faq.question}" - mentions ${procedureTitle}`)
           }
         }
-        
-        if (procedureSlug === 'ivf-treatment' && 
+
+        if (procedureSlug === 'ivf-treatment' &&
             (faq.category === 'Procedures' && (answerLower.includes('ivf') || answerLower.includes('fertility')))) {
           score += 5
         }
-        
+
         if ((procedureSlug === 'scalp-hair-transplant' || procedureSlug === 'eyebrow-transplantation' || procedureSlug === 'beard-transplantation') &&
             (faq.category === 'Procedures' && (answerLower.includes('hair') || answerLower.includes('fue') || answerLower.includes('dhi')))) {
           score += 5
         }
-        
-        if ((procedureSlug === 'sleeve-gastrectomy' || procedureSlug === 'gastric-bypass' || 
+
+        if ((procedureSlug === 'sleeve-gastrectomy' || procedureSlug === 'gastric-bypass' ||
              procedureSlug === 'gastric-balloon' || procedureSlug === 'gastric-botox') &&
-            (faq.category === 'Procedures' && (answerLower.includes('weight loss') || answerLower.includes('bariatric') || 
+            (faq.category === 'Procedures' && (answerLower.includes('weight loss') || answerLower.includes('bariatric') ||
              answerLower.includes('gastric') || answerLower.includes('sleeve') || answerLower.includes('bypass')))) {
           score += 5
         }
-        
+
+        // NOTE: 'implants' was removed here - it's not specific to dental (breast
+        // implants FAQs also contain the word), so it could cross-boost an unrelated
+        // FAQ. 'dental implants' is specific enough to keep.
         if (procedureSlug === 'cosmetic-dentistry' &&
-            (faq.category === 'Procedures' && (answerLower.includes('dental') || answerLower.includes('veneers') || 
-             answerLower.includes('implants') || answerLower.includes('crowns')))) {
+            (faq.category === 'Procedures' && (answerLower.includes('dental') || answerLower.includes('veneers') ||
+             answerLower.includes('dental implants') || answerLower.includes('crowns')))) {
           score += 5
         }
-        
-        if ((procedureSlug === 'rhinoplasty' || procedureSlug === 'breast-augmentation' || 
+
+        // NOTE: bare 'cosmetic' and 'plastic' were removed here - both are generic
+        // enough to appear in unrelated FAQs (e.g. a dental FAQ mentioning "cosmetic
+        // treatment"), which was cross-boosting completely unrelated answers into a
+        // false match. The specific procedure names below are unambiguous.
+        if ((procedureSlug === 'rhinoplasty' || procedureSlug === 'breast-augmentation' ||
              procedureSlug === 'breast-lift' || procedureSlug === 'tummy-tuck' || procedureSlug === 'bbl' ||
              procedureSlug === 'vaser-liposuction' || procedureSlug === 'facelift') &&
-            (faq.category === 'Procedures' && (answerLower.includes('cosmetic') || answerLower.includes('plastic') ||
-             answerLower.includes('rhinoplasty') || answerLower.includes('breast') || answerLower.includes('facelift')))) {
+            (faq.category === 'Procedures' && (answerLower.includes('rhinoplasty') || answerLower.includes('breast') ||
+             answerLower.includes('facelift')))) {
           score += 5
         }
       }
-  
+
       if (score > (bestMatch?.score || 0)) {
         bestMatch = { faq, score }
       }
     }
   
-    if (bestMatch && bestMatch.score >= 3) {
+    // Was >= 3, tuned back when queryWords still included stopwords ("when",
+    // "can", "after"...) padding scores across the board. Now that those are
+    // filtered out (see queryWords above), genuine matches score lower but
+    // more meaningfully - testing showed several good matches ("what support
+    // do i get after i go home", "can i bring my husband with me") dropping
+    // below the old bar once the stopword padding was removed.
+    if (bestMatch && bestMatch.score >= 2) {
       const category = bestMatch.faq.category.toLowerCase()
       let contextualSuggestions: string[] = []
       
@@ -681,19 +856,23 @@ export class ModernAIEngine {
       return 'benefits'
     }
     
-    const costKeywords = ['cost', 'price', 'expensive', 'cheap', 'cheaper', 'affordable', 'how much']
+    const costKeywords = ['cost', 'price', 'expensive', 'cheap', 'cheaper', 'affordable', 'how much', 'bucks', 'dolla']
     if (costKeywords.some(keyword => lowerQuery.includes(keyword))) return 'cost'
   
     const candidateKeywords = ['candidate', 'eligible', 'suitable', 'good for', 'right for me', 'qualify', 'eligibility', 'requirements', 'too old', 'too young', 'minimum age', 'maximum age', 'age limit']
     const candidateConditions = ['diabetes', 'diabetic', 'pregnant', 'pregnancy', 'breastfeeding', 'heart condition', 'blood pressure', 'medication']
     
-    const hasEligibilityPhrasing = lowerQuery.includes('can i') || lowerQuery.includes('can someone') || 
+    const hasEligibilityPhrasing = lowerQuery.includes('can i') || lowerQuery.includes('can someone') ||
                                     lowerQuery.includes('am i able') || lowerQuery.includes('is someone')
     const hasMedicalCondition = candidateConditions.some(cond => lowerQuery.includes(cond)) ||
                                 lowerQuery.includes('if i have') || lowerQuery.includes('if i\'m') ||
                                 (lowerQuery.includes('with') && candidateConditions.some(cond => lowerQuery.includes(cond)))
-    
-    const isConditionEligibilityQuestion = hasEligibilityPhrasing && hasMedicalCondition
+    // A condition mentioned alongside "surgery"/"procedure"/"operation" also
+    // counts even without exact "can i" phrasing - non-native English often
+    // reverses the word order ("i can do this surgery or not, i have
+    // diabetes" instead of "can i have this surgery if I have diabetes").
+    const hasSurgeryMention = lowerQuery.includes('surgery') || lowerQuery.includes('procedure') || lowerQuery.includes('operation')
+    const isConditionEligibilityQuestion = hasMedicalCondition && (hasEligibilityPhrasing || hasSurgeryMention)
     
     if (candidateKeywords.some(keyword => lowerQuery.includes(keyword)) || isConditionEligibilityQuestion) return 'candidates'
   
@@ -702,7 +881,18 @@ export class ModernAIEngine {
                                       (lowerQuery.includes('will') || lowerQuery.includes('look') || lowerQuery.includes('appear'))
     if (benefitKeywords.some(keyword => lowerQuery.includes(keyword)) || isNaturalResultsQuestion) return 'benefits'
   
-    const riskKeywords = ['risk', 'risks', 'danger', 'dangers', 'side effect', 'side effects', 'cons', 'scar', 'scars', 'scarring']
+    // 'scar' is deliberately not in this list as a bare substring check: it would match
+    // inside words like "scared", misrouting emotional statements ("I'm scared to travel
+    // alone") to a surgical-risk disclaimer. \bscar\b below catches "a scar" / "scar" on
+    // its own without that false positive.
+    // NOTE: bare 'cons' (as in "pros and cons") used to be here as a bare
+    // substring check - it matches inside "consultation", "consider",
+    // "construction", "consequence", or literally any word starting with
+    // "cons", which is exactly as dangerous as it sounds (a pasted Lorem
+    // Ipsum block routed to the risks answer via "consectetur"). 'risk'/
+    // 'risks'/'danger'/'side effect' already cover the intended meaning.
+    const riskKeywords = ['risk', 'risks', 'danger', 'dangers', 'side effect', 'side effects', 'scars', 'scarring']
+    const hasBareScarWord = /\bscar\b/.test(lowerQuery)
     const isPostReturnComplication = (lowerQuery.includes('complication') || lowerQuery.includes('complications')) &&
                                       (lowerQuery.includes('at home') || lowerQuery.includes('after i return') || 
                                        lowerQuery.includes('back home') || lowerQuery.includes('when i get home'))
@@ -711,7 +901,7 @@ export class ModernAIEngine {
                                      lowerQuery.includes('hospital') || lowerQuery.includes('hospitals') ||
                                      lowerQuery.includes('country') || lowerQuery.includes('abroad')
     
-    if (!isPostReturnComplication && !hasGeneralSafetyContext && riskKeywords.some(keyword => lowerQuery.includes(keyword))) return 'risks'
+    if (!isPostReturnComplication && !hasGeneralSafetyContext && (riskKeywords.some(keyword => lowerQuery.includes(keyword)) || hasBareScarWord)) return 'risks'
     if (!isPostReturnComplication && !hasGeneralSafetyContext && (lowerQuery.includes('complication') || lowerQuery.includes('complications'))) return 'risks'
     
     const hasSafe = lowerQuery.includes('safe') || lowerQuery.includes('safety')
@@ -747,11 +937,16 @@ export class ModernAIEngine {
                                       (lowerQuery.includes('see results') || lowerQuery.includes('see the results') || 
                                        lowerQuery.includes('notice results') || lowerQuery.includes('results'))
       
-      const recoverySymptoms = ['swelling', 'bruising', 'pain', 'discomfort', 'soreness', 'numbness']
+      const recoverySymptoms = ['swelling', 'bruising', 'pain', 'painful', 'hurt', 'discomfort', 'soreness', 'numbness']
       const symptomActions = ['go down', 'go away', 'subside', 'decrease', 'reduce', 'disappear', 'heal']
+      // Timing ("when will the swelling go down") and severity ("how bad is
+      // the pain", "is it very painful") are both common ways to ask about a
+      // symptom - only checking for timing missed plain severity questions.
+      const symptomSeverityWords = ['how much', 'how bad', 'how big', 'how severe', 'very painful', 'is it painful', 'will it hurt', 'will it be painful']
       const hasSymptom = recoverySymptoms.some(symptom => lowerQuery.includes(symptom))
       const hasSymptomAction = symptomActions.some(action => lowerQuery.includes(action))
-      const isSymptomRecoveryQuestion = hasSymptom && (hasSymptomAction || lowerQuery.includes('when will') || lowerQuery.includes('how long'))
+      const hasSymptomSeverity = symptomSeverityWords.some(phrase => lowerQuery.includes(phrase))
+      const isSymptomRecoveryQuestion = hasSymptom && (hasSymptomAction || hasSymptomSeverity || lowerQuery.includes('when will') || lowerQuery.includes('how long'))
       
       if (recoveryKeywords.some(keyword => lowerQuery.includes(keyword)) || temporalRecovery || isResultsTimingQuestion || isSymptomRecoveryQuestion) {
         return 'recovery'
@@ -788,42 +983,8 @@ export class ModernAIEngine {
       }
     }
 
-    const procedureKeywords: { [slug: string]: string[] } = {
-      'rhinoplasty': ['nose', 'rhinoplasty', 'nasal job'],
-      'scalp-hair-transplant': ['hair transplant', 'scalp hair transplant', 'hair loss', 'balding', 'fue', 'dhi', 'hair restoration'],
-      'eyebrow-transplantation': ['eyebrow transplant', 'eyebrow hair'],
-      'beard-transplantation': ['beard transplant', 'beard hair'],
-      'sleeve-gastrectomy': ['sleeve', 'gastric sleeve', 'vsg'],
-      'gastric-bypass': ['gastric bypass', 'bypass surgery'],
-      'gastric-balloon': ['gastric balloon', 'stomach balloon'],
-      'gastric-botox': ['gastric botox', 'stomach botox'],
-      'breast-augmentation': ['breast implants', 'boob job', 'augmentation'],
-      'breast-lift': ['breast lift', 'mastopexy'],
-      'tummy-tuck': ['tummy tuck', 'abdominoplasty'],
-      'bbl': ['bbl', 'brazilian butt lift', 'butt lift'],
-      'vaser-liposuction': ['vaser', 'lipo', 'liposuction'],
-      'mummy-makeover': ['mummy makeover', 'mommy makeover'],
-      'facelift': ['facelift', 'rhytidectomy'],
-      'gynecomastia': ['gynecomastia', 'male breast reduction'],
-      'otoplasty': ['otoplasty', 'ear surgery', 'ear pinning'],
-      'arm-lift': ['arm lift', 'brachioplasty'],
-      'thigh-lift': ['thigh lift'],
-      'genital-rejuvenation': ['labiaplasty', 'vaginal rejuvenation'],
-      'scar-removal': ['scar removal', 'scar revision'],
-      'mole-removal': ['mole removal'],
-      'penis-enlargement': ['penis enlargement', 'phalloplasty'],
-      'cosmetic-dentistry': ['dentist', 'dental', 'veneers', 'crowns', 'implants', 'teeth whitening', 'smile makeover'],
-      'eye-surgery': ['eye surgery', 'lasik', 'blepharoplasty', 'cataract'],
-      'transplantation': ['organ transplant', 'kidney transplant', 'liver transplant', 'bone marrow transplant', 'kidney', 'liver', 'bone marrow'],
-      'mesotherapy': ['mesotherapy', 'meso'],
-      'micro-scalp-pigmentation': ['smp', 'scalp tattoo', 'scalp pigmentation'],
-      'general-surgery': ['general surgery', 'gallbladder', 'hernia', 'hemorrhoid'],
-      'orthopedic-surgery': ['orthopedic', 'knee replacement', 'hip replacement'],
-      'ivf-treatment': ['ivf', 'fertility', 'infertility', 'icsi'],
-    }
-
-    for (const slug in procedureKeywords) {
-      const keywords = procedureKeywords[slug]
+    for (const slug in PROCEDURE_SEARCH_KEYWORDS) {
+      const keywords = PROCEDURE_SEARCH_KEYWORDS[slug]
       if (keywords.some(keyword => lowerQuery.includes(keyword))) {
         const matchedProcedure = procedures.find((p: Service) => p.slug === slug)
         if (matchedProcedure) {
@@ -840,12 +1001,13 @@ export class ModernAIEngine {
   private generateProcedureIntro(procedure: Service): ChatbotResponse {
     const procedureKnowledge = this.knowledgeMap[procedure.slug]
     let introContent = `**${procedure.hero.title}** - ${procedure.hero.subtitle} Our experienced specialists use the latest techniques to ensure optimal outcomes with comprehensive care and support. What specific aspect would you like to know more about?`
-  
+
     const contentKey = procedureKnowledge?.what
     if (contentKey && this.contentMap.hasOwnProperty(contentKey)) {
-      introContent = `**${procedure.hero.title}** - ${procedure.hero.subtitle} Our experienced specialists use the latest techniques to ensure optimal outcomes with comprehensive care and support. What specific aspect would you like to know more about?`
+      const detail = extractPlainTextFromContent(this.contentMap[contentKey]).trim()
+      introContent = `**${procedure.hero.title}**\n\n${detail}\n\nWhat specific aspect would you like to know more about?`
     }
-  
+
     return {
       content: introContent,
       suggestions: [
@@ -864,13 +1026,8 @@ export class ModernAIEngine {
   private generateProcessResponse(procedure: Service | null): ChatbotResponse {
     if (!procedure) {
       return {
-        content: "The treatment process generally involves an initial consultation, personalized planning, the procedure itself, and comprehensive aftercare. If you have a specific procedure in mind, I can provide more detail.",
-        suggestions: [
-          "View all procedures",
-          "Tell me about hair transplant",
-          "Gastric sleeve details",
-          "Schedule consultation"
-        ],
+        content: "The treatment process generally involves an initial consultation, personalized planning, the procedure itself, and comprehensive aftercare — but it varies by procedure. Which one are you asking about?",
+        suggestions: clarifyingSuggestions('process'),
         ctaButton: CTA_BUTTONS.procedures,
         confidence: 0.8,
         source: 'knowledge',
@@ -883,7 +1040,8 @@ export class ModernAIEngine {
   
     let responseContent = ''
     if (contentKey && this.contentMap.hasOwnProperty(contentKey)) {
-      responseContent = `**${procedure.hero.title} Process:** Our website has detailed information about the procedure steps. Key aspects generally involve preparation and the surgery itself. Would you like me to guide you to the specific section on our site, or would you prefer to schedule a consultation for a detailed explanation?`
+      const detail = extractPlainTextFromContent(this.contentMap[contentKey]).trim()
+      responseContent = `**${procedure.hero.title} Process:**\n\n${detail}`
     } else {
       responseContent = `**${procedure.hero.title} Process:** The journey typically involves an initial consultation, personalized planning, travel arrangements (if needed), the procedure performed by expert surgeons, and comprehensive recovery support. We ensure a smooth process from start to finish.`
     }
@@ -905,17 +1063,12 @@ export class ModernAIEngine {
   
   private generateCandidatesResponse(procedure: Service | null): ChatbotResponse {
     if (!procedure) {
-    return {
-        content: "Suitability for a procedure depends on many factors, including your health, goals, and medical history. A free consultation with our medical team is the best way to get a personalized evaluation.",
-      suggestions: [
-          "View all procedures",
-          "Medical requirements",
-          "Get evaluated",
-        "Schedule consultation"
-      ],
-      ctaButton: CTA_BUTTONS.consultation,
+      return {
+        content: "Suitability depends on many factors, including your health, goals, and medical history — and it varies by procedure. Which one are you asking about?",
+        suggestions: clarifyingSuggestions('candidates'),
+        ctaButton: CTA_BUTTONS.consultation,
         confidence: 0.8,
-      source: 'knowledge',
+        source: 'knowledge',
         intent: 'procedure_candidates_generic'
       }
     }
@@ -925,7 +1078,8 @@ export class ModernAIEngine {
   
     let responseContent = ''
     if (contentKey && this.contentMap.hasOwnProperty(contentKey)) {
-      responseContent = `**${procedure.hero.title} Candidates:** Generally, good candidates are in good health with realistic expectations. Our website provides more specific criteria for this procedure. The best way to know if you're suitable is through a free consultation where our specialists can perform a thorough evaluation.`
+      const detail = extractPlainTextFromContent(this.contentMap[contentKey]).trim()
+      responseContent = `**${procedure.hero.title} Candidates:**\n\n${detail}`
     } else {
       responseContent = `**${procedure.hero.title} Candidates:** Suitability depends on various factors including your health, specific goals, and medical history. Ideal candidates generally have realistic expectations. A personalized evaluation during a free consultation is the best way to determine if this procedure is right for you.`
     }
@@ -948,13 +1102,8 @@ export class ModernAIEngine {
   private generateRecoveryResponse(procedure: Service | null): ChatbotResponse {
     if (!procedure) {
       return {
-        content: "After any procedure, our team provides comprehensive aftercare instructions and support. Recovery times vary, but typically involve a period of rest, managing discomfort, and gradual return to activities. A consultation will provide a more specific timeline for you.",
-        suggestions: [
-          "Aftercare support details",
-          "Travel arrangements",
-          "Package inclusions",
-          "Get started"
-        ],
+        content: "Recovery times vary by procedure, but generally involve a period of rest, managing discomfort, and a gradual return to activities, with full aftercare support throughout. Which procedure are you asking about?",
+        suggestions: clarifyingSuggestions('recovery'),
         ctaButton: CTA_BUTTONS.consultation,
         confidence: 0.8,
         source: 'knowledge',
@@ -967,7 +1116,8 @@ export class ModernAIEngine {
   
     let responseContent = ''
     if (contentKey && this.contentMap.hasOwnProperty(contentKey)) {
-      responseContent = `**${procedure.hero.title} Recovery:** Recovery involves specific aftercare instructions, which are detailed on our website. Key aspects often include managing swelling, activity restrictions, and follow-up care. For personalized recovery details based on your health, please schedule a free consultation.`
+      const detail = extractPlainTextFromContent(this.contentMap[contentKey]).trim()
+      responseContent = `**${procedure.hero.title} Recovery:**\n\n${detail}`
     } else {
       responseContent = `**${procedure.hero.title} Recovery:** After your procedure, our team provides comprehensive aftercare instructions and support. Recovery times vary, but typically involve a period of rest, managing discomfort, and gradual return to activities. A consultation will provide a more specific timeline for you.`
     }
@@ -990,13 +1140,8 @@ export class ModernAIEngine {
   private generateCostResponse(procedure: Service | null): ChatbotResponse {
     if (!procedure) {
       return {
-        content: "For pricing, we provide personalized quotes as costs depend on your specific needs. To get a detailed, no-obligation quote, please schedule a free consultation. Our packages are all-inclusive and offer great value.",
-        suggestions: [
-          "What's included?",
-          "Payment plans?",
-          "Get quote now",
-          "How much do I save?"
-        ],
+        content: "Pricing depends on the procedure and your specific needs — our packages are all-inclusive with no hidden costs. Which procedure would you like a cost estimate for?",
+        suggestions: clarifyingSuggestions('cost'),
         ctaButton: CTA_BUTTONS.consultation,
         confidence: 0.8,
         source: 'knowledge',
@@ -1024,8 +1169,8 @@ export class ModernAIEngine {
     let responseSuggestions: string[] = []
   
     if (!procedure) {
-      responseContent = `Our procedures offer significant advantages tailored to patient goals. For specific benefits relevant to your situation, please schedule a consultation with our specialists.`
-      responseSuggestions = ["What are the risks?", "View procedures", "See before & after", "Get consultation"]
+      responseContent = `Every procedure has its own specific benefits tailored to patient goals. Which one are you asking about?`
+      responseSuggestions = clarifyingSuggestions('benefits')
     } else if (procedure.benefits && procedure.benefits.length > 0) {
       const benefitsList = procedure.benefits
         .map((b: Benefit) => `* **${b.title}:** ${b.description}`)
@@ -1057,8 +1202,8 @@ export class ModernAIEngine {
     let responseSuggestions: string[] = []
   
     if (!procedure) {
-      responseContent = `Every medical procedure carries some level of risk. For detailed information specific to a procedure and your health profile, please schedule a consultation with our medical team.`
-      responseSuggestions = ["What are the benefits?", "Safety measures", "Success rates", "Talk to surgeon"]
+      responseContent = `Every medical procedure carries some level of risk, and the specifics depend on which one. Which procedure would you like to know the risks for?`
+      responseSuggestions = clarifyingSuggestions('risks')
     } else if (procedure.risks && procedure.risks.length > 0) {
       const risksList = procedure.risks
         .map(risk => `* ${risk}`) 
@@ -1087,11 +1232,102 @@ export class ModernAIEngine {
 
   // --- 4. FALLBACK ---
 
-  private generateIntelligentFallback(_query: string, _context?: ChatContext): ChatbotResponse {
+  // Visitor is asking about the bot itself, not about medical tourism -
+  // "are you real", "talk to a human", "i don't want to talk to a robot", etc.
+  // Checked *early* in generateResponse (right after bare-greeting), not just
+  // in the fallback: "robot"/"robotic" are also bare patterns in the
+  // medical_technology priority intent (da Vinci ROBOTIC surgery), so "I
+  // don't want to talk to a robot, give me a real answer" was being swallowed
+  // into a da Vinci info-dump before ever reaching a fallback-only check.
+  private isBotIdentityQuestion(query: string): boolean {
+    const patterns = [
+      'are you a bot', 'are you a robot', 'are you human', 'are you real',
+      'are you ai', 'are you a real person', 'are you a person',
+      'is this a bot', 'is this a real person', 'is this automated',
+      'talk to a human', 'talk to a person', 'talk to a real person',
+      'talk to a robot', 'talk to a bot',
+      'speak to a human', 'speak to a person', 'speak with a human',
+      'connect me to a human', 'what is your name', "what's your name",
+      'who are you', 'are you chatgpt',
+      "don't want to talk to a robot", "dont want to talk to a robot",
+      'not a robot', 'not a bot'
+    ]
+    return patterns.some(pattern => query.includes(pattern))
+  }
+
+  // Curated (not exhaustive - that's not achievable with substring rules)
+  // patterns for clearly unrelated topics: weather, trivia, jokes, general
+  // knowledge. Checked only inside the fallback (last resort), so it can't
+  // preempt any real match.
+  private isOffTopicQuestion(query: string): boolean {
+    const patterns = [
+      'weather', 'tell me a joke', 'know any jokes', 'sing a song', 'sing me a song',
+      'capital of', 'president of', 'prime minister of', 'who won the',
+      'football score', 'basketball score', 'stock market',
+      // NOTE: 'bitcoin'/'cryptocurrency' used to be here, but "can I pay with
+      // bitcoin" is a plausible genuine payment-method question, not an
+      // off-topic one - dismissing it as "outside what I can help with" was
+      // actively unhelpful. A crypto-investment question that's genuinely
+      // unrelated just falls through to the ordinary fallback instead, which
+      // is a perfectly fine, honest answer too.
+      'recipe for', 'movie recommendation', 'what time is it', 'what day is it',
+      "what's the date", 'meaning of life', 'are you sentient', 'do you love me',
+      'tell me a story', 'what is 2+2', 'how old are you'
+    ]
+    return patterns.some(pattern => query.includes(pattern))
+  }
+
+  // Curated tone check for a visibly frustrated/rude visitor - "useless bot",
+  // a threatened bad review, sarcastic dismissal. These deserve a calmer,
+  // de-escalating reply and a fast path to a human, not the same neutral
+  // fallback used for "I don't understand your question."
+  private isFrustratedQuestion(query: string): boolean {
+    const patterns = [
+      'useless', 'this is bs', 'waste of time', 'not helpful', 'unhelpful',
+      'star review', 'leaving a review', 'bad review', 'worst bot',
+      'worst chatbot', 'stupid bot', 'dumb bot', 'this sucks', 'terrible service'
+    ]
+    return patterns.some(pattern => query.includes(pattern))
+  }
+
+  private generateIntelligentFallback(query: string, _context?: ChatContext): ChatbotResponse {
+    if (isLikelyNonEnglish(query)) {
       return {
-      content: "I can help you with detailed information about our medical procedures, package inclusions, costs, recovery times, or any aspect of medical tourism in Turkey. What would you like to know?",
+        content: "It looks like you might be writing in a different language. I understand English best, but our patient care team can help you in multiple languages! Feel free to reach out on WhatsApp, or continue chatting here in English.",
+        suggestions: ["What procedures do you offer?", "Tell me about packages"],
+        ctaButton: CTA_BUTTONS.whatsapp,
+        confidence: 0.3,
+        source: 'fallback',
+        intent: 'non_english_redirect'
+      }
+    }
+
+    if (this.isFrustratedQuestion(query)) {
+      return {
+        content: "I'm sorry this hasn't been helpful. Let me connect you directly with a member of our patient care team who can give you personal, one-on-one help.",
+        suggestions: ["Book a consultation", "What procedures do you offer?"],
+        ctaButton: CTA_BUTTONS.consultation,
+        confidence: 0.9,
+        source: 'ai',
+        intent: 'frustrated_visitor'
+      }
+    }
+
+    if (this.isOffTopicQuestion(query)) {
+      return {
+        content: "That's a bit outside what I can help with! I'm specifically here for questions about our medical tourism services - procedures, costs, travel, and recovery. Is there something about your medical journey I can help you with?",
         suggestions: SUGGESTIONS.initial,
-        ctaButton: CTA_BUTTONS.procedures,
+        ctaButton: CTA_BUTTONS.consultation,
+        confidence: 0.3,
+        source: 'fallback',
+        intent: 'off_topic'
+      }
+    }
+
+    return {
+      content: "I can help you with detailed information about our medical procedures, package inclusions, costs, recovery times, or any aspect of medical tourism in Turkey. What would you like to know?",
+      suggestions: SUGGESTIONS.initial,
+      ctaButton: CTA_BUTTONS.procedures,
       confidence: 0.1,
       source: 'fallback',
       intent: 'fallback_general'

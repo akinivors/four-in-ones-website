@@ -40,7 +40,7 @@ export default function Header() {
           <div className="flex-shrink-0">
             <Link href="/" className="relative block h-24 w-80" aria-label="Link to Homepage">
               <Image
-                src="/logo-main.png"
+                src="/Get-Beauty-And-Health-Logo_new.svg"
                 alt="Get Beauty and Health - Medical Tourism Logo"
                 fill
                 style={{ objectFit: 'contain', objectPosition: 'left' }}
@@ -125,7 +125,7 @@ export default function Header() {
               <div className="flex justify-between items-center p-6 border-b border-gray-200">
                 <Link href="/" onClick={() => setIsMenuOpen(false)} className="relative block h-20 w-64" aria-label="Link to Homepage">
                   <Image
-                    src="/logo-main.png"
+                    src="/Get-Beauty-And-Health-Logo_new.svg"
                     alt="Get Beauty and Health - Medical Tourism Logo"
                     fill
                     style={{ objectFit: 'contain', objectPosition: 'left' }}

@@ -7,7 +7,9 @@ export interface ChatMessage {
   suggestions?: string[]
   ctaButton?: {
     text: string
-    action: 'contact' | 'booking' | 'external' | 'faq'
+    // 'internal' = same-tab navigation to a page on this site.
+    // 'external' = a genuinely different-origin link, opened in a new tab.
+    action: 'contact' | 'booking' | 'internal' | 'external' | 'faq'
     url?: string
   }
   isTyping?: boolean
@@ -77,6 +79,11 @@ export interface ChatContext {
     slug: string
     title: string
     timestamp: Date
+    // The context.queryCount value at the moment this was set. Used to decide
+    // whether it's still "fresh" enough to influence routing for later queries,
+    // so a procedure mentioned early in a long conversation doesn't silently
+    // keep hijacking unrelated questions asked much later.
+    setAtQueryCount: number
   }
   conversationHistory: ConversationHistoryItem[]
   queryCount: number

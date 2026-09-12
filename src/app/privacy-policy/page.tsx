@@ -152,7 +152,8 @@ const PrivacyPolicyPage = () => {
         </p>
         <ul className="list-disc list-outside space-y-3 pl-5 text-brand-text text-lg leading-relaxed mb-6">
           <li>By email: <strong>info@getbeautyandhealth.com</strong></li>
-          <li>By phone: <strong>+90 555 123 4567</strong></li>
+          <li>By phone (UK): <strong>+44 7359 104606</strong></li>
+          <li>By phone (US): <strong>+1 630 201 3340</strong></li>
         </ul>
       </LegalTextWrapper>
     </div>

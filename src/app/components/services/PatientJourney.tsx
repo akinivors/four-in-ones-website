@@ -7,7 +7,7 @@ import { MessageSquareText, FileText, Plane, Stethoscope, HeartHandshake } from 
 
 const journeySteps = [
   { step: "01", title: "Initial Consultation", description: "Your journey begins with a free, confidential online consultation with our experts to discuss your goals and options.", icon: MessageSquareText },
-  { step: "02", title: "Custom Treatment Plan", description: "Based on your consultation, we design a personalized treatment plan and provide a transparent, all-inclusive price quote.", icon: FileText },
+  { step: "02", title: "Customized Treatment Plan", description: "Based on your consultation, we design a personalized treatment plan and provide a transparent, all-inclusive price quote.", icon: FileText },
   { step: "03", title: "Travel & Accommodation", description: "Once you approve the plan, we handle everything—from booking your flights to arranging your stay in a luxury hotel.", icon: Plane },
   { step: "04", title: "Your Procedure", description: "You'll receive world-class medical care from top-tier surgeons in our state-of-the-art, accredited facilities.", icon: Stethoscope },
   { step: "05", title: "Recovery & Aftercare", description: "We provide comprehensive post-operative support and follow-up care to ensure a smooth and comfortable recovery.", icon: HeartHandshake },

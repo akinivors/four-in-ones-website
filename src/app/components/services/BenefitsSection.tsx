@@ -3,13 +3,21 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, Smile, Eye, Users, ShieldCheck, HeartHandshake, Sparkles, Clock, Award } from 'lucide-react';
+import { CheckCircle2, Smile, Eye, Users, ShieldCheck, HeartHandshake, Sparkles, Clock, Award, Activity } from 'lucide-react';
 
 // --- FIX: Updated import path ---
 import { Benefit } from '@/lib/servicesData';
 
 const iconMap: { [key: string]: React.ElementType } = {
-  CheckCircle2, Smile, Eye, Users, ShieldCheck, HeartHandshake, Clock, Award
+  CheckCircle2,
+  Smile,
+  Eye,
+  Users,
+  ShieldCheck,
+  HeartHandshake,
+  Clock,
+  Award,
+  Activity,
 };
 
 // Gradient color schemes for variety

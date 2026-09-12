@@ -14,6 +14,19 @@ import { CHATBOT_CONFIG, SUGGESTIONS, PROACTIVE_GREETINGS } from './config'
 // --- END NEW IMPORTS ---
 
 
+// Renders the limited markdown subset used in generated responses (**bold** and
+// "* " bullet lines) as real formatting. No dangerouslySetInnerHTML — this only
+// ever runs on our own generated/canned text, never on arbitrary HTML.
+function renderMessageContent(content: string): React.ReactNode {
+  const withBullets = content.replace(/^\* /gm, '• ')
+  const segments = withBullets.split(/(\*\*[^*]+\*\*)/g)
+  return segments.map((segment, index) =>
+    segment.startsWith('**') && segment.endsWith('**')
+      ? <strong key={index}>{segment.slice(2, -2)}</strong>
+      : segment
+  )
+}
+
 interface ModernChatbotProps {
   className?: string
   position?: 'bottom-right' | 'bottom-left'
@@ -43,7 +56,8 @@ const getInitialContext = (pathname: string): { greeting: string, context: ChatC
       initialContext.lastProcedure = {
         slug: service.slug,
         title: service.hero.title,
-        timestamp: new Date()
+        timestamp: new Date(),
+        setAtQueryCount: 0
       };
       // Use the default service greeting and replace the name
       greeting = PROACTIVE_GREETINGS.default_service.replace('{serviceName}', service.hero.title);
@@ -85,9 +99,12 @@ export default function ModernChatbot({
   const inputRef = useRef<HTMLInputElement>(null)
   const aiEngine = useRef(ModernAIEngine.getInstance())
 
-  // Auto-scroll to bottom
+  // Auto-scroll to bottom. Instant, not smooth: a single message (text + up to
+  // 4 suggestion chips + a CTA button) can be taller than the scrollable message
+  // area, and a smooth scroll can fail to complete (e.g. on a backgrounded tab),
+  // leaving the CTA button clipped below the visible area and unreachable.
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    messagesEndRef.current?.scrollIntoView({ behavior: 'instant', block: 'end' })
   }
 
   useEffect(() => {
@@ -97,7 +114,7 @@ export default function ModernChatbot({
   // --- UPDATED: Initialize chat with PROACTIVE greeting ---
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         const greetingMessage: ChatMessage = {
           id: `msg_${Date.now()}`,
           type: 'bot',
@@ -109,11 +126,14 @@ export default function ModernChatbot({
             source: 'ai'
           }
         }
-        setMessages([greetingMessage])
+        // Re-check at fire time, not just schedule time: if the user already sent
+        // a message during the delay, don't clobber the conversation with the greeting.
+        setMessages(prev => (prev.length === 0 ? [greetingMessage] : prev))
       }, CHATBOT_CONFIG.behavior.greetingDelay)
+      return () => clearTimeout(timer)
     }
     // We only want this to run when the chat is opened
-  }, [isOpen, proactiveGreeting, messages.length]) 
+  }, [isOpen, proactiveGreeting, messages.length])
   
   // --- NEW: Update context if the user navigates to a new page ---
   useEffect(() => {
@@ -124,7 +144,12 @@ export default function ModernChatbot({
     setContext(prevContext => ({
       ...prevContext, // Keep session ID and chat history
       metadata: { ...prevContext.metadata, pathname },
-      lastProcedure: newPageContext.lastProcedure || prevContext.lastProcedure
+      // Re-stamp setAtQueryCount to *now* (not the 0 getInitialContext used for a
+      // fresh mount) so freshness is judged relative to when this navigation
+      // actually happened, not the start of the session.
+      lastProcedure: newPageContext.lastProcedure
+        ? { ...newPageContext.lastProcedure, setAtQueryCount: prevContext.queryCount }
+        : prevContext.lastProcedure
     }));
 
     // If the chat is closed, reset messages so it can show a new greeting
@@ -257,9 +282,10 @@ export default function ModernChatbot({
         ) : (
           <div className="relative w-full h-full">
             <Image
-              src="/logo-icon.png"
+              src="/Get-Beauty-And-Health-Logo_new_square.png"
               alt="Chat"
               fill
+              sizes="64px"
               style={{ objectFit: 'contain' }}
             />
           </div>
@@ -278,9 +304,10 @@ export default function ModernChatbot({
               <div className="flex items-center space-x-3">
                 <div className="relative w-10 h-10 flex-shrink-0">
                   <Image
-                    src="/logo-icon.png"
+                    src="/Get-Beauty-And-Health-Logo_new_square.png"
                     alt="Logo"
                     fill
+                    sizes="40px"
                     style={{ objectFit: 'contain' }}
                   />
                 </div>
@@ -317,7 +344,7 @@ export default function ModernChatbot({
                         : 'bg-white text-gray-800 shadow-sm border rounded-bl-md'
                     }`}>
                       <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {message.content}
+                        {renderMessageContent(message.content)}
                       </div>
                     </div>
                   </div>
@@ -326,7 +353,7 @@ export default function ModernChatbot({
                 {/* Suggestions */}
                 {message.suggestions && message.suggestions.length > 0 && (
                   <div className="flex flex-wrap gap-2 mt-2 ml-10">
-                    {message.suggestions.slice(0, 3).map((suggestion, index) => (
+                    {message.suggestions.slice(0, 4).map((suggestion, index) => (
                       <button
                         key={index}
                         onClick={() => handleSuggestionClick(suggestion)}

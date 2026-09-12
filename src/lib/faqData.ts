@@ -9,7 +9,7 @@ export const faqData: FAQItem[] = [
   { category: "General", question: "Why is Turkey a top destination for medical tourism?", answer: "Turkey combines JCI-accredited, technologically advanced hospitals with world-class, board-certified surgeons at a fraction of the cost in the UK, EU, or US. Plus, it offers the opportunity to recover in a beautiful destination with rich history and culture." },
   { category: "General", question: "What cities do you operate in?", answer: "We offer our premier medical tourism services in three beautiful destinations: İstanbul, the historic crossroads of culture; İzmir, a gem on the Aegean coast; and Cyprus, for a serene recovery by the sea." },
   { category: "General", question: "What makes your partner hospitals special?", answer: "All our partner hospitals are JCI-accredited with the newest medical technology. They feature state-of-the-art operating rooms, modern patient recovery facilities, and ISO 9001 certification for quality management systems." },
-  { category: "General", question: "Do you offer complex medical procedures beyond cosmetic surgery?", answer: "Yes. Beyond aesthetic and bariatric services, our network provides advanced procedures including Brain and Nerve Surgery (Neurosurgery), Urology, complex Oncology, Transplantation surgeries, and da Vinci Robotic Surgery." },
+  { category: "General", question: "Do you offer complex medical procedures beyond cosmetic surgery?", answer: "Yes. Beyond aesthetic and bariatric services, our network provides advanced procedures including General Surgery, Orthopedic Surgery (joint replacement), Eye Surgery, IVF Treatment, and da Vinci Robotic Surgery." },
 
   // Process & Packages
   { category: "Process", question: "What is the first step to getting started?", answer: "Your journey begins with a free, no-obligation online consultation. Simply fill out our smart health form, and a patient coordinator will schedule a call to discuss your goals and provide a personalized treatment plan." },
@@ -80,7 +80,6 @@ export const faqData: FAQItem[] = [
 
   // Advanced Medical Technology
   { category: "Procedures", question: "What is da Vinci Robotic Surgery?", answer: "Da Vinci is advanced robotic technology allowing surgeons to perform complex procedures with enhanced precision, control, and flexibility. It offers minimally invasive approaches with reduced pain, less blood loss, smaller scars, and faster recovery." },
-  { category: "Procedures", question: "Do you offer oncology treatments?", answer: "Yes. Our network includes specialist hospitals providing advanced oncology treatments, including surgical oncology, chemotherapy, radiation therapy, and immunotherapy, all with multidisciplinary care teams." },
 
   // Emergency & Complications
   { category: "Aftercare", question: "What if something goes wrong during or after surgery?", answer: "While complications are rare with our JCI-accredited hospitals and experienced surgeons, we have comprehensive safety protocols. During your stay, all hospitals provide 24/7 emergency services with your personal assistant coordinating care. After returning home, you have 24/7 emergency consultation access, coordination with local healthcare providers, and can arrange emergency return to Turkey if needed. Your comprehensive insurance and aftercare package covers emergency medical situations." },

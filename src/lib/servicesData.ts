@@ -443,6 +443,115 @@ export const servicesData: Service[] = [
     ],
   },
   {
+    slug: "swallowable-gastric-balloon",
+    hero: {
+      title: "Swallowable Gastric Balloon (Allurion)",
+      subtitle: "A procedure-free, swallowable balloon – no surgery, no endoscopy, no anesthesia.",
+      backgroundImageUrl: "/images/gastric-balloon-hero.png",
+    },
+    overview: {
+      overviewImageUrl: "/images/gastric-balloon-overview.jpg",
+      facts: [
+        { label: "Method", value: "Swallowable, procedure-free gastric balloon", icon: "Pill" },
+        { label: "Balloon Duration", value: "16 weeks in the stomach", icon: "Hourglass" },
+        { label: "Program Length", value: "6-month Allurion lifestyle program", icon: "Calendar" },
+        { label: "Avg. Weight Loss", value: "10–15% of total body weight", icon: "TrendingDown" },
+      ],
+    },
+    benefits: [
+      {
+        icon: "CheckCircle2",
+        title: "No Surgery, Endoscopy, or Anesthesia",
+        description:
+          "The capsule-shaped balloon is swallowed with water and inflated once it reaches the stomach, so there is no need for endoscopy, anesthesia, or incisions for most patients.",
+      },
+      {
+        icon: "Clock",
+        title: "Quick, Comfortable Procedure",
+        description:
+          "The balloon is positioned and filled in just a few minutes under X-ray guidance, and most people return to their normal daily life the same day.",
+      },
+      {
+        icon: "Activity",
+        title: "Digital, Data-Driven Follow-Up",
+        description:
+          "The Allurion Digital Scale, smartwatch, and mobile app help you and your bariatric team track progress, stay accountable, and make healthy habits stick.",
+      },
+    ],
+    risks: [
+      "Transient nausea, cramping, or discomfort in the first few days after the balloon is placed",
+      "Rare intolerance to the balloon that may require early removal under endoscopy and anesthesia",
+      "Reflux or indigestion symptoms if dietary guidance is not followed",
+      "Very rare risk of balloon deflation earlier than planned, which may require endoscopic removal",
+    ],
+    details: {
+      tabs: {
+        "What is Swallowable Gastric Balloon?": "swallowable-balloon-what",
+        "Who is it for?": "swallowable-balloon-candidates",
+        "How the Program Works": "swallowable-balloon-program",
+        "Aftercare & Follow-up": "swallowable-balloon-aftercare",
+      },
+    },
+    faq: [
+      {
+        question: "Is Swallowable Gastric Balloon harmful?",
+        answer:
+          "Since 2015, there have been no life-threatening incidents reported in the Allurion Swallowable Gastric Balloon program. Like all medical treatments, there are potential side effects such as temporary nausea or cramps, but serious complications are extremely rare when the program is delivered by licensed, experienced clinics.",
+      },
+      {
+        question: "Who is Swallowable Gastric Balloon best for?",
+        answer:
+          "It is designed for adults between 18 and 65 who struggle to lose weight with diet and exercise alone, particularly those who prefer to avoid surgery, endoscopy, or anesthesia. It can also be an option for people who are not suitable candidates for bariatric surgery but still need structured, medically supervised weight loss support.",
+      },
+      {
+        question: "How much weight can I lose with Swallowable Gastric Balloon?",
+        answer:
+          "Most people lose around 10–15% of their starting body weight over the 6-month Allurion program when they follow the nutrition and lifestyle plan. Long-term results depend on your commitment to maintaining the healthy habits you build while the balloon is in place.",
+      },
+      {
+        question: "Can the Swallowable Gastric Balloon be repeated?",
+        answer:
+          "Yes. If you still have weight to lose or struggle to maintain your results, a second balloon can typically be placed after the first balloon has naturally passed through the body. With a sequential yearly balloon program, total weight loss of 30–35% is possible for suitable candidates.",
+      },
+      {
+        question: "Is there a non-swallowable alternative?",
+        answer:
+          "Traditional gastric balloons are placed and removed endoscopically under sedation or anesthesia. They can be suitable for patients who prefer an endoscopic option, but for those who want to avoid procedures as much as possible, the Allurion Swallowable Gastric Balloon is the only effective, truly procedure-free balloon system available.",
+      },
+    ],
+    ctaImage: "/images/gastric-balloon-hero.png",
+    photoRequirements: [
+      "Front view of body (from knees to neck)",
+      "Back view of body (from knees to neck)",
+      "Left side profile of body",
+      "Right side profile of body",
+    ],
+    specificQuestions: [
+      {
+        id: "bmi",
+        label: "What is your current height and weight (or BMI, if you know it)?",
+        type: "text",
+      },
+      {
+        id: "tried_weight_loss",
+        label: "What weight loss programs, diets, or medications have you tried so far?",
+        type: "textarea",
+      },
+      {
+        id: "prior_stomach_surgery",
+        label: "Have you had any previous stomach, small intestine, or large intestine surgery?",
+        type: "radio",
+        options: ["Yes", "No"],
+      },
+    ],
+    requiredMedicalQuestions: [
+      "drug_allergies",
+      "has_gerd",
+      "anesthesia_problems",
+      "anesthesia_details",
+    ],
+  },
+  {
     slug: "gastric-botox",
     hero: {
       title: "Gastric Botox",
@@ -728,12 +837,11 @@ export const servicesData: Service[] = [
       }
     ],
     requiredMedicalQuestions: [
-      'q_med_conditions', 
-      'q_past_surgeries', 
-      'q_medications', 
-      'q_allergies', 
-      'q_smoker',
-      'q_pregnancy'
+      'anesthesia_problems',
+      'anesthesia_details',
+      'smoking_status',
+      'alcohol_status',
+      'drug_allergies',
     ],
     specificQuestions: [
       { 
@@ -1625,7 +1733,6 @@ export const servicesData: Service[] = [
     requiredMedicalQuestions: [
       'drug_allergies',
       'smoking_status',
-      'chronic_diseases',
     ],
     ctaImageUrl: "/images/cosmeticdentistry_hero.png",
   },
@@ -1685,58 +1792,6 @@ export const servicesData: Service[] = [
       'drug_allergies',
       'dry_eyes',
       'lens_implants',
-    ],
-  },
-  {
-    slug: "transplantation",
-    hero: {
-      title: "Transplantation Procedures",
-      subtitle: "Life-saving organ and tissue transplantation from world-class surgical teams.",
-      backgroundImageUrl: "/images/transplant-hero.jpg",
-    },
-    overview: {
-      overviewImageUrl: "/images/transplant-overview.jpg",
-      facts: [
-        { label: 'Procedures', value: 'Kidney, Liver, Bone Marrow', icon: 'HeartPulse' },
-        { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
-        { label: 'Primary Goal', value: 'Life-Saving Treatment', icon: 'Award' },
-        { label: 'Care', value: 'Comprehensive & Lifelong', icon: 'Users' },
-      ],
-    },
-    benefits: [
-      { icon: "CheckCircle2", title: "Life-Saving & Life-Extending", description: "Organ transplantation is a definitive treatment for end-stage organ failure, offering a chance at a longer, healthier life." },
-      { icon: "Smile", title: "Dramatically Improved Quality of Life", description: "Frees patients from the limitations of conditions like dialysis and allows a return to normal daily activities." },
-      { icon: "ShieldCheck", title: "Expert Multidisciplinary Teams", description: "Our transplant programs are run by highly experienced surgeons, physicians, and coordinators dedicated to patient care." },
-    ],
-    ctaImage: "/images/transplant-hero.jpg",
-    details: {
-      tabs: {
-        "Kidney Transplant": "transplant-kidney",
-        "Liver Transplant": "transplant-liver",
-        "Bone Marrow Transplant": "transplant-bone-marrow",
-      },
-    },
-    risks: [
-      "Surgical complications such as bleeding, infection, and blood clots",
-      "Adverse reaction to anesthesia",
-      "Organ rejection (acute or chronic), where the body's immune system attacks the new organ",
-      "Side effects of long-term immunosuppressant (anti-rejection) medications, such as increased risk of infection and kidney problems",
-      "Failure of the transplanted organ or graft",
-      "Post-transplant lymphoproliferative disorder (a type of cancer)",
-    ],
-    faq: [
-      { question: "What is organ rejection?", answer: "Rejection is the body's natural immune response to a foreign object. To prevent this, transplant patients must take lifelong immunosuppressant medications that weaken the immune system so it does not attack the new organ." },
-      { question: "What is recovery like?", answer: "Recovery is a long and intensive process. It involves an initial hospital stay of several weeks for close monitoring, followed by months of regular check-ups. A full return to normal life can take six months to a year." }
-    ],
-    requiredMedicalQuestions: [
-      'anesthesia_problems',
-      'smoking_status',
-      'alcohol_status',
-      'blood_clot_calf',
-      'drug_allergies',
-      'hiv',
-      'hepatitis_b',
-      'hepatitis_c',
     ],
   },
   {
@@ -1839,10 +1894,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Mesotherapy",
       subtitle: "A minimally invasive treatment for fat reduction, cellulite, and skin rejuvenation.",
-      backgroundImageUrl: "/images/mesotherapy-hero.jpg",
+      backgroundImageUrl: "/images/placeholder-procedure.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/mesotherapy-overview.jpg",
+      overviewImageUrl: "/images/placeholder-procedure.jpg",
       facts: [
         { label: 'Treatment', value: 'Micro-injections', icon: 'Syringe' },
         { label: 'Primary Goal', value: 'Fat Reduction & Rejuvenation', icon: 'Award' },
@@ -1855,7 +1910,6 @@ export const servicesData: Service[] = [
       { icon: "Eye", title: "Improves Skin Appearance", description: "Reduces the appearance of cellulite and rejuvenates the skin by stimulating collagen for a firmer, more youthful look." },
       { icon: "ShieldCheck", title: "Non-Surgical Solution", description: "A minimally invasive alternative to procedures like liposuction, with no general anesthesia and minimal downtime." },
     ],
-    ctaImage: "/images/mesotherapy-hero.jpg",
     details: {
       tabs: {
         "What is it?": "mesotherapy-what",
@@ -1892,10 +1946,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Micro Scalp Pigmentation",
       subtitle: "A non-surgical solution to create the appearance of fuller, denser hair.",
-      backgroundImageUrl: "/images/smp-hero.jpg",
+      backgroundImageUrl: "/images/placeholder-procedure.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/smp-overview.jpg",
+      overviewImageUrl: "/images/placeholder-procedure.jpg",
       facts: [
         { label: 'Treatment', value: 'Cosmetic Scalp Tattoo', icon: 'Brush' },
         { label: 'Primary Goal', value: 'Create Illusion of Hair Density', icon: 'Award' },
@@ -1908,7 +1962,6 @@ export const servicesData: Service[] = [
       { icon: "CheckCircle2", title: "Non-Surgical Solution", description: "An excellent alternative for those who are not candidates for or do not want hair transplant surgery." },
       { icon: "ShieldCheck", title: "Camouflages Imperfections", description: "Effectively conceals thinning areas, receding hairlines, and scars from previous surgeries or injuries." },
     ],
-    ctaImage: "/images/smp-hero.jpg",
     details: {
       tabs: {
         "What is SMP?": "smp-what",
@@ -1944,10 +1997,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "General Surgery",
       subtitle: "Expert, minimally invasive surgical solutions for a range of common health conditions.",
-      backgroundImageUrl: "/images/general-surgery-hero.jpg",
+      backgroundImageUrl: "/images/placeholder-procedure.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/general-surgery-overview.jpg",
+      overviewImageUrl: "/images/placeholder-procedure.jpg",
       facts: [
         { label: 'Primary Method', value: 'Laparoscopic (Minimally Invasive)', icon: 'Minimize2' },
         { label: 'Anesthesia', value: 'General Anesthesia', icon: 'UserCheck' },
@@ -1993,10 +2046,10 @@ export const servicesData: Service[] = [
     hero: {
       title: "Orthopedic Surgery",
       subtitle: "Advanced surgical solutions to relieve joint pain and restore mobility.",
-      backgroundImageUrl: "/images/ortho-hero.jpg",
+      backgroundImageUrl: "/images/placeholder-procedure.jpg",
     },
     overview: {
-      overviewImageUrl: "/images/ortho-overview.jpg",
+      overviewImageUrl: "/images/placeholder-procedure.jpg",
       facts: [
         { label: 'Procedures', value: 'Joint Replacement, Arthroscopy', icon: 'Bone' },
         { label: 'Anesthesia', value: 'General or Spinal', icon: 'UserCheck' },
